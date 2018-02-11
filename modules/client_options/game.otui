@@ -1,0 +1,48 @@
+Panel
+  OptionCheckBox
+    id: classicControl
+    !text: tr('Classic control')
+
+  OptionCheckBox
+    id: autoChaseOverride
+    !text: tr('Allow auto chase override')
+
+  OptionCheckBox
+    id: smartWalk
+    !text: tr('Enable smart walking')
+    !tooltip: tr('Will detect when to use diagonal step based on the\nkeys you are pressing')
+
+  OptionCheckBox
+    id: dashWalk
+    !text: tr('Enable dash walking')
+    !tooltip: tr('Will boost your walk on high speed characters')
+
+  OptionCheckBox
+    id: showPing
+    !text: tr('Show connection ping')
+    !tooltip: tr('Display connection speed to the server (milliseconds)')
+
+  OptionCheckBox
+    id: showLeftPanel
+    !text: tr('Show left panel')
+
+  OptionCheckBox
+    id: displayNames
+    !text: tr('Display creature names')
+
+  OptionCheckBox
+    id: displayHealth
+    !text: tr('Display creature health bars')
+
+  OptionCheckBox
+    id: displayText
+    !text: tr('Display text messages')
+
+  Button
+    id: changeLocale
+    !text: tr('Change language')
+    @onClick: modules.client_locales.createWindow()
+    anchors.top: prev.bottom
+    anchors.left: prev.left
+    margin-top: 5
+    width: 120

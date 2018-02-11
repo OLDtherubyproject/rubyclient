@@ -1,0 +1,30 @@
+StatusButton < UIButton
+  height: 21
+  margin-bottom: 2
+
+MiniWindow
+  id: soundWindow
+  !text: tr('Sound Info')
+  height: 50
+  icon: /images/audio
+  @onClose: modules.rc_sound.onMiniWindowClose()
+  &save: true
+
+  MiniWindowContents
+    padding-left: 5
+    padding-right: 5
+    layout: verticalBox
+
+    StatusButton
+      margin-top: 5
+      id: currentSound
+      height: 15
+      GameLabel
+        id: value
+        !text: tr('Music:')
+        font: verdana-11px-monochrome
+        text-align: topleft
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left

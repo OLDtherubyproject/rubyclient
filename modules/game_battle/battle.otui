@@ -1,0 +1,93 @@
+BattleIcon < UICheckBox
+  size: 20 20
+  image-color: white
+  image-rect: 0 0 20 20
+
+  $hover !disabled:
+    color: #cccccc
+
+  $!checked:
+    image-clip: 0 0 20 20
+
+  $hover !checked:
+    image-clip: 0 40 20 20
+
+  $checked:
+    image-clip: 0 20 20 20
+
+  $hover checked:
+    image-clip: 0 60 20 20
+
+  $disabled:
+    image-color: #ffffff88
+
+BattlePlayers < BattleIcon
+  image-source: /images/game/battle/battle_players
+
+BattleNPCs < BattleIcon
+  image-source: /images/game/battle/battle_npcs
+
+BattlePokemon < BattleIcon
+  image-source: /images/game/battle/battle_pokemon
+
+MiniWindow
+  id: battleWindow
+  !text: tr('Battle')
+  height: 166
+  icon: /images/topbuttons/miniwindowicon/battle
+  icon-rect: 4 4 13 16
+  text-offset: 18 5
+  @onClose: modules.game_battle.onMiniWindowClose()
+  &save: true
+
+  Panel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: miniwindowScrollBar.left
+    height: 28
+
+    Panel
+      anchors.top: parent.top
+      anchors.horizontalCenter: parent.horizontalCenter
+      height: 28
+      width: 120
+      layout:
+        type: horizontalBox
+        anchors.top: parent.top
+        anchors.left: parent.left
+
+      BattlePlayers
+        id: hidePlayers
+        !tooltip: tr('Hide Players')
+        margin-top: 8
+        margin-left: 40
+        @onCheckChange: modules.game_battle.checkCreatures()
+
+      BattleNPCs
+        id: hideNPCs
+        !tooltip: tr('Hide Npcs')
+        margin-top: 8
+        margin-left: 3
+        @onCheckChange: modules.game_battle.checkCreatures()
+
+      BattlePokemon
+        id: hidePokemon
+        !tooltip: tr('Hide Pokémon')
+        margin-top: 8
+        margin-left: 3
+        @onCheckChange: modules.game_battle.checkCreatures()
+
+  MiniWindowContents
+    anchors.top: prev.bottom
+    margin-top: 0
+
+    Panel
+      id: battlePanel
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-top: 1
+      padding-right: 5
+      layout:
+        type: verticalBox
+        fit-children: true

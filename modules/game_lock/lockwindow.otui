@@ -1,0 +1,30 @@
+LockWindow < MainWindow
+  size: 200 100
+  !text: tr('Locked!')
+  MiniWindowContents
+  MenuLabel
+    id: jaaj
+    !text: tr('Digita a\nsua senha\n=]')
+    anchors.top: parent.top
+    anchors.left: parent.left
+    text-auto-resize: true
+  MenuLabel
+    !text: tr('Unlock password')
+    anchors.top: parent.top
+    anchors.right: parent.right
+    text-auto-resize: true
+
+  PasswordTextEdit
+    id: pass
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 2
+    width: 100
+  Button
+    id: ok
+    !text: tr('Unlock')
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    margin-bottom: -5
+    width: 60
+    @onClick: modules.game_lock.sendPass()

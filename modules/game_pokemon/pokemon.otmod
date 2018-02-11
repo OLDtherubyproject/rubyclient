@@ -1,0 +1,9 @@
+Module
+  name: game_pokemon
+  description: Displays of your pokemon
+  author: edubart, BeniS
+  website: www.otclient.info
+  sandboxed: true
+  scripts: [ pokemon ]
+  @onLoad: init()
+  @onUnload: terminate()

@@ -1,0 +1,109 @@
+SkinButton < UIButton
+  text-align: bottom
+  image-color: #777777
+  icon: /images/skins/border
+  icon-color: #000000
+  @onClick: setImageSkin('/images/skins/' .. self:getText()) self:getParent():getParent():hide()
+
+  $hover:
+    image-color: #ffffff
+
+  $pressed:
+    image-color: #aaaaaa
+
+UIWindow
+  id: skinWindow
+  background-color: #000000
+  anchors.fill: parent
+  padding: 25
+
+  VerticalScrollBar
+    id: scrollBar
+    step: 50
+    pixels-scroll: true
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+
+  ScrollablePanel
+    vertical-scrollbar: scrollBar
+    anchors.fill: parent
+    margin-right: 10
+    layout:
+      type: grid
+      cell-size: 95 205
+      flow: true
+      cell-spacing: 25
+
+    SkinButton
+      text: Venusaur
+      image-source: /images/skins/venusaur
+
+    SkinButton
+      text: Charizard
+      image-source: /images/skins/charizard
+
+    SkinButton
+      text: Blastoise
+      image-source: /images/skins/blastoise
+
+    SkinButton
+      text: Articuno
+      image-source: /images/skins/articuno
+
+    SkinButton
+      text: Zapdos
+      image-source: /images/skins/zapdos
+
+    SkinButton
+      text: Moltres
+      image-source: /images/skins/moltres
+
+    SkinButton
+      text: Mewtwo
+      image-source: /images/skins/mewtwo
+
+    SkinButton
+      text: Mew
+      image-source: /images/skins/mew
+
+    SkinButton
+      text: Meganium
+      image-source: /images/skins/meganium
+
+    SkinButton
+      text: Typhlosion
+      image-source: /images/skins/typhlosion
+
+    SkinButton
+      text: Feraligatr
+      image-source: /images/skins/feraligatr
+
+    SkinButton
+      text: Raikou
+      image-source: /images/skins/raikou
+
+    SkinButton
+      text: Entei
+      image-source: /images/skins/entei
+
+    SkinButton
+      text: Suicune
+      image-source: /images/skins/suicune
+
+    SkinButton
+      text: Lugia
+      image-source: /images/skins/lugia
+
+    SkinButton
+      text: Ho-oh
+      image-source: /images/skins/ho-oh
+
+    SkinButton
+      text: Celebi
+      image-source: /images/skins/celebi
+
+    SkinButton
+      text: None
+      image-source: /images/skins/none
+      @onClick: setImageSkin(nil) self:getParent():getParent():hide()

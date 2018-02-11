@@ -1,0 +1,31 @@
+MainWindow
+  id: teleport
+  focusable: true
+  size: 360 80
+
+  Label
+    id: teleportText
+    color: white
+    text-align: center
+    anchors.top: parent.top
+    text-auto-resize: true
+    text-offset: 0 1
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: -10
+
+  Button
+    id: teleportButton
+    !text: tr('Teleport')
+    color: green
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.bottom: parent.bottom
+    @onClick: modules.game_minimap.doTeleport()
+    margin-right: 35
+
+  Button
+    id: cancelButton
+    !text: tr('Cancel')
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.bottom: parent.bottom
+    @onClick: modules.game_minimap.hidetpWindow()
+    margin-left: 35

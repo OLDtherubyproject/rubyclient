@@ -1,0 +1,13 @@
+Module
+  name: rc_sound
+  description: Handels sounds for Rising Client.
+  author: Adventure 
+  website: none
+  
+  autoload: true
+  autoload-priority: 1000
+  sandbox: true
+  
+  scripts: [ rcsound ]
+  @onLoad: init()
+  @onUnload: terminate()
