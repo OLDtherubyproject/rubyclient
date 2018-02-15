@@ -4,3 +4,4 @@
 *.ot* eol=lf 
 *.cpp eol=lf 
 *.h   eol=lf 
+*.spr filter=lfs diff=lfs merge=lfs -text

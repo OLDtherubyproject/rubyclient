@@ -10,8 +10,6 @@ Makefile
 *.gch
 *.a
 *.exe
-*.spr
-*.dat
 *.kdev*
 *.cbp
 *~
