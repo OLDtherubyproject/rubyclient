@@ -28,15 +28,14 @@ pvpModeRadioGroup = nil
 
 function init()
   connect(LocalPlayer, { onHealthChange = onHealthChange,
-                         onFreeCapacityChange = onPokeballsChange,
+                         onManaChange = onManaChange,
+                         onSoulChange = onPokeballsChange,
                          onStatesChange = onStatesChange,
                          onInventoryChange = onInventoryChange })
 
   connect(g_game, { onGameStart = refresh,
                     onGameEnd = offline,
                     onFightModeChange = update })
-
-  ProtocolGame.registerExtendedOpcode(104, function(protocol, opcode, buffer) onPokeHealthChange(protocol, opcode, buffer) end)
 
   g_keyboard.bindKeyDown('Ctrl+P', toggle)
   pokemonButton = modules.client_topmenu.addRightGameToggleButton('pokemonButton', tr('Pokemon') .. ' (Ctrl+P)', '/images/topbuttons/pokemon', toggle)
@@ -91,8 +90,9 @@ function refresh()
   local player = g_game.getLocalPlayer()
   if g_game.isOnline() then
     onHealthChange(player, player:getHealth(), player:getMaxHealth())
+    onManaChange(player, player:getMana(), player:getMaxMana())
     g_game.getProtocolGame():sendExtendedOpcode(104, 'refresh')
-    onPokeballsChange(player, player:getFreeCapacity())
+    onPokeballsChange(player, player:getSoul())
     onStatesChange(player, player:getStates(), 0)
   end
 
@@ -209,25 +209,22 @@ function onHealthChange(localPlayer, health, maxHealth)
   healthBar:setValue(health, 0, maxHealth)
 end
 
-function onPokeHealthChange(protocol, opcode, buffer)
-  local mana = tonumber(string.explode(buffer, '|')[1])
-  local maxMana = tonumber(string.explode(buffer, '|')[2])
-
-  if maxMana <= 0 then
+function onManaChange(player, hp, hpmax)
+  if hpmax <= 0 then
     pokeHealthBar:setBackgroundColor('#3fac3500')
     pokeHealthBar:setIcon('/images/game/pokemon/pokehealth_bar_off')
     pokeHealthBar:clearText()
   else
     pokeHealthBar:setBackgroundColor('#3fac35')
     pokeHealthBar:setIcon('/images/game/pokemon/pokehealth_bar_on')
-    pokeHealthBar:setText(mana .. ' / ' .. maxMana)
+    pokeHealthBar:setText(hp .. ' / ' .. hpmax)
   end
-  pokeHealthBar:setValue(mana, 0, maxMana)
+  pokeHealthBar:setValue(hp, 0, hpmax)
 end
 
-function onPokeballsChange(player, freeCapacity)
-  if freeCapacity > 7 then return end
-  pokeballBar:setImageSource('/images/game/pokemon/pokeball' .. 7 - (freeCapacity ~= -1 and freeCapacity or 7))
+function onPokeballsChange(player, soul)
+  if soul > 7 then return end
+  pokeballBar:setImageSource('/images/game/pokemon/pokeball' .. soul)
 end
 
 function onStatesChange(localPlayer, now, old)
