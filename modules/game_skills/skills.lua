@@ -201,25 +201,16 @@ function refresh()
   onRegenerationChange(player, player:getRegenerationTime())
   onSpeedChange(player, player:getSpeed())
 
-  local hasAdditionalSkills = g_game.getFeature(GameAdditionalSkills)
-  for i = Skill.Fist, Skill.ManaLeechAmount do
+  for i = Skill.Fist, Skill.Fishing do
     onSkillChange(player, i, player:getSkillLevel(i), player:getSkillLevelPercent(i))
     onBaseSkillChange(player, i, player:getSkillBaseLevel(i))
-
-    if i > Skill.Fishing then
-      toggleSkill('skillId'..i, hasAdditionalSkills)
-    end
   end
 
   update()
 
   local contentsPanel = skillsWindow:getChildById('contentsPanel')
   skillsWindow:setContentMinimumHeight(44)
-  if hasAdditionalSkills then
-    skillsWindow:setContentMaximumHeight(480)
-  else
-    skillsWindow:setContentMaximumHeight(390)
-  end
+  skillsWindow:setContentMaximumHeight(390)
 end
 
 function offline()

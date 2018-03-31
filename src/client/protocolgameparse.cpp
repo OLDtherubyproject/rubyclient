@@ -1417,11 +1417,7 @@ void ProtocolGame::parsePlayerStats(const InputMessagePtr& msg)
 
 void ProtocolGame::parsePlayerSkills(const InputMessagePtr& msg)
 {
-    int lastSkill = Otc::Fishing + 1;
-    if(g_game.getFeature(Otc::GameAdditionalSkills))
-        lastSkill = Otc::LastSkill;
-
-    for(int skill = 0; skill < lastSkill; skill++) {
+    for(int skill = 0; skill < Otc::LastSkill; skill++) {
         int level;
 
         if(g_game.getFeature(Otc::GameDoubleSkills))
@@ -1439,9 +1435,7 @@ void ProtocolGame::parsePlayerSkills(const InputMessagePtr& msg)
             baseLevel = level;
 
         int levelPercent = 0;
-        // Critical, Life Leech and Mana Leech have no level percent
-        if(skill <= Otc::Fishing)
-            levelPercent = msg->getU8();
+        levelPercent = msg->getU8();
 
         m_localPlayer->setSkill((Otc::Skill)skill, level, levelPercent);
         m_localPlayer->setBaseSkill((Otc::Skill)skill, baseLevel);

@@ -52,13 +52,7 @@ Skill = {
   Axe = 3,
   Distance = 4,
   Shielding = 5,
-  Fishing = 6,
-  CriticalChance = 7,
-  CriticalDamage = 8,
-  LifeLeechChance = 9,
-  LifeLeechAmount = 10,
-  ManaLeechChance = 11,
-  ManaLeechAmount = 12
+  Fishing = 6
 }
 
 North = Directions.North
@@ -152,7 +146,6 @@ GameKeepUnawareTiles = 72
 GameIngameStore = 73
 GameIngameStoreHighlights = 74
 GameIngameStoreServiceType = 75
-GameAdditionalSkills = 76
 
 TextColors = {
   red       = '#f55e5e', --'#c83200'

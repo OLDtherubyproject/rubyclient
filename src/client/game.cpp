@@ -1682,10 +1682,6 @@ void Game::setClientVersion(int version)
         enableFeature(Otc::GameIngameStoreHighlights);
     }
 
-    if(version >= 1094) {
-        enableFeature(Otc::GameAdditionalSkills);
-    }
-
     m_clientVersion = version;
 
     g_lua.callGlobalField("g_game", "onClientVersionChange", version);

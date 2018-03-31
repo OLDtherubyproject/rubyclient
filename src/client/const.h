@@ -149,12 +149,6 @@ namespace Otc
         Distance,
         Shielding,
         Fishing,
-        CriticalChance,
-        CriticalDamage,
-        LifeLeechChance,
-        LifeLeechAmount,
-        ManaLeechChance,
-        ManaLeechAmount,
         LastSkill
     };
 
@@ -415,7 +409,6 @@ namespace Otc
         GameIngameStore = 73,
         GameIngameStoreHighlights = 74,
         GameIngameStoreServiceType = 75,
-        GameAdditionalSkills = 76,
 
         LastGameFeature = 101
     };
