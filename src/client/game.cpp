@@ -1594,7 +1594,6 @@ void Game::setClientVersion(int version)
 
     if(version >= 960) {
         enableFeature(Otc::GameSpritesU32);
-        enableFeature(Otc::GameOfflineTrainingTime);
     }
 
     if(version >= 963) {

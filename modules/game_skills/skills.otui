@@ -111,13 +111,6 @@ MiniWindow
       SkillPercentPanel
 
     SkillButton
-      id: offlineTraining
-      SkillNameLabel
-        !text: tr('Offline Training')
-      SkillValueLabel
-      SkillPercentPanel
-
-    SkillButton
       id: magiclevel
       SkillNameLabel
         !text: tr('Magic Level')

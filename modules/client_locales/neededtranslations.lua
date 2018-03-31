@@ -209,7 +209,6 @@ neededTranslations = {
   "Offer History",
   "Offers",
   "Offer Type:",
-  "Offline Training",
   "Ok",
   "on %s.\n",
   "Open",

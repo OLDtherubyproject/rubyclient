@@ -361,8 +361,7 @@ namespace Otc
         GameMagicEffectU16 = 16,
         GamePlayerMarket = 17,
         GameSpritesU32 = 18,
-        // 19 unused
-        GameOfflineTrainingTime = 20,
+        // 19-20 unused
         GamePurseSlot = 21,
         GameFormatCreatureName = 22,
         GameSpellList = 23,

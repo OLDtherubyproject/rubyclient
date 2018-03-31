@@ -215,7 +215,6 @@ locale = {
     ["Offer History"] = "Historia Ofert",
     ["Offers"] = "Oferty",
     ["Offer Type:"] = "Typ Oferty:",
-    ["Offline Training"] = "Trening Offline",
     ["Ok"] = "Ok",
     ["on %s.\n"] = false,
     ["Open"] = "Otworz",

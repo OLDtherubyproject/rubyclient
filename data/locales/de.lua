@@ -218,7 +218,6 @@ locale = {
     ["Offer History"] = "Angebotsverlauf",
     ["Offers"] = "Angebote",
     ["Offer Type:"] = "Angebotstyp:",
-    ["Offline Training"] = false,
     ["Ok"] = false,
     ["on %s.\n"] = false,
     ["Open"] = "Öffnen",

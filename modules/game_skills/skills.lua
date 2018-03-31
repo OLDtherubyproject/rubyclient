@@ -11,7 +11,6 @@ function init()
     onFreeCapacityChange = onFreeCapacityChange,
     onTotalCapacityChange = onTotalCapacityChange,
     onStaminaChange = onStaminaChange,
-    onOfflineTrainingChange = onOfflineTrainingChange,
     onRegenerationChange = onRegenerationChange,
     onSpeedChange = onSpeedChange,
     onBaseSpeedChange = onBaseSpeedChange,
@@ -45,7 +44,6 @@ function terminate()
     onFreeCapacityChange = onFreeCapacityChange,
     onTotalCapacityChange = onTotalCapacityChange,
     onStaminaChange = onStaminaChange,
-    onOfflineTrainingChange = onOfflineTrainingChange,
     onRegenerationChange = onRegenerationChange,
     onSpeedChange = onSpeedChange,
     onBaseSpeedChange = onBaseSpeedChange,
@@ -177,13 +175,6 @@ function checkAlert(id, value, maxValue, threshold, greaterThan)
 end
 
 function update()
-  local offlineTraining = skillsWindow:recursiveGetChildById('offlineTraining')
-  if not g_game.getFeature(GameOfflineTrainingTime) then
-    offlineTraining:hide()
-  else
-    offlineTraining:show()
-  end
-
   local regenerationTime = skillsWindow:recursiveGetChildById('regenerationTime')
   if not g_game.getFeature(GamePlayerRegenerationTime) then
     regenerationTime:hide()
@@ -207,7 +198,6 @@ function refresh()
   onFreeCapacityChange(player, player:getFreeCapacity())
   onStaminaChange(player, player:getStamina())
   onMagicLevelChange(player, player:getMagicLevel(), player:getMagicLevelPercent())
-  onOfflineTrainingChange(player, player:getOfflineTrainingTime())
   onRegenerationChange(player, player:getRegenerationTime())
   onSpeedChange(player, player:getSpeed())
 
@@ -337,21 +327,6 @@ function onStaminaChange(localPlayer, stamina)
 
   setSkillValue('stamina', hours .. ":" .. minutes)
   setSkillPercent('stamina', percent, tr('You have %s percent', percent))
-end
-
-function onOfflineTrainingChange(localPlayer, offlineTrainingTime)
-  if not g_game.getFeature(GameOfflineTrainingTime) then
-    return
-  end
-  local hours = math.floor(offlineTrainingTime / 60)
-  local minutes = offlineTrainingTime % 60
-  if minutes < 10 then
-    minutes = '0' .. minutes
-  end
-  local percent = 100 * offlineTrainingTime / (12 * 60) -- max is 12 hours
-
-  setSkillValue('offlineTraining', hours .. ":" .. minutes)
-  setSkillPercent('offlineTraining', percent, tr('You have %s percent', percent))
 end
 
 function onRegenerationChange(localPlayer, regenerationTime)

@@ -243,7 +243,6 @@ locale = {
     ["Offer History"] = "Histórico de ofertas",
     ["Offer Type"] = "Tipo de oferta",
     ["Offers"] = "Ofertas",
-    ["Offline Training"] = "Treino Offline",
     ["Ok"] = "Ok",
     ["on %s.\n"] = "em %s.\n",
     ["Open a private message channel:"] = "Abrir um canal privado:",

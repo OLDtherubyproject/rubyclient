@@ -53,7 +53,6 @@ LocalPlayer::LocalPlayer()
     m_stamina = -1;
     m_baseSpeed = -1;
     m_regenerationTime = -1;
-    m_offlineTrainingTime = -1;
     m_totalCapacity = -1;
 }
 
@@ -517,16 +516,6 @@ void LocalPlayer::setRegenerationTime(double regenerationTime)
         m_regenerationTime = regenerationTime;
 
         callLuaField("onRegenerationChange", regenerationTime, oldRegenerationTime);
-    }
-}
-
-void LocalPlayer::setOfflineTrainingTime(double offlineTrainingTime)
-{
-    if(m_offlineTrainingTime != offlineTrainingTime) {
-        double oldOfflineTrainingTime = m_offlineTrainingTime;
-        m_offlineTrainingTime = offlineTrainingTime;
-
-        callLuaField("onOfflineTrainingChange", offlineTrainingTime, oldOfflineTrainingTime);
     }
 }
 

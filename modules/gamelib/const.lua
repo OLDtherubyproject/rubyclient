@@ -101,7 +101,7 @@ GameMagicEffectU16 = 16
 GamePlayerMarket = 17
 GameSpritesU32 = 18
 GameChargeableItems = 19
-GameOfflineTrainingTime = 20
+-- 20 is unused
 GamePurseSlot = 21
 GameFormatCreatureName = 22
 GameSpellList = 23

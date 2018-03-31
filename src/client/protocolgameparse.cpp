@@ -1396,13 +1396,9 @@ void ProtocolGame::parsePlayerStats(const InputMessagePtr& msg)
     if(g_game.getFeature(Otc::GamePlayerRegenerationTime))
         regeneration = msg->getU16();
 
-    double training = 0;
-    if(g_game.getFeature(Otc::GameOfflineTrainingTime)) {
-        training = msg->getU16();
-        if(g_game.getClientVersion() >= 1097) {
-            int remainingStoreXpBoostSeconds = msg->getU16();
-            bool canBuyMoreStoreXpBoosts = msg->getU8();
-        }
+    if(g_game.getClientVersion() >= 1097) {
+        int remainingStoreXpBoostSeconds = msg->getU16();
+        bool canBuyMoreStoreXpBoosts = msg->getU8();
     }
 
     m_localPlayer->setHealth(health, maxHealth);
@@ -1417,7 +1413,6 @@ void ProtocolGame::parsePlayerStats(const InputMessagePtr& msg)
     m_localPlayer->setSoul(soul);
     m_localPlayer->setBaseSpeed(baseSpeed);
     m_localPlayer->setRegenerationTime(regeneration);
-    m_localPlayer->setOfflineTrainingTime(training);
 }
 
 void ProtocolGame::parsePlayerSkills(const InputMessagePtr& msg)
