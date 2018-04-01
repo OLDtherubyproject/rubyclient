@@ -1,6 +1,7 @@
 Icons = {}
-Icons[128] = { path = '/images/game/pokemon/logout_block', id = 'condition_logout_block' }
-Icons[16384] = { path = '/images/game/pokemon/protection_zone', id = 'condition_protection_zone' }
+Icons[129] = { path = '/images/game/pokemon/logout_block', id = 'condition_logout_block' }
+Icons[16385] = { path = '/images/game/pokemon/protection_zone', id = 'condition_protection_zone' }
+Icons[1] = { path = '/images/game/pokemon/normal', id = 'condition_none' }
 
 InventorySlotStyles = {
   [InventorySlotHead] = "HeadSlot",
@@ -93,7 +94,7 @@ function refresh()
     onManaChange(player, player:getMana(), player:getMaxMana())
     g_game.getProtocolGame():sendExtendedOpcode(104, 'refresh')
     onPokeballsChange(player, player:getSoul())
-    onStatesChange(player, player:getStates(), 0)
+    onStatesChange(player, player:getStates(), -1)
   end
 
   for i = InventorySlotFirst, InventorySlotLast do
@@ -228,17 +229,38 @@ function onPokeballsChange(player, soul)
 end
 
 function onStatesChange(localPlayer, now, old)
-  if now == old then return end
+  if now == old then return false end
 
-  local bitsChanged = bit32.bxor(now, old)
-  for i = 1, 32 do
-    local pow = math.pow(2, i-1)
-    if pow > bitsChanged then break end
-    local bitChanged = bit32.band(bitsChanged, pow)
-    if bitChanged ~= 0 then
-      toggleIcon(bitChanged)
+  now = now + 1
+  old = old + 1
+
+  g_logger.info(bitChanged)
+
+  local content = pokemonWindow:recursiveGetChildById('conditionPanel')
+
+  if old ~= 0 then
+    local icon = content:getChildById(Icons[old].id)
+    if icon then
+      icon:destroy()
     end
   end
+
+  icon = loadIcon(now)
+  icon:setParent(content)
+
+  --local bitsChanged = bit32.bxor(now, old)
+  --for i = 1, 32 do
+    --local pow = math.pow(2, i-1)
+    --if pow > bitsChanged then break end
+    --local bitChanged = bit32.band(bitsChanged, pow)
+    --if bitChanged ~= 0 then
+      --toggleIcon(bitChanged)
+    --else
+      --toggleIcon(20000)
+    --end
+  --end
+
+  return true
 end
 
 function onInventoryChange(player, slot, item, oldItem)
