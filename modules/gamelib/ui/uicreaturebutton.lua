@@ -50,7 +50,7 @@ function UICreatureButton:setup(creature)
   self:setId('CreatureButton_' .. creature:getName():gsub('%s','_'))
   self:setLifeBarPercent(creature:getHealthPercent())
 
-  self:updateSkull(creature:getSkull())
+  self:updateGender(creature:getGender())
   self:updateEmblem(creature:getEmblem())
 end
 
@@ -75,21 +75,21 @@ function UICreatureButton:update()
   end
 end
 
-function UICreatureButton:updateSkull(skullId)
+function UICreatureButton:updateGender(genderId)
   if not self.creature then
     return
   end
-  local skullId = skullId or self.creature:getSkull()
-  local skullWidget = self:getChildById('skull')
+  local genderId = genderId or self.creature:getGender()
+  local genderWidget = self:getChildById('gender')
   local labelWidget = self:getChildById('label')
 
-  if skullId ~= SkullNone then
-    skullWidget:setWidth(skullWidget:getHeight())
-    local imagePath = getSkullImagePath(skullId)
-    skullWidget:setImageSource(imagePath)
+  if genderId ~= genderNone then
+    genderWidget:setWidth(genderWidget:getHeight())
+    local imagePath = getGenderImagePath(genderId)
+    genderWidget:setImageSource(imagePath)
     labelWidget:setMarginLeft(5)
   else
-    skullWidget:setWidth(0)
+    genderWidget:setWidth(0)
     if self.creature:getEmblem() == EmblemNone then
       labelWidget:setMarginLeft(2)
     end
@@ -113,7 +113,7 @@ function UICreatureButton:updateEmblem(emblemId)
   else
     emblemWidget:setWidth(0)
     emblemWidget:setMarginLeft(0)
-    if self.creature:getSkull() == SkullNone then
+    if self.creature:getGender() == GenderNone then
       labelWidget:setMarginLeft(2)
     end
   end

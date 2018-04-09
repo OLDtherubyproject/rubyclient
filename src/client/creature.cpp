@@ -50,7 +50,7 @@ Creature::Creature() : Thing()
     m_walkAnimationPhase = 0;
     m_walkedPixels = 0;
     m_walkTurnDirection = Otc::InvalidDirection;
-    m_skull = Otc::SkullNone;
+    m_gender = Otc::GenderNone;
     m_shield = Otc::ShieldNone;
     m_emblem = Otc::EmblemNone;
     m_type = Proto::CreatureTypeUnknown;
@@ -295,14 +295,19 @@ void Creature::drawInformation(const Point& point, bool useGray, const Rect& par
         m_nameCache.draw(textRect);
     }
 
-    if(m_skull != Otc::SkullNone && m_skullTexture) {
+    if(m_gender != Otc::GenderNone && m_genderTexture) {
         g_painter->setColor(Color::white);
-        Rect skullRect = Rect(backgroundRect.x() + 13.5 + 12, backgroundRect.y() + 5, m_skullTexture->getSize());
-        g_painter->drawTexturedRect(skullRect, m_skullTexture);
+        Rect genderRect = Rect(backgroundRect.x() + 13.5 + 12, backgroundRect.y() + 5, m_genderTexture->getSize());
+        g_painter->drawTexturedRect(genderRect, m_genderTexture);
     }
     if(m_shield != Otc::ShieldNone && m_shieldTexture && m_showShieldTexture) {
         g_painter->setColor(Color::white);
-        Rect shieldRect = Rect(backgroundRect.x() + 13.5, backgroundRect.y() + 5, m_shieldTexture->getSize());
+        Rect shieldRect;
+        if(m_gender != Otc::GenderNone && m_genderTexture) {
+            shieldRect = Rect(backgroundRect.x() + 13.5 + 12 + 12, backgroundRect.y() + 5, m_shieldTexture->getSize());
+        } else {
+            shieldRect = Rect(backgroundRect.x() + 13.5 + 12, backgroundRect.y() + 5, m_shieldTexture->getSize());
+        }
         g_painter->drawTexturedRect(shieldRect, m_shieldTexture);
     }
     if(m_emblem != Otc::EmblemNone && m_emblemTexture) {
@@ -312,7 +317,7 @@ void Creature::drawInformation(const Point& point, bool useGray, const Rect& par
     }
     if(m_type != Proto::CreatureTypeUnknown && m_typeTexture) {
         g_painter->setColor(Color::white);
-        Rect typeRect = Rect(backgroundRect.x() + 13.5 + 12 + 12, backgroundRect.y() + 16, m_typeTexture->getSize());
+        Rect typeRect = Rect(backgroundRect.x() + 13.5 + 12 + 12, backgroundRect.y() + 5, m_typeTexture->getSize());
         g_painter->drawTexturedRect(typeRect, m_typeTexture);
     }
     if(m_icon != Otc::NpcIconNone && m_iconTexture) {
@@ -733,10 +738,10 @@ void Creature::setBaseSpeed(double baseSpeed)
     }
 }
 
-void Creature::setSkull(uint8 skull)
+void Creature::setGender(uint8 gender)
 {
-    m_skull = skull;
-    callLuaField("onSkullChange", m_skull);
+    m_gender = gender;
+    callLuaField("onGenderChange", m_gender);
 }
 
 void Creature::setShield(uint8 shield)
@@ -763,9 +768,9 @@ void Creature::setIcon(uint8 icon)
     callLuaField("onIconChange", m_icon);
 }
 
-void Creature::setSkullTexture(const std::string& filename)
+void Creature::setGenderTexture(const std::string& filename)
 {
-    m_skullTexture = g_textures.getTexture(filename);
+    m_genderTexture = g_textures.getTexture(filename);
 }
 
 void Creature::setShieldTexture(const std::string& filename, bool blink)

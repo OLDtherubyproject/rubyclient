@@ -37,7 +37,7 @@ function init()
   battleWindow:setContentMinimumHeight(78)
 
   connect(Creature, {
-    onSkullChange = updateCreatureSkull,
+    onGenderChange = updateCreatureGender,
     onEmblemChange = updateCreatureEmblem,
     onOutfitChange = onCreatureOutfitChange,
     onHealthPercentChange = onCreatureHealthPercentChange,
@@ -66,7 +66,7 @@ function terminate()
   mouseWidget:destroy()
 
   disconnect(Creature, {  
-    onSkullChange = updateCreatureSkull,
+    onGenderChange = updateCreatureGender,
     onEmblemChange = updateCreatureEmblem,
     onOutfitChange = onCreatureOutfitChange,
     onHealthPercentChange = onCreatureHealthPercentChange,
@@ -317,17 +317,17 @@ function onFollow(creature)
   end
 end
 
-function updateCreatureSkull(creature, skullId)
+function updateCreatureGender(creature, genderId)
   local battleButton = battleButtonsByCreaturesList[creature:getId()]
   if battleButton then
-    battleButton:updateSkull(skullId)
+    battleButton:updateGender(genderId)
   end
 end
 
 function updateCreatureEmblem(creature, emblemId)
   local battleButton = battleButtonsByCreaturesList[creature:getId()]
   if battleButton then
-    battleButton:updateSkull(emblemId)
+    battleButton:updateGender(emblemId)
   end
 end
 

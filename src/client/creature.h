@@ -59,12 +59,12 @@ public:
     void setLight(const Light& light) { m_light = light; }
     void setSpeed(uint16 speed);
     void setBaseSpeed(double baseSpeed);
-    void setSkull(uint8 skull);
+    void setGender(uint8 gender);
     void setShield(uint8 shield);
     void setEmblem(uint8 emblem);
     void setType(uint8 type);
     void setIcon(uint8 icon);
-    void setSkullTexture(const std::string& filename);
+    void setGenderTexture(const std::string& filename);
     void setShieldTexture(const std::string& filename, bool blink);
     void setEmblemTexture(const std::string& filename);
     void setTypeTexture(const std::string& filename);
@@ -86,7 +86,7 @@ public:
     Light getLight() { return m_light; }
     uint16 getSpeed() { return m_speed; }
     double getBaseSpeed() { return m_baseSpeed; }
-    uint8 getSkull() { return m_skull; }
+    uint8 getGender() { return m_gender; }
     uint8 getShield() { return m_shield; }
     uint8 getEmblem() { return m_emblem; }
     uint8 getType() { return m_type; }
@@ -153,12 +153,12 @@ protected:
     Light m_light;
     int m_speed;
     double m_baseSpeed;
-    uint8 m_skull;
+    uint8 m_gender;
     uint8 m_shield;
     uint8 m_emblem;
     uint8 m_type;
     uint8 m_icon;
-    TexturePtr m_skullTexture;
+    TexturePtr m_genderTexture;
     TexturePtr m_shieldTexture;
     TexturePtr m_emblemTexture;
     TexturePtr m_typeTexture;

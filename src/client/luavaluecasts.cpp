@@ -181,8 +181,8 @@ int push_luavalue(const UnjustifiedPoints& unjustifiedPoints)
     g_lua.setField("killsMonth");
     g_lua.pushInteger(unjustifiedPoints.killsMonthRemaining);
     g_lua.setField("killsMonthRemaining");
-    g_lua.pushInteger(unjustifiedPoints.skullTime);
-    g_lua.setField("skullTime");
+    g_lua.pushInteger(unjustifiedPoints.genderTime);
+    g_lua.setField("genderTime");
     return 1;
 }
 
@@ -201,8 +201,8 @@ bool luavalue_cast(int index, UnjustifiedPoints& unjustifiedPoints)
         unjustifiedPoints.killsMonth = g_lua.popInteger();
         g_lua.getField("killsMonthRemaining", index);
         unjustifiedPoints.killsMonthRemaining = g_lua.popInteger();
-        g_lua.getField("skullTime", index);
-        unjustifiedPoints.skullTime = g_lua.popInteger();
+        g_lua.getField("genderTime", index);
+        unjustifiedPoints.genderTime = g_lua.popInteger();
         return true;
     }
     return false;

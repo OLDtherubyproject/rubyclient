@@ -44,7 +44,7 @@ struct UnjustifiedPoints {
             killsWeekRemaining == other.killsWeekRemaining &&
             killsMonth == other.killsMonth &&
             killsMonthRemaining == other.killsMonthRemaining &&
-            skullTime == other.skullTime;
+            genderTime == other.genderTime;
     }
     uint8 killsDay;
     uint8 killsDayRemaining;
@@ -52,7 +52,7 @@ struct UnjustifiedPoints {
     uint8 killsWeekRemaining;
     uint8 killsMonth;
     uint8 killsMonthRemaining;
-    uint8 skullTime;
+    uint8 genderTime;
 };
 
 typedef std::tuple<std::string, uint, std::string, int, bool> Vip;

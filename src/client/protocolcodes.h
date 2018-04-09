@@ -101,7 +101,7 @@ namespace Proto {
         GameServerCreatureLight             = 141,
         GameServerCreatureOutfit            = 142,
         GameServerCreatureSpeed             = 143,
-        GameServerCreatureSkull             = 144,
+        GameServerCreatureGender            = 144,
         GameServerCreatureParty             = 145,
         GameServerCreatureUnpass            = 146,
         GameServerCreatureMarks             = 147,

@@ -17,7 +17,7 @@ CreatureButton < UICreatureButton
     phantom: true
 
   UIWidget
-    id: skull
+    id: gender
     height: 11
     anchors.left: spacer.right
     anchors.top: spacer.top
@@ -26,7 +26,7 @@ CreatureButton < UICreatureButton
   UIWidget
     id: emblem
     height: 11
-    anchors.left: skull.right
+    anchors.left: gender.right
     anchors.top: creature.top
     phantom: true
 

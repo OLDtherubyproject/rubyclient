@@ -214,14 +214,11 @@ namespace Otc
         RedFist = 3
     };
 
-    enum PlayerSkulls {
-        SkullNone = 0,
-        SkullYellow,
-        SkullGreen,
-        SkullWhite,
-        SkullRed,
-        SkullBlack,
-        SkullOrange
+    enum PlayerGenders {
+        GenderNone = 0,
+        GenderUndefined,
+        GenderMale,
+        GenderFemale
     };
 
     enum PlayerShields {

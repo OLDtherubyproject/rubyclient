@@ -194,7 +194,7 @@ private:
     void parseCreatureLight(const InputMessagePtr& msg);
     void parseCreatureOutfit(const InputMessagePtr& msg);
     void parseCreatureSpeed(const InputMessagePtr& msg);
-    void parseCreatureSkulls(const InputMessagePtr& msg);
+    void parseCreatureGenders(const InputMessagePtr& msg);
     void parseCreatureShields(const InputMessagePtr& msg);
     void parseCreatureUnpass(const InputMessagePtr& msg);
     void parseEditText(const InputMessagePtr& msg);

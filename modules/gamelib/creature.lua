@@ -2,13 +2,10 @@
 
 -- @docconsts @{
 
-SkullNone = 0
-SkullYellow = 1
-SkullGreen = 2
-SkullWhite = 3
-SkullRed = 4
-SkullBlack = 5
-SkullOrange = 6
+GenderNone = 0
+GenderUndefined = 1
+GenderMale = 2
+GenderFemale = 3
 
 ShieldNone = 0
 ShieldWhiteYellow = 1
@@ -41,27 +38,14 @@ CreatureTypeSummonOther = 4
 
 -- @}
 
-function getNextSkullId(skullId)
-  if skullId == SkullRed or skullId == SkullBlack then
-    return SkullBlack
-  end
-  return SkullRed
-end
-
-function getSkullImagePath(skullId)
+function getGenderImagePath(genderId)
   local path
-  if skullId == SkullYellow then
-    path = '/images/game/skulls/skull_yellow'
-  elseif skullId == SkullGreen then
-    path = '/images/game/skulls/skull_green'
-  elseif skullId == SkullWhite then
-    path = '/images/game/skulls/skull_white'
-  elseif skullId == SkullRed then
-    path = '/images/game/skulls/skull_red'
-  elseif skullId == SkullBlack then
-    path = '/images/game/skulls/skull_black'
-  elseif skullId == SkullOrange then
-    path = '/images/game/skulls/skull_orange'
+  if genderId == GenderUndefined then
+    path = '/images/game/genders/gender_undefined'
+  elseif genderId == GenderMale then
+    path = '/images/game/genders/gender_male'
+  elseif genderId == GenderFemale then
+    path = '/images/game/genders/gender_female'
   end
   return path
 end
@@ -134,10 +118,10 @@ function getIconImagePath(iconId)
   return path
 end
 
-function Creature:onSkullChange(skullId)
-  local imagePath = getSkullImagePath(skullId)
+function Creature:onGenderChange(genderId)
+  local imagePath = getGenderImagePath(genderId)
   if imagePath then
-    self:setSkullTexture(imagePath)
+    self:setGenderTexture(imagePath)
   end
 end
 

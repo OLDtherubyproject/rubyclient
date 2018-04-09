@@ -3,13 +3,10 @@
 FloorHigher = 0
 FloorLower = 15
 
-SkullNone = 0
-SkullYellow = 1
-SkullGreen = 2
-SkullWhite = 3
-SkullRed = 4
-SkullBlack = 5
-SkullOrange = 6
+GenderNone = 0
+GenderUndefined = 1
+GenderMale = 2
+GenderFemale = 3
 
 ShieldNone = 0
 ShieldWhiteYellow = 1

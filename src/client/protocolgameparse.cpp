@@ -195,8 +195,8 @@ void ProtocolGame::parseMessage(const InputMessagePtr& msg)
             case Proto::GameServerCreatureSpeed:
                 parseCreatureSpeed(msg);
                 break;
-            case Proto::GameServerCreatureSkull:
-                parseCreatureSkulls(msg);
+            case Proto::GameServerCreatureGender:
+                parseCreatureGenders(msg);
                 break;
             case Proto::GameServerCreatureParty:
                 parseCreatureShields(msg);
@@ -629,7 +629,7 @@ void ProtocolGame::parseUnjustifiedStats(const InputMessagePtr& msg)
     unjustifiedPoints.killsWeekRemaining = msg->getU8();
     unjustifiedPoints.killsMonth = msg->getU8();
     unjustifiedPoints.killsMonthRemaining = msg->getU8();
-    unjustifiedPoints.skullTime = msg->getU8();
+    unjustifiedPoints.genderTime = msg->getU8();
 
     g_game.setUnjustifiedPoints(unjustifiedPoints);
 }
@@ -1221,14 +1221,14 @@ void ProtocolGame::parseCreatureSpeed(const InputMessagePtr& msg)
     */
 }
 
-void ProtocolGame::parseCreatureSkulls(const InputMessagePtr& msg)
+void ProtocolGame::parseCreatureGenders(const InputMessagePtr& msg)
 {
     uint id = msg->getU32();
-    int skull = msg->getU8();
+    int gender = msg->getU8();
 
     CreaturePtr creature = g_map.getCreatureById(id);
     if(creature)
-        creature->setSkull(skull);
+        creature->setGender(gender);
     else
         g_logger.traceError("could not get creature");
 }
@@ -2253,7 +2253,7 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
         light.color = msg->getU8();
 
         int speed = msg->getU16();
-        int skull = msg->getU8();
+        int gender = msg->getU8();
         int shield = msg->getU8();
 
         // emblem is sent only when the creature is not known
@@ -2294,7 +2294,7 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
             creature->setDirection(direction);
             creature->setOutfit(outfit);
             creature->setSpeed(speed);
-            creature->setSkull(skull);
+            creature->setGender(gender);
             creature->setShield(shield);
             creature->setPassable(!unpass);
             creature->setLight(light);
