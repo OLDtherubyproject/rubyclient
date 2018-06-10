@@ -20,25 +20,21 @@
  * THE SOFTWARE.
  */
 
-#ifndef CRYPT_H
-#define CRYPT_H
+#ifndef CRYPT_GMP_H
+#define CRYPT_GMP_H
 
 #include "../stdext/types.h"
 #include <string>
 
 #include <boost/uuid/uuid.hpp>
+#include <gmp.h>
 
-class Crypt
+class CryptGMP
 {
 public:
-    std::string base64Encode(const std::string& decoded_string);
-    std::string base64Decode(const std::string& encoded_string);
-    std::string xorCrypt(const std::string& buffer, const std::string& key);
-    std::string encrypt(const std::string& decrypted_string) { return _encrypt(decrypted_string, true); }
-    std::string decrypt(const std::string& encrypted_string) { return _decrypt(encrypted_string, true); }
-    std::string genUUID();
-    bool setMachineUUID(std::string uuidstr);
-    std::string getMachineUUID();
+    CryptGMP();
+    ~CryptGMP();
+
     std::string md5Encode(const std::string& decoded_string, bool upperCase);
     std::string sha1Encode(const std::string& decoded_string, bool upperCase);
     std::string sha256Encode(const std::string& decoded_string, bool upperCase);
@@ -52,13 +48,13 @@ public:
     bool rsaDecrypt(unsigned char *msg, int size);
     int rsaGetSize();
 
+    static constexpr auto MODULUS_SIZE = 1024;
+    static constexpr auto BLOCK_SIZE = MODULUS_SIZE / 8;
+
 private:
-    std::string _encrypt(const std::string& decrypted_string, bool useMachineUUID);
-    std::string _decrypt(const std::string& encrypted_string, bool useMachineUUID);
-    std::string getCryptKey(bool useMachineUUID);
-    boost::uuids::uuid m_machineUUID;
+    mpz_t rsaN, rsaE, rsaD;
 };
 
-extern Crypt g_crypt;
+extern CryptGMP g_crypt_gmp;
 
 #endif
