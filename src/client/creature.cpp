@@ -233,13 +233,13 @@ void Creature::drawInformation(const Point& point, bool useGray, const Rect& par
     if(!useGray)
         fillColor = m_informationColor;
 
-    // calculate main rects
-    Rect backgroundRect = Rect(point.x-(13.5), point.y, 27, 4);
-    backgroundRect.bind(parentRect);
+        // calculate main rects
+        Rect backgroundRect = Rect(point.x-(13.5), point.y, 27, 4);
+        backgroundRect.bind(parentRect);
 
-    Size nameSize = m_nameCache.getTextSize();
-    Rect textRect = Rect(point.x - nameSize.width() / 2.0, point.y-12, nameSize);
-    textRect.bind(parentRect);
+        Size nameSize = m_nameCache.getTextSize();
+        Rect textRect = Rect(point.x - nameSize.width() / 2.0, point.y-12, nameSize);
+        textRect.bind(parentRect);
 
     // distance them
     uint32 offset = 12;
@@ -260,33 +260,30 @@ void Creature::drawInformation(const Point& point, bool useGray, const Rect& par
     if(g_game.getFeature(Otc::GameBlueNpcNameColor) && isNpc() && m_healthPercent == 100 && !useGray)
         fillColor = Color(0x66, 0xcc, 0xff);
 
+    if ((m_nameColor != 0) && !useGray){
+        if (m_nameColor == 0x2) {
+            fillColor = Color::red; // red
+        } else if (m_nameColor == 0x4) {
+            fillColor = Color::orange; // orange
+        } else if (m_nameColor == 0x8) {
+            fillColor = Color::yellow; // yellow
+        } else if (m_nameColor == 0x10) {
+            fillColor = Color::blue; // blue
+        } else if (m_nameColor == 0x20) {
+            fillColor = Color::darkPink; // purple
+        } else if (m_nameColor == 0x40) {
+            fillColor = Color::white; // white
+        } else if (m_nameColor == 0x80) {
+            fillColor = Color::black; // black
+        }
+    }
+
     if(drawFlags & Otc::DrawBars && (!isNpc() || !g_game.getFeature(Otc::GameHideNpcNames))) {
         g_painter->setColor(Color::black);
         g_painter->drawFilledRect(backgroundRect);
 
-        g_painter->setColor(fillColor);
+        g_painter->setColor(m_informationColor);
         g_painter->drawFilledRect(healthRect);
-
-        if(drawFlags & Otc::DrawManaBar && isLocalPlayer()) {
-            LocalPlayerPtr player = g_game.getLocalPlayer();
-            if(player) {
-                backgroundRect.moveTop(backgroundRect.bottom());
-
-                g_painter->setColor(Color::black);
-                g_painter->drawFilledRect(backgroundRect);
-
-                Rect manaRect = backgroundRect.expanded(-1);
-                double maxMana = player->getMaxMana();
-                if(maxMana == 0) {
-                    manaRect.setWidth(25);
-                } else {
-                    manaRect.setWidth(player->getMana() / (maxMana * 1.0) * 25);
-                }
-
-                g_painter->setColor(Color::blue);
-                g_painter->drawFilledRect(manaRect);
-            }
-        }
     }
 
     if(drawFlags & Otc::DrawNames) {
@@ -639,6 +636,11 @@ void Creature::setName(const std::string& name)
     m_name = name;
 }
 
+void Creature::setNameColor(uint8 nameColor)
+{
+    m_nameColor = nameColor;
+}
+
 void Creature::setHealthPercent(uint8 healthPercent)
 {
     if(healthPercent > 92)
@@ -898,12 +900,9 @@ int Creature::getStepDuration(bool ignoreDiagonal, Otc::Direction dir)
     else
         interval /= speed;
 
-    if(g_game.getClientVersion() >= 900)
-        interval = (interval / g_game.getServerBeat()) * g_game.getServerBeat();
+    interval = (interval / g_game.getServerBeat()) * g_game.getServerBeat();
 
     float factor = 3;
-    if(g_game.getClientVersion() <= 810)
-        factor = 2;
 
     interval = std::max<int>(interval, g_game.getServerBeat());
 

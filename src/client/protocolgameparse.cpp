@@ -2179,6 +2179,7 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
             }
         }
 
+        int nameColor = msg->getU8();
         int healthPercent = msg->getU8();
         Otc::Direction direction = (Otc::Direction)msg->getU8();
         Outfit outfit = getOutfit(msg);
@@ -2224,6 +2225,7 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
         unpass = msg->getU8();
 
         if(creature) {
+            creature->setNameColor(nameColor);
             creature->setHealthPercent(healthPercent);
             creature->setDirection(direction);
             creature->setOutfit(outfit);
