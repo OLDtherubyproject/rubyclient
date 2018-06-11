@@ -99,11 +99,7 @@ function ProtocolLogin:sendLoginPacket()
     msg:addU8(1) --unknown
     msg:addU8(1) --unknown
 
-    if g_game.getClientVersion() >= 1072 then
-      msg:addString(string.format('%s %s', g_graphics.getVendor(), g_graphics.getRenderer()))
-    else
-      msg:addString(g_graphics.getRenderer())
-    end
+    msg:addString(string.format('%s %s', g_graphics.getVendor(), g_graphics.getRenderer()))
     msg:addString(g_graphics.getVersion())
   end
 
@@ -196,48 +192,32 @@ end
 function ProtocolLogin:parseCharacterList(msg)
   local characters = {}
 
-  if g_game.getClientVersion() > 1010 then
-    local worlds = {}
+  local worlds = {}
 
-    local worldsCount = msg:getU8()
-    for i=1, worldsCount do
-      local world = {}
-      local worldId = msg:getU8()
-      world.worldName = msg:getString()
-      world.worldIp = msg:getString()
-      world.worldPort = msg:getU16()
-      world.previewState = msg:getU8()
-      worlds[worldId] = world
-    end
-
-    local charactersCount = msg:getU8()
-    for i=1, charactersCount do
-      local character = {}
-      local worldId = msg:getU8()
-      character.name = msg:getString()
-      character.worldName = worlds[worldId].worldName
-      character.worldIp = worlds[worldId].worldIp
-      character.worldPort = worlds[worldId].worldPort
-      character.previewState = worlds[worldId].previewState
-      characters[i] = character
-    end
-
-  else
-    local charactersCount = msg:getU8()
-    for i=1,charactersCount do
-      local character = {}
-      character.name = msg:getString()
-      character.worldName = msg:getString()
-      character.worldIp = iptostring(msg:getU32())
-      character.worldPort = msg:getU16()
-
-      if g_game.getFeature(GamePreviewState) then
-        character.previewState = msg:getU8()
-      end
-
-      characters[i] = character
-    end
+  local worldsCount = msg:getU8()
+  for i=1, worldsCount do
+    local world = {}
+    local worldId = msg:getU8()
+    world.worldName = msg:getString()
+    world.worldIp = msg:getString()
+    world.worldPort = msg:getU16()
+    world.previewState = msg:getU8()
+    worlds[worldId] = world
   end
+
+  local charactersCount = msg:getU8()
+  for i=1, charactersCount do
+    local character = {}
+    local worldId = msg:getU8()
+    character.name = msg:getString()
+    character.worldName = worlds[worldId].worldName
+    character.worldIp = worlds[worldId].worldIp
+    character.worldPort = worlds[worldId].worldPort
+    character.previewState = worlds[worldId].previewState
+    characters[i] = character
+  end
+
+
 
   local account = {}
   account.premDays = msg:getU16()

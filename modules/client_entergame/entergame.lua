@@ -6,7 +6,6 @@ local enterGame
 local motdWindow
 local motdButton
 local enterGameButton
-local clientBox
 local protocolLogin
 local motdEnabled = true
 
@@ -119,7 +118,7 @@ function EnterGame.init()
   local stayLogged = g_settings.getBoolean('staylogged')
   local autologin = g_settings.getBoolean('autologin')
   local clientVersion = g_settings.getInteger('client-version')
-  if clientVersion == 0 then clientVersion = 1098 end
+  if clientVersion == 0 then clientVersion = 100 end
 
   if port == nil or port == 0 then port = 7171 end
 
@@ -131,15 +130,15 @@ function EnterGame.init()
   enterGame:getChildById('autoLoginBox'):setChecked(autologin)
   enterGame:getChildById('stayLoggedBox'):setChecked(stayLogged)
 
-  clientBox = enterGame:getChildById('clientComboBox')
-  for _, proto in pairs(g_game.getSupportedClients()) do
-    clientBox:addOption(proto)
-  end
-  clientBox:setCurrentOption(clientVersion)
+  --clientBox = enterGame:getChildById('clientComboBox')
+  --for _, proto in pairs(g_game.getSupportedClients()) do
+  --  clientBox:addOption(proto)
+  --end
+  --clientBox:setCurrentOption(clientVersion)
 
   EnterGame.toggleAuthenticatorToken(clientVersion, true)
   EnterGame.toggleStayLoggedBox(clientVersion, true)
-  connect(clientBox, { onOptionChange = EnterGame.onClientVersionChange })
+  --connect(clientBox, { onOptionChange = EnterGame.onClientVersionChange })
 
   enterGame:hide()
 
@@ -165,12 +164,12 @@ end
 
 function EnterGame.terminate()
   g_keyboard.unbindKeyDown('Ctrl+G')
-  disconnect(clientBox, { onOptionChange = EnterGame.onClientVersionChange })
+  --disconnect(clientBox, { onOptionChange = EnterGame.onClientVersionChange })
   enterGame:destroy()
   enterGame = nil
   enterGameButton:destroy()
   enterGameButton = nil
-  clientBox = nil
+  --clientBox = nil
   if motdWindow then
     motdWindow:destroy()
     motdWindow = nil
@@ -231,7 +230,7 @@ function EnterGame.clearAccountFields()
 end
 
 function EnterGame.toggleAuthenticatorToken(clientVersion, init)
-  local enabled = (clientVersion >= 1072)
+  local enabled = (clientVersion >= 100)
   if enabled == enterGame.authenticatorEnabled then
     return
   end
@@ -300,7 +299,7 @@ function EnterGame.doLogin()
   G.stayLogged = enterGame:getChildById('stayLoggedBox'):isChecked()
   G.host = enterGame:getChildById('serverHostTextEdit'):getText()
   G.port = tonumber(enterGame:getChildById('serverPortTextEdit'):getText())
-  local clientVersion = tonumber(clientBox:getText())
+  local clientVersion = 100
   EnterGame.hide()
 
   if g_game.isOnline() then
@@ -329,7 +328,7 @@ function EnterGame.doLogin()
 
   g_game.setClientVersion(clientVersion)
   g_game.setProtocolVersion(g_game.getClientProtocolVersion(clientVersion))
-  g_game.chooseRsa(G.host)
+  g_game.setRsa(RUBYSERV_RSA)
 
   if modules.game_things.isLoaded() then
     protocolLogin:login(G.host, G.port, G.account, G.password, G.authenticatorToken, G.stayLogged)
@@ -358,7 +357,7 @@ function EnterGame.setDefaultServer(host, port, protocol)
   if hostTextEdit:getText() ~= host then
     hostTextEdit:setText(host)
     portTextEdit:setText(port)
-    clientBox:setCurrentOption(protocol)
+    --clientBox:setCurrentOption(protocol)
     accountTextEdit:setText('')
     passwordTextEdit:setText('')
     authenticatorTokenTextEdit:setText('')
@@ -385,9 +384,9 @@ function EnterGame.setUniqueServer(host, port, protocol, windowWidth, windowHeig
   stayLoggedBox:setChecked(false)
   stayLoggedBox:setOn(false)
 
-  clientBox:setCurrentOption(protocol)
-  clientBox:setVisible(false)
-  clientBox:setHeight(0)
+  --clientBox:setCurrentOption(protocol)
+  --clientBox:setVisible(false)
+  --clientBox:setHeight(0)
 
   local serverLabel = enterGame:getChildById('serverLabel')
   serverLabel:setVisible(false)

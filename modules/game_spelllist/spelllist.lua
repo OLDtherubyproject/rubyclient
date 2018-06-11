@@ -82,12 +82,7 @@ function online()
     spelllistButton:hide()
   end
 
-  -- Vocation is only send in newer clients
-  if g_game.getClientVersion() >= 950 then
-    spelllistWindow:getChildById('buttonFilterVocation'):setVisible(true)
-  else
-    spelllistWindow:getChildById('buttonFilterVocation'):setVisible(false)
-  end
+  spelllistWindow:getChildById('buttonFilterVocation'):setVisible(true)
 end
 
 function offline()

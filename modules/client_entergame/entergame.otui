@@ -126,31 +126,10 @@ EnterGameWindow
     margin-right: 4
 
   MenuLabel
-    id: clientLabel
-    !text: tr('Client Version')
-    anchors.left: parent.left
-    anchors.top: serverHostTextEdit.bottom
-    text-auto-resize: true
-    margin-right: 10
-    margin-top: 8
-
-  ComboBox
-    id: clientComboBox
-    anchors.left: parent.left
-    anchors.right: parent.horizontalCenter
-    anchors.top: clientLabel.bottom
-    margin-top: 2
-    margin-right: 3
-    width: 90
-    menu-scroll: true
-    menu-height: 125
-    menu-scroll-step: 25
-
-  MenuLabel
     id: portLabel
     !text: tr('Port')
-    anchors.left: serverPortTextEdit.left
-    anchors.top: serverHostTextEdit.bottom
+    anchors.left: prev.left
+    anchors.top: prev.bottom
     margin-top: 8
     text-auto-resize: true
 
@@ -158,9 +137,10 @@ EnterGameWindow
     id: serverPortTextEdit
     text: 7171
     anchors.right: parent.right
-    anchors.left: parent.horizontalCenter
-    anchors.top: clientComboBox.top
-    margin-left: 3
+    anchors.left: parent.left
+    anchors.top: portLabel.bottom
+    margin-top: 2
+    margin-right: 4
 
   CheckBox
     id: rememberPasswordBox

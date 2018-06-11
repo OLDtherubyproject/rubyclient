@@ -48,8 +48,8 @@ function load()
     addEvent(function() messageBox:raise() messageBox:focus() end)
 
     disconnect(g_game, { onClientVersionChange = load })
-    g_game.setClientVersion(0)
-    g_game.setProtocolVersion(0)
+    g_game.setClientVersion(100)
+    g_game.setProtocolVersion(100)
     connect(g_game, { onClientVersionChange = load })
   end
 end

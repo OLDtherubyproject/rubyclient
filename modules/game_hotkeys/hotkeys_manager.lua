@@ -389,7 +389,7 @@ function doKeyCombo(keyCombo)
       modules.game_console.setTextEditText(hotKey.value)
     end
   elseif hotKey.useType == HOTKEY_MANAGER_USE then
-    if g_game.getClientVersion() < 780 or hotKey.subType then
+    if hotKey.subType then
       local item = g_game.findPlayerItem(hotKey.itemId, hotKey.subType or -1)
       if item then
         g_game.use(item)
@@ -398,7 +398,7 @@ function doKeyCombo(keyCombo)
       g_game.useInventoryItem(hotKey.itemId)
     end
   elseif hotKey.useType == HOTKEY_MANAGER_USEONSELF then
-    if g_game.getClientVersion() < 780 or hotKey.subType then
+    if hotKey.subType then
       local item = g_game.findPlayerItem(hotKey.itemId, hotKey.subType or -1)
       if item then
         g_game.useWith(item, g_game.getLocalPlayer())
@@ -410,7 +410,7 @@ function doKeyCombo(keyCombo)
     local attackingCreature = g_game.getAttackingCreature()
     if not attackingCreature then
       local item = Item.create(hotKey.itemId)
-      if g_game.getClientVersion() < 780 or hotKey.subType then
+      if hotKey.subType then
         local tmpItem = g_game.findPlayerItem(hotKey.itemId, hotKey.subType or -1)
         if not tmpItem then return end
         item = tmpItem
@@ -421,7 +421,7 @@ function doKeyCombo(keyCombo)
     end
 
     if not attackingCreature:getTile() then return end
-    if g_game.getClientVersion() < 780 or hotKey.subType then
+    if hotKey.subType then
       local item = g_game.findPlayerItem(hotKey.itemId, hotKey.subType or -1)
       if item then
         g_game.useWith(item, attackingCreature)
@@ -431,7 +431,7 @@ function doKeyCombo(keyCombo)
     end
   elseif hotKey.useType == HOTKEY_MANAGER_USEWITH then
     local item = Item.create(hotKey.itemId)
-    if g_game.getClientVersion() < 780 or hotKey.subType then
+    if hotKey.subType then
       local tmpItem = g_game.findPlayerItem(hotKey.itemId, hotKey.subType or -1)
       if not tmpItem then return true end
       item = tmpItem

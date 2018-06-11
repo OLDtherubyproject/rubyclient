@@ -652,8 +652,6 @@ void ProtocolGame::sendShareExperience(bool active)
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientShareExperience);
     msg->addU8(active ? 0x01 : 0x00);
-    if(g_game.getClientVersion() < 910)
-        msg->addU8(0);
     send(msg);
 }
 
@@ -880,13 +878,8 @@ void ProtocolGame::sendRequestTransactionHistory(int page, int entriesPerPage)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientRequestTransactionHistory);
-    if(g_game.getClientVersion() <= 1096) {
-        msg->addU16(page);
-        msg->addU32(entriesPerPage);
-    } else {
-        msg->addU32(page);
-        msg->addU8(entriesPerPage);
-    }
+    msg->addU32(page);
+    msg->addU8(entriesPerPage);
 
     send(msg);
 }

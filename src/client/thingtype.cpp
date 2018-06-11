@@ -53,18 +53,11 @@ void ThingType::serialize(const FileStreamPtr& fin)
         if(!hasAttr((ThingAttr)i))
             continue;
 
-        int attr = i;
-        if(g_game.getClientVersion() >= 780) {
-            if(attr == ThingAttrChargeable)
-                attr = ThingAttrWritable;
-            else if(attr >= ThingAttrWritable)
-                attr += 1;
-        } else if(g_game.getClientVersion() >= 1000) {
-            if(attr == ThingAttrNoMoveAnimation)
-                attr = 16;
-            else if(attr >= ThingAttrPickupable)
-                attr += 1;
-        }
+        int attr = i;        
+        if(attr == ThingAttrChargeable)
+            attr = ThingAttrWritable;
+        else if(attr >= ThingAttrWritable)
+            attr += 1;
 
         fin->addU8(attr);
         switch(attr) {
@@ -147,82 +140,15 @@ void ThingType::unserialize(uint16 clientId, ThingCategory category, const FileS
             break;
         }
 
-        if(g_game.getClientVersion() >= 1000) {
-            /* In 10.10+ all attributes from 16 and up were
-             * incremented by 1 to make space for 16 as
-             * "No Movement Animation" flag.
-             */
-            if(attr == 16)
-                attr = ThingAttrNoMoveAnimation;
-            else if(attr > 16)
-                attr -= 1;
-        } else if(g_game.getClientVersion() >= 860) {
-            /* Default attribute values follow
-             * the format of 8.6-9.86.
-             * Therefore no changes here.
-             */
-        } else if(g_game.getClientVersion() >= 780) {
-            /* In 7.80-8.54 all attributes from 8 and higher were
-             * incremented by 1 to make space for 8 as
-             * "Item Charges" flag.
-             */
-            if(attr == 8) {
-                m_attribs.set(ThingAttrChargeable, true);
-                continue;
-            } else if(attr > 8)
-                attr -= 1;
-        } else if(g_game.getClientVersion() >= 755) {
-            /* In 7.55-7.72 attributes 23 is "Floor Change". */
-            if(attr == 23)
-                attr = ThingAttrFloorChange;
-        } else if(g_game.getClientVersion() >= 740) {
-            /* In 7.4-7.5 attribute "Ground Border" did not exist
-             * attributes 1-15 have to be adjusted.
-             * Several other changes in the format.
-             */
-            if(attr > 0 && attr <= 15)
-                attr += 1;
-            else if(attr == 16)
-                attr = ThingAttrLight;
-            else if(attr == 17)
-                attr = ThingAttrFloorChange;
-            else if(attr == 18)
-                attr = ThingAttrFullGround;
-            else if(attr == 19)
-                attr = ThingAttrElevation;
-            else if(attr == 20)
-                attr = ThingAttrDisplacement;
-            else if(attr == 22)
-                attr = ThingAttrMinimapColor;
-            else if(attr == 23)
-                attr = ThingAttrRotateable;
-            else if(attr == 24)
-                attr = ThingAttrLyingCorpse;
-            else if(attr == 25)
-                attr = ThingAttrHangable;
-            else if(attr == 26)
-                attr = ThingAttrHookSouth;
-            else if(attr == 27)
-                attr = ThingAttrHookEast;
-            else if(attr == 28)
-                attr = ThingAttrAnimateAlways;
-
-            /* "Multi Use" and "Force Use" are swapped */
-            if(attr == ThingAttrMultiUse)
-                attr = ThingAttrForceUse;
-            else if(attr == ThingAttrForceUse)
-                attr = ThingAttrMultiUse;
-        }
+        if(attr == 16)
+            attr = ThingAttrNoMoveAnimation;
+        else if(attr > 16)
+            attr -= 1;
 
         switch(attr) {
             case ThingAttrDisplacement: {
-                if(g_game.getClientVersion() >= 755) {
-                    m_displacement.x = fin->getU16();
-                    m_displacement.y = fin->getU16();
-                } else {
-                    m_displacement.x = 8;
-                    m_displacement.y = 8;
-                }
+                m_displacement.x = fin->getU16();
+                m_displacement.y = fin->getU16();
                 m_attribs.set(attr, true);
                 break;
             }
@@ -292,10 +218,7 @@ void ThingType::unserialize(uint16 clientId, ThingCategory category, const FileS
         m_layers = fin->getU8();
         m_numPatternX = fin->getU8();
         m_numPatternY = fin->getU8();
-        if(g_game.getClientVersion() >= 755)
-            m_numPatternZ = fin->getU8();
-        else
-            m_numPatternZ = 1;
+        m_numPatternZ = fin->getU8();
         
         int groupAnimationsPhases = fin->getU8();
         m_animationPhases += groupAnimationsPhases;

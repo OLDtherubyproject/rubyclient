@@ -220,7 +220,7 @@ void Tile::addThing(const ThingPtr& thing, int stackPos)
                 append = (priority <= 3);
 
                 // newer protocols does not store creatures in reverse order
-                if(g_game.getClientVersion() >= 854 && priority == 4)
+                if(priority == 4)
                     append = !append;
             }
 

@@ -279,13 +279,8 @@ void ThingTypeManager::parseItemType(uint16 serverId, TiXmlElement* elem)
     bool s;
     int d;
 
-    if(g_game.getClientVersion() < 960) {
-        s = serverId > 20000 && serverId < 20100;
-        d = 20000;
-    } else {
-        s = serverId > 30000 && serverId < 30100;
-        d = 30000;
-    }
+    s = serverId > 30000 && serverId < 30100;
+    d = 30000;
 
     if(s) {
         serverId -= d;

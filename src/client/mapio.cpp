@@ -242,11 +242,7 @@ void Map::saveOtbm(const std::string& fileName)
         else
             dir = fileName.substr(0, fileName.find_last_of('/'));
 
-        uint32 version = 0;
-        if(g_things.getOtbMajorVersion() < ClientVersion820)
-            version = 1;
-        else
-            version = 2;
+        uint32 version = 2;
 
         /// Usually when a map has empty house/spawn file it means the map is new.
         /// TODO: Ask the user for a map name instead of those ugly uses of substr

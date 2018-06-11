@@ -420,13 +420,10 @@ void ProtocolGame::parseLogin(const InputMessagePtr& msg)
     }
     bool canReportBugs = msg->getU8();
 
-    if(g_game.getClientVersion() >= 1054)
-        msg->getU8(); // can change pvp frame option
+    msg->getU8(); // can change pvp frame option
 
-    if(g_game.getClientVersion() >= 1058) {
-        int expertModeEnabled = msg->getU8();
-        g_game.setExpertPvpMode(expertModeEnabled);
-    }
+    int expertModeEnabled = msg->getU8();
+    g_game.setExpertPvpMode(expertModeEnabled);
 
     if(g_game.getFeature(Otc::GameIngameStore)) {
         // URL to ingame store images
@@ -552,14 +549,8 @@ void ProtocolGame::parseCompleteStorePurchase(const InputMessagePtr& msg)
 
 void ProtocolGame::parseStoreTransactionHistory(const InputMessagePtr &msg)
 {
-    int currentPage;
-    if(g_game.getClientVersion() <= 1096) {
-        currentPage = msg->getU16();
-        bool hasNextPage = msg->getU8() == 1;
-    } else {
-        currentPage = msg->getU32();
-        int pageCount = msg->getU32();
-    }
+    int currentPage = msg->getU32();
+    int pageCount = msg->getU32();
 
     int entries = msg->getU8();
     for(int i = 0; i < entries; i++) {
@@ -583,7 +574,7 @@ void ProtocolGame::parseStoreOffers(const InputMessagePtr& msg)
 
         int price = msg->getU32();
         int highlightState = msg->getU8();
-        if(highlightState == 2 && g_game.getFeature(Otc::GameIngameStoreHighlights) && g_game.getClientVersion() >= 1097) {
+        if(highlightState == 2 && g_game.getFeature(Otc::GameIngameStoreHighlights)) {
             int saleValidUntilTimestamp = msg->getU32();
             int basePrice = msg->getU32();
         }
@@ -659,12 +650,7 @@ void ProtocolGame::parseGMActions(const InputMessagePtr& msg)
 
     int numViolationReasons;
 
-    if(g_game.getClientVersion() >= 850)
-        numViolationReasons = 20;
-    else if(g_game.getClientVersion() >= 840)
-        numViolationReasons = 23;
-    else
-        numViolationReasons = 32;
+    numViolationReasons = 20;
 
     for(int i = 0; i < numViolationReasons; ++i)
         actions.push_back(msg->getU8());
@@ -822,10 +808,7 @@ void ProtocolGame::parseUpdateTile(const InputMessagePtr& msg)
 void ProtocolGame::parseTileAddThing(const InputMessagePtr& msg)
 {
     Position pos = getPosition(msg);
-    int stackPos = -1;
-
-    if(g_game.getClientVersion() >= 841)
-        stackPos = msg->getU8();
+    int stackPos = msg->getU8();
 
     ThingPtr thing = getThing(msg);
     g_map.addThing(thing, pos, stackPos);
@@ -982,12 +965,7 @@ void ProtocolGame::parseOpenNpcTrade(const InputMessagePtr& msg)
     if(g_game.getFeature(Otc::GameNameOnNpcTrade))
         npcName = msg->getString();
 
-    int listCount;
-
-    if(g_game.getClientVersion() >= 900)
-        listCount = msg->getU16();
-    else
-        listCount = msg->getU8();
+    int listCount = msg->getU16();
 
     for(int i = 0; i < listCount; ++i) {
         uint16 itemId = msg->getU16();
@@ -1010,11 +988,7 @@ void ProtocolGame::parsePlayerGoods(const InputMessagePtr& msg)
 {
     std::vector<std::tuple<ItemPtr, int>> goods;
 
-    int money;
-    if(g_game.getClientVersion() >= 973)
-        money = msg->getU64();
-    else
-        money = msg->getU32();
+    int money = msg->getU64();
 
     int size = msg->getU8();
     for(int i = 0; i < size; i++) {
@@ -1200,9 +1174,7 @@ void ProtocolGame::parseCreatureSpeed(const InputMessagePtr& msg)
 {
     uint id = msg->getU32();
 
-    int baseSpeed = -1;
-    if(g_game.getClientVersion() >= 1059)
-        baseSpeed = msg->getU16();
+    int baseSpeed = msg->getU16();
 
     int speed = msg->getU16();
 
@@ -1261,13 +1233,8 @@ void ProtocolGame::parseEditText(const InputMessagePtr& msg)
 {
     uint id = msg->getU32();
 
-    int itemId;
-    if(g_game.getClientVersion() >= 1010) {
-        // TODO: processEditText with ItemPtr as parameter
-        ItemPtr item = getItem(msg);
-        itemId = item->getId();
-    } else
-        itemId = msg->getU16();
+    ItemPtr item = getItem(msg);
+    int itemId = item->getId();
 
     int maxLength = msg->getU16();
     std::string text = msg->getString();
@@ -1295,10 +1262,6 @@ void ProtocolGame::parsePremiumTrigger(const InputMessagePtr& msg)
     std::vector<int> triggers;
     for(int i=0;i<triggerCount;++i) {
         triggers.push_back(msg->getU8());
-    }
-    
-    if(g_game.getClientVersion() <= 1096) {
-        bool something = msg->getU8() == 1;
     }
 }
 
@@ -1352,15 +1315,11 @@ void ProtocolGame::parsePlayerStats(const InputMessagePtr& msg)
     double levelPercent = msg->getU8();
 
     if(g_game.getFeature(Otc::GameExperienceBonus)) {
-        if(g_game.getClientVersion() <= 1096) {
-            double experienceBonus = msg->getDouble();
-        } else {
-            int baseXpGain = msg->getU16();
-            int voucherAddend = msg->getU16();
-            int grindingAddend = msg->getU16();
-            int storeBoostAddend = msg->getU16();
-            int huntingBoostFactor = msg->getU16();
-        }
+        int baseXpGain = msg->getU16();
+        int voucherAddend = msg->getU16();
+        int grindingAddend = msg->getU16();
+        int storeBoostAddend = msg->getU16();
+        int huntingBoostFactor = msg->getU16();
     }
 
     double mana;
@@ -1396,10 +1355,8 @@ void ProtocolGame::parsePlayerStats(const InputMessagePtr& msg)
     if(g_game.getFeature(Otc::GamePlayerRegenerationTime))
         regeneration = msg->getU16();
 
-    if(g_game.getClientVersion() >= 1097) {
-        int remainingStoreXpBoostSeconds = msg->getU16();
-        bool canBuyMoreStoreXpBoosts = msg->getU8();
-    }
+    int remainingStoreXpBoostSeconds = msg->getU16();
+    bool canBuyMoreStoreXpBoosts = msg->getU8();
 
     m_localPlayer->setHealth(health, maxHealth);
     m_localPlayer->setFreeCapacity(freeCapacity);
@@ -1945,15 +1902,8 @@ void ProtocolGame::parseModalDialog(const InputMessagePtr& msg)
         choiceList.push_back(std::make_tuple(id, value));
     }
 
-    int enterButton, escapeButton;
-    if(g_game.getClientVersion() > 970) {
-        escapeButton = msg->getU8();
-        enterButton = msg->getU8();
-    }
-    else {
-        enterButton = msg->getU8();
-        escapeButton = msg->getU8();
-    }
+    int escapeButton = msg->getU8();
+    int enterButton = msg->getU8();
 
     bool priority = msg->getU8() == 0x01;
 
@@ -1990,12 +1940,7 @@ void ProtocolGame::parseChangeMapAwareRange(const InputMessagePtr& msg)
 
 void ProtocolGame::parseCreaturesMark(const InputMessagePtr& msg)
 {
-    int len;
-    if(g_game.getClientVersion() >= 1035) {
-        len = 1;
-    } else {
-        len = msg->getU8();
-    }
+    int len = 1;
 
     for(int i=0; i<len; ++i) {
         uint32 id = msg->getU32();
@@ -2206,17 +2151,7 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
 
             uint id = msg->getU32();
 
-            int creatureType;
-            if(g_game.getClientVersion() >= 910)
-                creatureType = msg->getU8();
-            else {
-                if(id >= Proto::PlayerStartId && id < Proto::PlayerEndId)
-                    creatureType = Proto::CreatureTypePlayer;
-                else if(id >= Proto::MonsterStartId && id < Proto::MonsterEndId)
-                    creatureType = Proto::CreatureTypeMonster;
-                else
-                    creatureType = Proto::CreatureTypeNpc;
-            }
+            int creatureType = msg->getU8();
 
             std::string name = g_game.formatCreatureName(msg->getString());
 
@@ -2286,8 +2221,7 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
             }
         }
 
-        if(g_game.getClientVersion() >= 854)
-            unpass = msg->getU8();
+        unpass = msg->getU8();
 
         if(creature) {
             creature->setHealthPercent(healthPercent);
@@ -2322,12 +2256,10 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
         if(creature)
             creature->turn(direction);
 
-        if(g_game.getClientVersion() >= 953) {
-            bool unpass = msg->getU8();
+        bool unpass = msg->getU8();
 
-            if(creature)
-                creature->setPassable(!unpass);
-        }
+        if(creature)
+            creature->setPassable(!unpass);
 
     } else {
         stdext::throw_exception("invalid creature opcode");

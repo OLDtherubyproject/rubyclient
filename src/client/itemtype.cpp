@@ -51,25 +51,14 @@ void ItemType::unserialize(const BinaryTreePtr& node)
         switch(attr) {
             case ItemTypeAttrServerId: {
                 uint16 serverId = node->getU16();
-                if(g_game.getClientVersion() < 960) {
-                    if(serverId > 20000 && serverId < 20100) {
-                        serverId -= 20000;
-                    } else if(lastId > 99 && lastId != serverId - 1) {
-                        while(lastId != serverId - 1) {
-                            ItemTypePtr tmp(new ItemType);
-                            tmp->setServerId(lastId++);
-                            g_things.addItemType(tmp);
-                        }
-                    }
-                } else {
-                    if(serverId > 30000 && serverId < 30100) {
-                        serverId -= 30000;
-                    } else if(lastId > 99 && lastId != serverId - 1) {
-                        while(lastId != serverId - 1) {
-                            ItemTypePtr tmp(new ItemType);
-                            tmp->setServerId(lastId++);
-                            g_things.addItemType(tmp);
-                        }
+                
+                if(serverId > 30000 && serverId < 30100) {
+                    serverId -= 30000;
+                } else if(lastId > 99 && lastId != serverId - 1) {
+                    while(lastId != serverId - 1) {
+                        ItemTypePtr tmp(new ItemType);
+                        tmp->setServerId(lastId++);
+                        g_things.addItemType(tmp);
                     }
                 }
                 setServerId(serverId);
