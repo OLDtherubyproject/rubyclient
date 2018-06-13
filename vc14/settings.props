@@ -7,7 +7,7 @@
     <LIBOGG_DIR>$(OTCLIENTSDKDir)\libogg-1.3.2\</LIBOGG_DIR>
     <LIBVORBIS_DIR>$(OTCLIENTSDKDir)\libvorbis-1.3.5\</LIBVORBIS_DIR>
     <OPEN_AL_DIR>$(OTCLIENTSDKDir)\OpenAL-1.15.1\</OPEN_AL_DIR>
-    <OPEN_SSL_DIR>$(OTCLIENTSDKDir)\OpenSSL-1.0.2j\</OPEN_SSL_DIR>
+    <OPEN_SSL_DIR>$(OTCLIENTSDKDir)\OpenSSL-1.1.0h\</OPEN_SSL_DIR>
     <PHYSFS_DIR>$(OTCLIENTSDKDir)\physfs-2.0.3.1\</PHYSFS_DIR>
     <ZLIB_DIR>$(OTCLIENTSDKDir)\zlib-1.2.8.8\</ZLIB_DIR>
 
@@ -68,7 +68,7 @@
     <OTCLIENT_LIBDEPS>
         glew32.lib;
         zlib.lib;
-        libeay32.lib;
+        libcrypto.lib;
         physfs.lib;
         openal32.lib;
         lua51.lib;
@@ -87,7 +87,7 @@
     <OTCLIENT_LIBDEPS_D>
         glew32.lib;
         zlib.lib;
-        libeay32.lib;
+        libcrypto.lib;
         physfs.lib;
         openal32.lib;
         lua51.lib;

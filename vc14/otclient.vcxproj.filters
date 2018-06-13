@@ -390,6 +390,9 @@
     <ClCompile Include="..\src\framework\util\crypt.cpp">
       <Filter>Source Files\framework\util</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\framework\util\crypt_openssl.cpp">
+      <Filter>Source Files\framework\util</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\framework\xml\tinystr.cpp">
       <Filter>Source Files\framework\xml</Filter>
     </ClCompile>
@@ -903,6 +906,9 @@
       <Filter>Header Files\framework\util</Filter>
     </ClInclude>
     <ClInclude Include="..\src\framework\util\crypt.h">
+      <Filter>Header Files\framework\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\framework\util\crypt_openssl.h">
       <Filter>Header Files\framework\util</Filter>
     </ClInclude>
     <ClInclude Include="..\src\framework\util\databuffer.h">
