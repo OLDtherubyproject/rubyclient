@@ -988,7 +988,7 @@ void ProtocolGame::parsePlayerGoods(const InputMessagePtr& msg)
 {
     std::vector<std::tuple<ItemPtr, int>> goods;
 
-    int money = msg->getU64();
+    uint64_t money = msg->getU64();
 
     int size = msg->getU8();
     for(int i = 0; i < size; i++) {
