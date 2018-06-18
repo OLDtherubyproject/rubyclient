@@ -234,11 +234,13 @@ void Creature::drawInformation(const Point& point, bool useGray, const Rect& par
         fillColor = m_informationColor;
 
         // calculate main rects
-        Rect backgroundRect = Rect(point.x-(13.5), point.y, 27, 4);
+        const ThingTypePtr& thingType = getThingType();
+
+        Rect backgroundRect = Rect(point.x - (13.5) + thingType->getNameDisplacement().x, point.y + thingType->getNameDisplacement().y, 27, 4);
         backgroundRect.bind(parentRect);
 
         Size nameSize = m_nameCache.getTextSize();
-        Rect textRect = Rect(point.x - nameSize.width() / 2.0, point.y-12, nameSize);
+        Rect textRect = Rect(point.x - (nameSize.width() / 2.0) + thingType->getNameDisplacement().x, point.y - 12 + thingType->getNameDisplacement().y, nameSize);
         textRect.bind(parentRect);
 
     // distance them

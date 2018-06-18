@@ -204,6 +204,7 @@ public:
     std::vector<int> getSprites() { return m_spritesIndex; }
 
     // additional
+    Point getNameDisplacement() { return m_name_displacement; }
     float getOpacity() { return m_opacity; }
     bool isNotPreWalkable() { return m_attribs.has(ThingAttrNotPreWalkable); }
     void setPathable(bool var);
@@ -221,6 +222,7 @@ private:
 
     Size m_size;
     Point m_displacement;
+    Point m_name_displacement;
     AnimatorPtr m_animator;
     int m_animationPhases;
     int m_exactSize;

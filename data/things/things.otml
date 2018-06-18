@@ -1,0 +1,305 @@
+creatures:
+  1:
+    name-displacement: -0 -0
+  2:
+    name-displacement: 1 -3
+  3:
+    name-displacement: -16 -28
+  4:
+    name-displacement: -0 -0
+  5:
+    name-displacement: -0 -0
+  6:
+    name-displacement: -16 -30
+  7:
+    name-displacement: 2 2
+  8:
+    name-displacement: -0 -0
+  9:
+    name-displacement: -15 -20
+  10:
+    name-displacement: -0 7
+  11:
+    name-displacement: -0 5
+  12:
+    name-displacement: 1 -0
+  13:
+    name-displacement: -0 7
+  14:
+    name-displacement: -0 4
+  15:
+    name-displacement: 1 1
+  16:
+    name-displacement: 1 8
+  17:
+    name-displacement: -10 -4
+  18:
+    name-displacement: -18 -24
+  19:
+    name-displacement: 2 7
+  20:
+    name-displacement: -9 -5
+  21:
+    name-displacement: -0 7
+  22:
+    name-displacement: -23 -25
+  23:
+    name-displacement: -0 2
+  24:
+    name-displacement: 3 -0
+  25:
+    name-displacement: -0 4
+  26:
+    name-displacement: -1 -5
+  27:
+    name-displacement: -0 7
+  28:
+    name-displacement: -0 7
+  29:
+    name-displacement: -0 -0
+  30:
+    name-displacement: 1 8
+  31:
+    name-displacement: -0 5
+  32:
+    name-displacement: -0 7
+  33:
+    name-displacement: 1 6
+  34:
+    name-displacement: -2 -7
+  35:
+    name-displacement: -12 -14
+  36:
+    name-displacement: -0 7
+  37:
+    name-displacement: -0 2
+  38:
+    name-displacement: -1 -10
+  39:
+    name-displacement: -0 -8
+  40:
+    name-displacement: 1 -0
+  41:
+    name-displacement: -0 -0
+  42:
+    name-displacement: -0 2
+  43:
+    name-displacement: -0 4
+  44:
+    name-displacement: 2 0
+  45:
+    name-displacement: 1 1
+  46:
+    name-displacement: -5 -10
+  47:
+    name-displacement: -7 -10
+  48:
+    name-displacement: -0 -0
+    opacity:0.7
+  49:
+    name-displacement: -5 -10
+  50:
+    name-displacement: -0 -0
+  51:
+    name-displacement: -6 -20
+  52:
+    name-displacement: 1 6
+  53:
+    name-displacement: 2 -12
+  54:
+    name-displacement: 1 7
+  55:
+    name-displacement: -9 -13
+  56:
+    name-displacement: 5 7
+  57:
+    name-displacement: 1 2
+  58:
+    name-displacement: 2 4
+  59:
+    name-displacement: -0 4
+  60:
+    name-displacement: -0 4
+  61:
+    name-displacement: -4 -16
+  62:
+    name-displacement: 1 6
+  63:
+    name-displacement: -0 10
+  64:
+    name-displacement: -7 -0
+  65:
+    name-displacement: -0 -0
+    opacity:0.7
+  66:
+    name-displacement: -0 5
+  67:
+    name-displacement: -10 -16
+  68:
+    name-displacement: -7 -0
+  69:
+    name-displacement: -5 -2
+  70:
+    name-displacement: 1 5
+  71:
+    name-displacement: -0 4
+  72:
+    name-displacement: -10 -7
+  73:
+    name-displacement: -0 8
+  74:
+    name-displacement: 2 5
+  75:
+    name-displacement: -0 2
+  76:
+    name-displacement: -5 -12
+  77:
+    name-displacement: -2 -4
+  78:
+    name-displacement: 1 5
+  79:
+    name-displacement: -7 -19
+  80:
+    name-displacement: -12 -13
+  81:
+    name-displacement: -0 9
+  82:
+    name-displacement: -0 8
+  83:
+    name-displacement: -0 2
+  84:
+    name-displacement: -0 -0
+  85:
+    name-displacement: -0 -0
+  86:
+    name-displacement: -0 -0
+  87:
+    name-displacement: -0 -0
+  88:
+    name-displacement: -0 -0
+  89:
+    name-displacement: -5 -4
+  90:
+    name-displacement: -0 -0
+  91:
+    name-displacement: -3 -10
+  92:
+    name-displacement: 1 3
+  93:
+    name-displacement: 1 -5
+  94:
+    name-displacement: -0 3
+  95:
+    name-displacement: -4 -7
+  96:
+    name-displacement: -0 4
+  97:
+    name-displacement: -0 4
+  98:
+    name-displacement: 1 6
+  99:
+    name-displacement: -4 -6
+  100:
+    name-displacement: 1 3
+  101:
+    name-displacement: -0 4
+  102:
+    name-displacement: -0 4
+  103:
+    name-displacement: -3 -2
+  104:
+    name-displacement: -6 -4
+  105:
+    name-displacement: -0 2
+  106:
+    name-displacement: -0 2
+  107:
+    name-displacement: -0 3
+  108:
+    name-displacement: -10 -22
+  109:
+    name-displacement: -0 2
+  110:
+    name-displacement: -3 -5
+  111:
+    name-displacement: -0 5
+  112:
+    name-displacement: 1 7
+  113:
+    name-displacement: -4 -12
+  114:
+    name-displacement: -10 -25
+  115:
+    name-displacement: 0 -5
+  116:
+    name-displacement: -6 -10
+  117:
+    name-displacement: -8 -24
+  118:
+    name-displacement: 3 2
+  119:
+    name-displacement: -1 -1
+  120:
+    name-displacement: -3 -12
+  121:
+    name-displacement: -8 -14
+  122:
+    name-displacement: 2 1
+  123:
+    name-displacement: -0 3
+  124:
+    name-displacement: 2 4
+  125:
+    name-displacement: -0 -0
+  126:
+    name-displacement: -7 -38
+  127:
+    name-displacement: -0 -0
+  128:
+    name-displacement: 1 -18
+  129:
+    name-displacement: -10 -15
+  130:
+    name-displacement: -0 -19
+  131:
+    name-displacement: 1 -8
+  132:
+    name-displacement: -2 -15
+  133:
+    name-displacement: -3 -16
+  134:
+    name-displacement: -10 -15
+  135:
+    name-displacement: -0 -8
+  136:
+    name-displacement: -0 -0
+  137:
+    name-displacement: 1 6
+  138:
+    name-displacement: -0 -0
+  139:
+    name-displacement: -16 -12
+  140:
+    name-displacement: -0 -0
+  141:
+    name-displacement: -16 -11
+  142:
+    name-displacement: 2 3
+  143:
+    name-displacement: -6 -20
+  144:
+    name-displacement: -0 -0
+  145:
+    name-displacement: -4 -5
+  146:
+    name-displacement: -0 -0
+  147:
+    name-displacement: -0 -0
+  148:
+    name-displacement: -0 -0
+  149:
+    name-displacement: -0 -0
+  150:
+    name-displacement: -2 -2
+  151:
+    name-displacement: -0 -0

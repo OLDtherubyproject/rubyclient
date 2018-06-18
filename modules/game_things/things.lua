@@ -43,6 +43,8 @@ function load()
 
   loaded = (errorMessage:len() == 0)
 
+  g_things.loadOtml('/things/things.otml')
+
   if errorMessage:len() > 0 then
     local messageBox = displayErrorBox(tr('Error'), errorMessage)
     addEvent(function() messageBox:raise() messageBox:focus() end)
