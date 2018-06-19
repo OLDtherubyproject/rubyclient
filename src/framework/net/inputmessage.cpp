@@ -45,41 +45,9 @@ void InputMessage::setBuffer(const std::string& buffer)
     m_messageSize = len;
 }
 
-uint8 InputMessage::getU8()
-{
-    checkRead(1);
-    uint8 v = m_buffer[m_readPos];
-    m_readPos += 1;
-    return v;
-}
-
-uint16 InputMessage::getU16()
-{
-    checkRead(2);
-    uint16 v = stdext::readULE16(m_buffer + m_readPos);
-    m_readPos += 2;
-    return v;
-}
-
-uint32 InputMessage::getU32()
-{
-    checkRead(4);
-    uint32 v = stdext::readULE32(m_buffer + m_readPos);
-    m_readPos += 4;
-    return v;
-}
-
-uint64 InputMessage::getU64()
-{
-    checkRead(8);
-    uint64 v = stdext::readULE64(m_buffer + m_readPos);
-    m_readPos += 8;
-    return v;
-}
-
 std::string InputMessage::getString()
 {
-    uint16 stringLength = getU16();
+    uint16_t stringLength = get<uint16_t>();
     checkRead(stringLength);
     char* v = (char*)(m_buffer + m_readPos);
     m_readPos += stringLength;
@@ -88,8 +56,8 @@ std::string InputMessage::getString()
 
 double InputMessage::getDouble()
 {
-    uint8 precision = getU8();
-    int32 v = getU32() - INT_MAX;
+    uint8_t precision = getByte();
+    int32_t v = get<uint32_t>() - INT_MAX;
     return (v / std::pow((float)10, precision));
 }
 
@@ -97,17 +65,17 @@ bool InputMessage::decryptRsa(int size)
 {
     checkRead(size);
     g_crypt.rsaDecrypt((unsigned char*)m_buffer + m_readPos, size);
-    return (getU8() == 0x00);
+    return (getByte() == 0x00);
 }
 
-void InputMessage::fillBuffer(uint8 *buffer, uint16 size)
+void InputMessage::fillBuffer(uint8_t *buffer, uint16_t size)
 {
     checkWrite(m_readPos + size);
     memcpy(m_buffer + m_readPos, buffer, size);
     m_messageSize += size;
 }
 
-void InputMessage::setHeaderSize(uint16 size)
+void InputMessage::setHeaderSize(uint16_t size)
 {
     assert(MAX_HEADER_SIZE - size >= 0);
     m_headerPos = MAX_HEADER_SIZE - size;
@@ -116,8 +84,8 @@ void InputMessage::setHeaderSize(uint16 size)
 
 bool InputMessage::readChecksum()
 {
-    uint32 receivedCheck = getU32();
-    uint32 checksum = stdext::adler32(m_buffer + m_readPos, getUnreadSize());
+    uint32_t receivedCheck = get<uint32_t>();
+    uint32_t checksum = stdext::adler32(m_buffer + m_readPos, getUnreadSize());
     return receivedCheck == checksum;
 }
 

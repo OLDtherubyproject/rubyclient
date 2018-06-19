@@ -148,7 +148,7 @@ void PainterOGL::setTexture(Texture* texture)
 
     m_texture = texture;
 
-    uint glTextureId;
+    unsigned int glTextureId;
     if(texture) {
         setTextureMatrix(texture->getTransformMatrix());
         glTextureId = texture->getId();

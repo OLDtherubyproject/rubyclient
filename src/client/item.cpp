@@ -90,7 +90,7 @@ void Item::draw(const Point& dest, float scaleFactor, bool animate, LightView *l
         g_painter->resetColor();
 }
 
-void Item::setId(uint32 id)
+void Item::setId(uint32_t id)
 {
     if(!g_things.isValidDatId(id, ThingCategoryItem))
         id = 0;
@@ -98,7 +98,7 @@ void Item::setId(uint32 id)
     m_clientId = id;
 }
 
-void Item::setOtbId(uint16 id)
+void Item::setOtbId(uint16_t id)
 {
     if(!g_things.isValidOtbId(id))
         id = 0;
@@ -209,8 +209,8 @@ void Item::serializeItem(const OutputBinaryTreePtr& out)
         out->addU8(getDoorId());
     }
 
-    uint16 aid = m_attribs.get<uint16>(ATTR_ACTION_ID);
-    uint16 uid = m_attribs.get<uint16>(ATTR_UNIQUE_ID);
+    uint16_t aid = m_attribs.get<uint16_t>(ATTR_ACTION_ID);
+    uint16_t uid = m_attribs.get<uint16_t>(ATTR_UNIQUE_ID);
     if(aid) {
         out->addU8(ATTR_ACTION_ID);
         out->addU16(aid);

@@ -72,9 +72,9 @@ void Application::registerLuaFunctions()
     g_lua.bindGlobalFunction("pointtostring", [](const Point& v) { return stdext::to_string(v); });
     g_lua.bindGlobalFunction("colortostring", [](const Color& v) { return stdext::to_string(v); });
     g_lua.bindGlobalFunction("sizetostring", [](const Size& v) { return stdext::to_string(v); });
-    g_lua.bindGlobalFunction("iptostring", [](uint32 v) { return stdext::ip_to_string(v); });
+    g_lua.bindGlobalFunction("iptostring", [](uint32_t v) { return stdext::ip_to_string(v); });
     g_lua.bindGlobalFunction("stringtoip", [](const std::string& v) { return stdext::string_to_ip(v); });
-    g_lua.bindGlobalFunction("listSubnetAddresses", [](uint32 a, uint8 b) { return stdext::listSubnetAddresses(a, b); });
+    g_lua.bindGlobalFunction("listSubnetAddresses", [](uint32_t a, uint8_t b) { return stdext::listSubnetAddresses(a, b); });
     g_lua.bindGlobalFunction("ucwords", [](std::string s) { return stdext::ucwords(s); });
 
     // Platform
@@ -796,12 +796,12 @@ void Application::registerLuaFunctions()
     g_lua.bindClassMemberFunction<InputMessage>("setBuffer", &InputMessage::setBuffer);
     g_lua.bindClassMemberFunction<InputMessage>("getBuffer", &InputMessage::getBuffer);
     g_lua.bindClassMemberFunction<InputMessage>("skipBytes", &InputMessage::skipBytes);
-    g_lua.bindClassMemberFunction<InputMessage>("getU8", &InputMessage::getU8);
-    g_lua.bindClassMemberFunction<InputMessage>("getU16", &InputMessage::getU16);
-    g_lua.bindClassMemberFunction<InputMessage>("getU32", &InputMessage::getU32);
-    g_lua.bindClassMemberFunction<InputMessage>("getU64", &InputMessage::getU64);
+    g_lua.bindClassMemberFunction<InputMessage>("getByte", &InputMessage::getByte);
+    g_lua.bindClassMemberFunction<InputMessage>("getU16", &InputMessage::get<uint16_t>);
+    g_lua.bindClassMemberFunction<InputMessage>("getU32", &InputMessage::get<uint32_t>);
+    g_lua.bindClassMemberFunction<InputMessage>("getU64", &InputMessage::get<uint64_t>);
     g_lua.bindClassMemberFunction<InputMessage>("getString", &InputMessage::getString);
-    g_lua.bindClassMemberFunction<InputMessage>("peekU8", &InputMessage::peekU8);
+    g_lua.bindClassMemberFunction<InputMessage>("peekByte", &InputMessage::peekByte);
     g_lua.bindClassMemberFunction<InputMessage>("peekU16", &InputMessage::peekU16);
     g_lua.bindClassMemberFunction<InputMessage>("peekU32", &InputMessage::peekU32);
     g_lua.bindClassMemberFunction<InputMessage>("peekU64", &InputMessage::peekU64);

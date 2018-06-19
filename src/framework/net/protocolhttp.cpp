@@ -36,7 +36,7 @@ ProtocolHttp::~ProtocolHttp()
     disconnect();
 }
 
-void ProtocolHttp::connect(const std::string& host, uint16 port)
+void ProtocolHttp::connect(const std::string& host, uint16_t port)
 {
     m_connection = ConnectionPtr(new Connection);
     m_connection->setErrorCallback(std::bind(&ProtocolHttp::onError, asProtocolHttp(), std::placeholders::_1));
@@ -54,7 +54,7 @@ void ProtocolHttp::disconnect()
 void ProtocolHttp::send(const std::string& message)
 {
     if(m_connection)
-        m_connection->write((uint8*)message.c_str(), message.length());
+        m_connection->write((uint8_t*)message.c_str(), message.length());
 }
 
 void ProtocolHttp::recv()
@@ -68,7 +68,7 @@ void ProtocolHttp::onConnect()
     callLuaField("onConnect");
 }
 
-void ProtocolHttp::onRecv(uint8* buffer, uint16 size)
+void ProtocolHttp::onRecv(uint8_t* buffer, uint16_t size)
 {
     std::string string = std::string((char*)buffer, (size_t)size);
     callLuaField("onRecv", string);

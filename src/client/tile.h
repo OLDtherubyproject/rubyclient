@@ -73,7 +73,7 @@ public:
     void addThing(const ThingPtr& thing, int stackPos);
     bool removeThing(ThingPtr thing);
     ThingPtr getThing(int stackPos);
-    EffectPtr getEffect(uint16 id);
+    EffectPtr getEffect(uint16_t id);
     bool hasThing(const ThingPtr& thing);
     int getThingStackPos(const ThingPtr& thing);
     ThingPtr getTopThing();
@@ -92,7 +92,7 @@ public:
     std::vector<ThingPtr> getThings() { return m_things; }
     ItemPtr getGround();
     int getGroundSpeed();
-    uint8 getMinimapColorByte();
+    uint8_t getMinimapColorByte();
     int getThingCount() { return m_things.size() + m_effects.size(); }
     bool isPathable();
     bool isWalkable(bool ignoreCreatures = false);
@@ -111,16 +111,16 @@ public:
     bool canErase();
     int getElevation() const;
     bool hasElevation(int elevation = 1);
-    void overwriteMinimapColor(uint8 color) { m_minimapColor = color; }
+    void overwriteMinimapColor(uint8_t color) { m_minimapColor = color; }
 
-    void remFlag(uint32 flag) { m_flags &= ~flag; }
-    void setFlag(uint32 flag) { m_flags |= flag; }
-    void setFlags(uint32 flags) { m_flags = flags; }
-    bool hasFlag(uint32 flag) { return (m_flags & flag) == flag; }
-    uint32 getFlags() { return m_flags; }
+    void remFlag(uint32_t flag) { m_flags &= ~flag; }
+    void setFlag(uint32_t flag) { m_flags |= flag; }
+    void setFlags(uint32_t flags) { m_flags = flags; }
+    bool hasFlag(uint32_t flag) { return (m_flags & flag) == flag; }
+    uint32_t getFlags() { return m_flags; }
 
-    void setHouseId(uint32 hid) { m_houseId = hid; }
-    uint32 getHouseId() { return m_houseId; }
+    void setHouseId(uint32_t hid) { m_houseId = hid; }
+    uint32_t getHouseId() { return m_houseId; }
     bool isHouseTile() { return m_houseId != 0 && (m_flags & TILESTATE_HOUSE) == TILESTATE_HOUSE; }
 
     void select() { m_selected = true; }
@@ -136,9 +136,9 @@ private:
     stdext::packed_vector<EffectPtr> m_effects; // leave this outside m_things because it has no stackpos.
     stdext::packed_vector<ThingPtr> m_things;
     Position m_position;
-    uint8 m_drawElevation;
-    uint8 m_minimapColor;
-    uint32 m_flags, m_houseId;
+    uint8_t m_drawElevation;
+    uint8_t m_minimapColor;
+    uint32_t m_flags, m_houseId;
 
     stdext::boolean<false> m_selected;
 };

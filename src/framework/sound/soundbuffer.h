@@ -36,10 +36,10 @@ public:
     bool fillBuffer(const SoundFilePtr& soundFile);
     bool fillBuffer(ALenum sampleFormat, const DataBuffer<char>& data, int size, int rate);
 
-    uint getBufferId() { return m_bufferId; }
+    unsigned int getBufferId() { return m_bufferId; }
 
 private:
-    uint m_bufferId;
+    unsigned int m_bufferId;
 };
 
 #endif

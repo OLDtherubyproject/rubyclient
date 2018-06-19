@@ -93,7 +93,7 @@ void StreamSoundSource::unqueueBuffers()
     int queued;
     alGetSourcei(m_sourceId, AL_BUFFERS_QUEUED, &queued);
     for(int i = 0; i < queued; ++i) {
-        uint buffer;
+        unsigned int buffer;
         alSourceUnqueueBuffers(m_sourceId, 1, &buffer);
     }
 }
@@ -108,7 +108,7 @@ void StreamSoundSource::update()
     int processed = 0;
     alGetSourcei(m_sourceId, AL_BUFFERS_PROCESSED, &processed);
     for(int i = 0; i < processed; ++i) {
-        uint buffer;
+        unsigned int buffer;
         alSourceUnqueueBuffers(m_sourceId, 1, &buffer);
         //SoundManager::check_al_error("Couldn't unqueue audio buffer: ");
 
@@ -128,7 +128,7 @@ void StreamSoundSource::update()
     }
 }
 
-bool StreamSoundSource::fillBufferAndQueue(uint buffer)
+bool StreamSoundSource::fillBufferAndQueue(unsigned int buffer)
 {
     if(m_waitingFile)
         return false;

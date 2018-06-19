@@ -38,16 +38,16 @@ public:
     BinaryTree(const FileStreamPtr& fin);
     ~BinaryTree();
 
-    void seek(uint pos);
-    void skip(uint len);
-    uint tell() { return m_pos; }
-    uint size() { unserialize(); return m_buffer.size(); }
+    void seek(unsigned int pos);
+    void skip(unsigned int len);
+    unsigned int tell() { return m_pos; }
+    unsigned int size() { unserialize(); return m_buffer.size(); }
 
-    uint8 getU8();
-    uint16 getU16();
-    uint32 getU32();
-    uint64 getU64();
-    std::string getString(uint16 len = 0);
+    uint8_t getU8();
+    uint16_t getU16();
+    uint32_t getU32();
+    uint64_t getU64();
+    std::string getString(uint16_t len = 0);
     Point getPoint();
 
     BinaryTreeVec getChildren();
@@ -58,9 +58,9 @@ private:
     void skipNodes();
 
     FileStreamPtr m_fin;
-    DataBuffer<uint8> m_buffer;
-    uint m_pos;
-    uint m_startPos;
+    DataBuffer<uint8_t> m_buffer;
+    unsigned int m_pos;
+    unsigned int m_startPos;
 };
 
 class OutputBinaryTree : public stdext::shared_object
@@ -68,21 +68,21 @@ class OutputBinaryTree : public stdext::shared_object
 public:
     OutputBinaryTree(const FileStreamPtr& finish);
 
-    void addU8(uint8 v);
-    void addU16(uint16 v);
-    void addU32(uint32 v);
+    void addU8(uint8_t v);
+    void addU16(uint16_t v);
+    void addU32(uint32_t v);
     void addString(const std::string& v);
-    void addPos(uint16 x, uint16 y, uint8 z);
+    void addPos(uint16_t x, uint16_t y, uint8_t z);
     void addPoint(const Point& point);
 
-    void startNode(uint8 node);
+    void startNode(uint8_t node);
     void endNode();
 
 private:
     FileStreamPtr m_fin;
 
 protected:
-    void write(const uint8* data, size_t size);
+    void write(const uint8_t* data, size_t size);
 };
 
 #endif

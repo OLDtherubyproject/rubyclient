@@ -41,16 +41,16 @@ void ItemType::unserialize(const BinaryTreePtr& node)
 
     node->getU32(); // flags
 
-    static uint16 lastId = 99;
+    static uint16_t lastId = 99;
     while(node->canRead()) {
-        uint8 attr = node->getU8();
+        uint8_t attr = node->getU8();
         if(attr == 0 || attr == 0xFF)
             break;
 
-        uint16 len = node->getU16();
+        uint16_t len = node->getU16();
         switch(attr) {
             case ItemTypeAttrServerId: {
-                uint16 serverId = node->getU16();
+                uint16_t serverId = node->getU16();
                 
                 if(serverId > 30000 && serverId < 30100) {
                     serverId -= 30000;

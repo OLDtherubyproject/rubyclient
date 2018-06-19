@@ -35,7 +35,7 @@ void ProtocolGame::send(const OutputMessagePtr& outputMessage)
     Protocol::send(outputMessage);
 }
 
-void ProtocolGame::sendExtendedOpcode(uint8 opcode, const std::string& buffer)
+void ProtocolGame::sendExtendedOpcode(uint8_t opcode, const std::string& buffer)
 {
     if(m_enableSendExtendedOpcode) {
         OutputMessagePtr msg(new OutputMessage);
@@ -48,7 +48,7 @@ void ProtocolGame::sendExtendedOpcode(uint8 opcode, const std::string& buffer)
     }
 }
 
-void ProtocolGame::sendLoginPacket(uint challengeTimestamp, uint8 challengeRandom)
+void ProtocolGame::sendLoginPacket(unsigned int challengeTimestamp, uint8_t challengeRandom)
 {
     OutputMessagePtr msg(new OutputMessage);
 
@@ -86,7 +86,7 @@ void ProtocolGame::sendLoginPacket(uint challengeTimestamp, uint8 challengeRando
         if(g_game.getFeature(Otc::GameAccountNames))
             msg->addString(m_accountName);
         else
-            msg->addU32(stdext::from_string<uint32>(m_accountName));
+            msg->addU32(stdext::from_string<uint32_t>(m_accountName));
 
         msg->addString(m_characterName);
         msg->addString(m_accountPassword);
@@ -160,7 +160,7 @@ void ProtocolGame::sendAutoWalk(const std::vector<Otc::Direction>& path)
     msg->addU8(Proto::ClientAutoWalk);
     msg->addU8(path.size());
     for(Otc::Direction dir : path) {
-        uint8 byte;
+        uint8_t byte;
         switch(dir) {
             case Otc::East:
                 byte = 1;
@@ -349,7 +349,7 @@ void ProtocolGame::sendCloseNpcTrade()
     send(msg);
 }
 
-void ProtocolGame::sendRequestTrade(const Position& pos, int thingId, int stackpos, uint creatureId)
+void ProtocolGame::sendRequestTrade(const Position& pos, int thingId, int stackpos, unsigned int creatureId)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientRequestTrade);
@@ -407,7 +407,7 @@ void ProtocolGame::sendUseItemWith(const Position& fromPos, int itemId, int from
     send(msg);
 }
 
-void ProtocolGame::sendUseOnCreature(const Position& pos, int thingId, int stackpos, uint creatureId)
+void ProtocolGame::sendUseOnCreature(const Position& pos, int thingId, int stackpos, unsigned int creatureId)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientUseOnCreature);
@@ -444,7 +444,7 @@ void ProtocolGame::sendUpContainer(int containerId)
     send(msg);
 }
 
-void ProtocolGame::sendEditText(uint id, const std::string& text)
+void ProtocolGame::sendEditText(unsigned int id, const std::string& text)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientEditText);
@@ -453,7 +453,7 @@ void ProtocolGame::sendEditText(uint id, const std::string& text)
     send(msg);
 }
 
-void ProtocolGame::sendEditList(uint id, int doorId, const std::string& text)
+void ProtocolGame::sendEditList(unsigned int id, int doorId, const std::string& text)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientEditList);
@@ -473,7 +473,7 @@ void ProtocolGame::sendLook(const Position& position, int thingId, int stackpos)
     send(msg);
 }
 
-void ProtocolGame::sendLookCreature(uint32 creatureId)
+void ProtocolGame::sendLookCreature(uint32_t creatureId)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientLookCreature);
@@ -588,7 +588,7 @@ void ProtocolGame::sendChangeFightModes(Otc::FightModes fightMode, Otc::ChaseMod
     send(msg);
 }
 
-void ProtocolGame::sendAttack(uint creatureId, uint seq)
+void ProtocolGame::sendAttack(unsigned int creatureId, unsigned int seq)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientAttack);
@@ -598,7 +598,7 @@ void ProtocolGame::sendAttack(uint creatureId, uint seq)
     send(msg);
 }
 
-void ProtocolGame::sendFollow(uint creatureId, uint seq)
+void ProtocolGame::sendFollow(unsigned int creatureId, unsigned int seq)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientFollow);
@@ -608,7 +608,7 @@ void ProtocolGame::sendFollow(uint creatureId, uint seq)
     send(msg);
 }
 
-void ProtocolGame::sendInviteToParty(uint creatureId)
+void ProtocolGame::sendInviteToParty(unsigned int creatureId)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientInviteToParty);
@@ -616,7 +616,7 @@ void ProtocolGame::sendInviteToParty(uint creatureId)
     send(msg);
 }
 
-void ProtocolGame::sendJoinParty(uint creatureId)
+void ProtocolGame::sendJoinParty(unsigned int creatureId)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientJoinParty);
@@ -624,7 +624,7 @@ void ProtocolGame::sendJoinParty(uint creatureId)
     send(msg);
 }
 
-void ProtocolGame::sendRevokeInvitation(uint creatureId)
+void ProtocolGame::sendRevokeInvitation(unsigned int creatureId)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientRevokeInvitation);
@@ -632,7 +632,7 @@ void ProtocolGame::sendRevokeInvitation(uint creatureId)
     send(msg);
 }
 
-void ProtocolGame::sendPassLeadership(uint creatureId)
+void ProtocolGame::sendPassLeadership(unsigned int creatureId)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientPassLeadership);
@@ -739,7 +739,7 @@ void ProtocolGame::sendAddVip(const std::string& name)
     send(msg);
 }
 
-void ProtocolGame::sendRemoveVip(uint playerId)
+void ProtocolGame::sendRemoveVip(unsigned int playerId)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientRemoveVip);
@@ -747,7 +747,7 @@ void ProtocolGame::sendRemoveVip(uint playerId)
     send(msg);
 }
 
-void ProtocolGame::sendEditVip(uint playerId, const std::string& description, int iconId, bool notifyLogin)
+void ProtocolGame::sendEditVip(unsigned int playerId, const std::string& description, int iconId, bool notifyLogin)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientEditVip);
@@ -828,7 +828,7 @@ void ProtocolGame::sendRequestItemInfo(int itemId, int subType, int index)
     send(msg);
 }
 
-void ProtocolGame::sendAnswerModalDialog(uint32 dialog, int button, int choice)
+void ProtocolGame::sendAnswerModalDialog(uint32_t dialog, int button, int choice)
 {
     OutputMessagePtr msg(new OutputMessage);
     msg->addU8(Proto::ClientAnswerModalDialog);

@@ -146,12 +146,12 @@ bool is_valid_utf8(const std::string& src)
 std::string utf8_to_latin1(const std::string& src)
 {
     std::string out;
-    for(uint i=0;i<src.length();) {
-        uchar c = src[i++];
+    for(unsigned int i=0;i<src.length();) {
+        unsigned char c = src[i++];
         if((c >= 32 && c < 128) || c == 0x0d || c == 0x0a || c == 0x09)
             out += c;
         else if(c == 0xc2 || c == 0xc3) {
-            uchar c2 = src[i++];
+            unsigned char c2 = src[i++];
             if(c == 0xc2) {
                 if(c2 > 0xa1 && c2 < 0xbb)
                     out += c2;
@@ -170,7 +170,7 @@ std::string utf8_to_latin1(const std::string& src)
 std::string latin1_to_utf8(const std::string& src)
 {
     std::string out;
-    for(uchar c : src) {
+    for(unsigned char c : src) {
         if((c >= 32 && c < 128) || c == 0x0d || c == 0x0a || c == 0x09)
             out += c;
         else {
@@ -230,26 +230,26 @@ void trim(std::string& str)
 
 char upchar(char c)
 {
-    if((c >= 97 && c <= 122) || (uchar)c >= 224)
+    if((c >= 97 && c <= 122) || (unsigned char)c >= 224)
         c -= 32;
     return c;
 }
 
 char lochar(char c)
 {
-    if((c >= 65 && c <= 90) || ((uchar)c >= 192 && (uchar)c <= 223))
+    if((c >= 65 && c <= 90) || ((unsigned char)c >= 192 && (unsigned char)c <= 223))
         c += 32;
     return c;
 }
 
 void ucwords(std::string& str)
 {
-    uint32 strLen = str.length();
+    uint32_t strLen = str.length();
     if(strLen == 0)
         return;
 
     str[0] = upchar(str[0]);
-    for(uint32 i = 1; i < strLen; ++i) {
+    for(uint32_t i = 1; i < strLen; ++i) {
         if(str[i - 1] == ' ')
             str[i] = upchar(str[i]);
     }

@@ -30,7 +30,7 @@ AnimatedTexture::AnimatedTexture(const Size& size, std::vector<ImagePtr> frames,
     if(!setupSize(size, buildMipmaps))
         return;
 
-    for(uint i=0;i<frames.size();++i) {
+    for(unsigned int i=0;i<frames.size();++i) {
         m_frames.push_back(new Texture(frames[i], buildMipmaps, compress));
     }
 

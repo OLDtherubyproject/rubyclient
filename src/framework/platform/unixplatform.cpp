@@ -49,7 +49,7 @@ bool Platform::spawnProcess(std::string process, const std::vector<std::string>&
     if(pid == 0) {
         char* cargs[args.size()+2];
         cargs[0] = (char*)process.c_str();
-        for(uint i=1;i<=args.size();++i)
+        for(unsigned int i=1;i<=args.size();++i)
             cargs[i] = (char*)args[i-1].c_str();
         cargs[args.size()+1] = 0;
 

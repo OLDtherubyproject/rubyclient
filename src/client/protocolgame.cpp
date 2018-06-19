@@ -26,7 +26,7 @@
 #include "item.h"
 #include "localplayer.h"
 
-void ProtocolGame::login(const std::string& accountName, const std::string& accountPassword, const std::string& host, uint16 port, const std::string& characterName, const std::string& authenticatorToken, const std::string& sessionKey)
+void ProtocolGame::login(const std::string& accountName, const std::string& accountPassword, const std::string& host, uint16_t port, const std::string& characterName, const std::string& authenticatorToken, const std::string& sessionKey)
 {
     m_accountName = accountName;
     m_accountPassword = accountPassword;
@@ -59,7 +59,7 @@ void ProtocolGame::onRecv(const InputMessagePtr& inputMessage)
         m_firstRecv = false;
 
         if(g_game.getFeature(Otc::GameMessageSizeCheck)) {
-            int size = inputMessage->getU16();
+            uint16_t size = inputMessage->get<uint16_t>();
             if(size != inputMessage->getUnreadSize()) {
                 g_logger.traceError("invalid message size");
                 return;

@@ -46,16 +46,16 @@ struct UnjustifiedPoints {
             killsMonthRemaining == other.killsMonthRemaining &&
             genderTime == other.genderTime;
     }
-    uint8 killsDay;
-    uint8 killsDayRemaining;
-    uint8 killsWeek;
-    uint8 killsWeekRemaining;
-    uint8 killsMonth;
-    uint8 killsMonthRemaining;
-    uint8 genderTime;
+    uint8_t killsDay;
+    uint8_t killsDayRemaining;
+    uint8_t killsWeek;
+    uint8_t killsWeekRemaining;
+    uint8_t killsMonth;
+    uint8_t killsMonthRemaining;
+    uint8_t genderTime;
 };
 
-typedef std::tuple<std::string, uint, std::string, int, bool> Vip;
+typedef std::tuple<std::string, unsigned int, std::string, int, bool> Vip;
 
 //@bindsingleton g_game
 class Game
@@ -88,9 +88,9 @@ protected:
     void processGameEnd();
     void processDeath(int deathType, int penality);
 
-    void processGMActions(const std::vector<uint8>& actions);
+    void processGMActions(const std::vector<uint8_t>& actions);
     void processInventoryChange(int slot, const ItemPtr& item);
-    void processAttackCancel(uint seq);
+    void processAttackCancel(unsigned int seq);
     void processWalkCancel(Otc::Direction direction);
 
     void processPlayerHelpers(int helpers);
@@ -121,8 +121,8 @@ protected:
     void processRuleViolationLock();
 
     // vip related
-    void processVipAdd(uint id, const std::string& name, uint status, const std::string& description, int iconId, bool notifyLogin);
-    void processVipStateChange(uint id, uint status);
+    void processVipAdd(unsigned int id, const std::string& name, unsigned int status, const std::string& description, int iconId, bool notifyLogin);
+    void processVipStateChange(unsigned int id, unsigned int status);
 
     // tutorial hint
     void processTutorialHint(int id);
@@ -144,15 +144,15 @@ protected:
     void processCloseTrade();
 
     // edit text/list
-    void processEditText(uint id, int itemId, int maxLength, const std::string& text, const std::string& writer, const std::string& date);
-    void processEditList(uint id, int doorId, const std::string& text);
+    void processEditText(unsigned int id, int itemId, int maxLength, const std::string& text, const std::string& writer, const std::string& date);
+    void processEditList(unsigned int id, int doorId, const std::string& text);
 
     // questlog
     void processQuestLog(const std::vector<std::tuple<int, std::string, bool> >& questList);
     void processQuestLine(int questId, const std::vector<std::tuple<std::string, std::string> >& questMissions);
 
     // modal dialogs >= 970
-    void processModalDialog(uint32 id, std::string title, std::string message, std::vector<std::tuple<int, std::string> > buttonList, int enterButton, int escapeButton, std::vector<std::tuple<int, std::string> > choiceList, bool priority);
+    void processModalDialog(uint32_t id, std::string title, std::string message, std::vector<std::tuple<int, std::string> > buttonList, int enterButton, int escapeButton, std::vector<std::tuple<int, std::string> > choiceList, bool priority);
 
     friend class ProtocolGame;
     friend class Map;
@@ -181,7 +181,7 @@ public:
     void useWith(const ItemPtr& fromThing, const ThingPtr& toThing);
     void useInventoryItem(int itemId);
     void useInventoryItemWith(int itemId, const ThingPtr& toThing);
-    ItemPtr findItemInContainers(uint itemId, int subType);
+    ItemPtr findItemInContainers(unsigned int itemId, int subType);
 
     // container related
     int open(const ItemPtr& item, const ContainerPtr& previousContainer);
@@ -257,8 +257,8 @@ public:
     void rejectTrade();
 
     // house window and editable items related
-    void editText(uint id, const std::string& text);
-    void editList(uint id, int doorId, const std::string& text);
+    void editText(unsigned int id, const std::string& text);
+    void editList(unsigned int id, int doorId, const std::string& text);
 
     // rule violations (only gms)
     void openRuleViolation(const std::string& reporter);
@@ -282,7 +282,7 @@ public:
     void requestItemInfo(const ItemPtr& item, int index);
 
     // >= 970 modal dialog
-    void answerModalDialog(uint32 dialog, int button, int choice);
+    void answerModalDialog(uint32_t dialog, int button, int choice);
 
     // >= 984 browse field
     void browseField(const Position& position);
@@ -344,7 +344,7 @@ public:
     ProtocolGamePtr getProtocolGame() { return m_protocolGame; }
     std::string getCharacterName() { return m_characterName; }
     std::string getWorldName() { return m_worldName; }
-    std::vector<uint8> getGMActions() { return m_gmActions; }
+    std::vector<uint8_t> getGMActions() { return m_gmActions; }
     bool isGM() { return m_gmActions.size() > 0; }
     Otc::Direction getLastWalkDir() { return m_lastWalkDir; }
 
@@ -372,11 +372,11 @@ private:
     bool m_expertPvpMode;
     int m_serverBeat;
     ticks_t m_ping;
-    uint m_pingSent;
-    uint m_pingReceived;
+    unsigned int m_pingSent;
+    unsigned int m_pingReceived;
     stdext::timer m_pingTimer;
     Timer m_dashTimer;
-    uint m_seq;
+    unsigned int m_seq;
     int m_pingDelay;
     Otc::FightModes m_fightMode;
     Otc::ChaseModes m_chaseMode;
@@ -386,7 +386,7 @@ private:
     int m_openPvpSituations;
     bool m_safeFight;
     bool m_canReportBugs;
-    std::vector<uint8> m_gmActions;
+    std::vector<uint8_t> m_gmActions;
     std::string m_characterName;
     std::string m_worldName;
     std::bitset<Otc::LastGameFeature> m_features;

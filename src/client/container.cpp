@@ -76,7 +76,7 @@ void Container::onAddItem(const ItemPtr& item, int slot)
     callLuaField("onAddItem", slot, item);
 }
 
-ItemPtr Container::findItemById(uint itemId, int subType)
+ItemPtr Container::findItemById(unsigned int itemId, int subType)
 {
     for(const ItemPtr item : m_items)
         if(item->getId() == itemId && (subType == -1 || item->getSubType() == subType))

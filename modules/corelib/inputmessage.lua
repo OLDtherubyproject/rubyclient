@@ -1,9 +1,9 @@
 function InputMessage:getData()
-  local dataType = self:getU8()
+  local dataType = self:getByte()
   if dataType == NetworkMessageTypes.Boolean then
-    return numbertoboolean(self:getU8())
+    return numbertoboolean(self:getByte())
   elseif dataType == NetworkMessageTypes.U8 then
-    return self:getU8()
+    return self:getByte()
   elseif dataType == NetworkMessageTypes.U16 then
     return self:getU16()
   elseif dataType == NetworkMessageTypes.U32 then
@@ -35,10 +35,10 @@ end
 
 function InputMessage:getColor()
   local color = {}
-  color.r = self:getU8()
-  color.g = self:getU8()
-  color.b = self:getU8()
-  color.a = self:getU8()
+  color.r = self:getByte()
+  color.g = self:getByte()
+  color.b = self:getByte()
+  color.a = self:getByte()
   return color
 end
 
@@ -46,6 +46,6 @@ function InputMessage:getPosition()
   local position = {}
   position.x = self:getU16()
   position.y = self:getU16()
-  position.z = self:getU8()
+  position.z = self:getByte()
   return position
 end

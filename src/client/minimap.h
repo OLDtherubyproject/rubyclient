@@ -43,9 +43,9 @@ enum MinimapTileFlags {
 struct MinimapTile
 {
     MinimapTile() : flags(0), color(255), speed(10) { }
-    uint8 flags;
-    uint8 color;
-    uint8 speed;
+    uint8_t flags;
+    uint8_t color;
+    uint8_t speed;
     bool hasFlag(MinimapTileFlags flag) const { return flags & flag; }
     int getSpeed() const { return speed * 10; }
     bool operator==(const MinimapTile& other) const { return color == other.color && flags == other.flags && speed == other.speed; }
@@ -60,7 +60,7 @@ public:
     void updateTile(int x, int y, const MinimapTile& tile);
     MinimapTile& getTile(int x, int y) { return m_tiles[getTileIndex(x,y)]; }
     void resetTile(int x, int y) { m_tiles[getTileIndex(x,y)] = MinimapTile(); }
-    uint getTileIndex(int x, int y) { return ((y % MMBLOCK_SIZE) * MMBLOCK_SIZE) + (x % MMBLOCK_SIZE); }
+    unsigned int getTileIndex(int x, int y) { return ((y % MMBLOCK_SIZE) * MMBLOCK_SIZE) + (x % MMBLOCK_SIZE); }
     const TexturePtr& getTexture() { return m_texture; }
     std::array<MinimapTile, MMBLOCK_SIZE *MMBLOCK_SIZE>& getTiles() { return m_tiles; }
     void mustUpdate() { m_mustUpdate = true; }
@@ -105,8 +105,8 @@ private:
                                                           pos.y - pos.y % MMBLOCK_SIZE); }
     Position getIndexPosition(int index, int z) { return Position((index % (65536 / MMBLOCK_SIZE))*MMBLOCK_SIZE,
                                                                   (index / (65536 / MMBLOCK_SIZE))*MMBLOCK_SIZE, z); }
-    uint getBlockIndex(const Position& pos) { return ((pos.y / MMBLOCK_SIZE) * (65536 / MMBLOCK_SIZE)) + (pos.x / MMBLOCK_SIZE); }
-    std::unordered_map<uint, MinimapBlock> m_tileBlocks[Otc::MAX_Z+1];
+    unsigned int getBlockIndex(const Position& pos) { return ((pos.y / MMBLOCK_SIZE) * (65536 / MMBLOCK_SIZE)) + (pos.x / MMBLOCK_SIZE); }
+    std::unordered_map<unsigned int, MinimapBlock> m_tileBlocks[Otc::MAX_Z+1];
 };
 
 extern Minimap g_minimap;

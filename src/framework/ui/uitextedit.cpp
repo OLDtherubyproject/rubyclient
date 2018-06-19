@@ -178,7 +178,7 @@ void UITextEdit::update(bool focusCursor)
                 assert(m_cursorPos <= textLength);
                 Rect virtualRect(m_textVirtualOffset, m_rect.size() - Size(m_padding.left+m_padding.right, 0)); // previous rendered virtual rect
                 int pos = m_cursorPos - 1; // element before cursor
-                glyph = (uchar)text[pos]; // glyph of the element before cursor
+                glyph = (unsigned char)text[pos]; // glyph of the element before cursor
                 Rect glyphRect(glyphsPositions[pos], glyphsSize[glyph]);
 
                 // if the cursor is not on the previous rendered virtual rect we need to update it
@@ -190,7 +190,7 @@ void UITextEdit::update(bool focusCursor)
 
                     // find that glyph
                     for(pos = 0; pos < textLength; ++pos) {
-                        glyph = (uchar)text[pos];
+                        glyph = (unsigned char)text[pos];
                         glyphRect = Rect(glyphsPositions[pos], glyphsSize[glyph]);
                         glyphRect.setTop(std::max<int>(glyphRect.top() - m_font->getYOffset() - m_font->getGlyphSpacing().height(), 0));
                         glyphRect.setLeft(std::max<int>(glyphRect.left() - m_font->getGlyphSpacing().width(), 0));
@@ -211,7 +211,7 @@ void UITextEdit::update(bool focusCursor)
         if(m_cursorPos > 0 && textLength > 0) {
             Rect virtualRect(m_textVirtualOffset, m_rect.size() - Size(2*m_padding.left+m_padding.right, 0) ); // previous rendered virtual rect
             int pos = m_cursorPos - 1; // element before cursor
-            glyph = (uchar)text[pos]; // glyph of the element before cursor
+            glyph = (unsigned char)text[pos]; // glyph of the element before cursor
             Rect glyphRect(glyphsPositions[pos], glyphsSize[glyph]);
             if(virtualRect.contains(glyphRect.topLeft()) && virtualRect.contains(glyphRect.bottomRight()))
                 m_cursorInRange = true;
@@ -262,11 +262,11 @@ void UITextEdit::update(bool focusCursor)
     }
 
     for(int i = 0; i < textLength; ++i) {
-        glyph = (uchar)text[i];
+        glyph = (unsigned char)text[i];
         m_glyphsCoords[i].clear();
 
         // skip invalid glyphs
-        if(glyph < 32 && glyph != (uchar)'\n')
+        if(glyph < 32 && glyph != (unsigned char)'\n')
             continue;
 
         // calculate initial glyph rect and texture coords
@@ -343,7 +343,7 @@ void UITextEdit::setCursorPos(int pos)
     if(pos != m_cursorPos) {
         if(pos < 0)
             m_cursorPos = 0;
-        else if((uint)pos >= m_text.length())
+        else if((unsigned int)pos >= m_text.length())
             m_cursorPos = m_text.length();
         else
             m_cursorPos = pos;
@@ -398,7 +398,7 @@ void UITextEdit::appendText(std::string text)
 
             // only ignore text append if it contains invalid characters
             if(m_validCharacters.size() > 0) {
-                for(uint i = 0; i < text.size(); ++i) {
+                for(unsigned int i = 0; i < text.size(); ++i) {
                     if(m_validCharacters.find(text[i]) == std::string::npos)
                         return;
                 }
@@ -440,7 +440,7 @@ void UITextEdit::removeCharacter(bool right)
 {
     std::string tmp = m_text;
     if(m_cursorPos >= 0 && tmp.length() > 0) {
-        if((uint)m_cursorPos >= tmp.length()) {
+        if((unsigned int)m_cursorPos >= tmp.length()) {
             tmp.erase(tmp.begin() + (--m_cursorPos));
         } else {
             if(right)
@@ -503,7 +503,7 @@ void UITextEdit::wrapText()
 void UITextEdit::moveCursorHorizontally(bool right)
 {
     if(right) {
-        if((uint)m_cursorPos+1 <= m_text.length())
+        if((unsigned int)m_cursorPos+1 <= m_text.length())
             m_cursorPos++;
         else
             m_cursorPos = 0;
@@ -664,7 +664,7 @@ void UITextEdit::onFocusChange(bool focused, Fw::FocusReason reason)
     UIWidget::onFocusChange(focused, reason);
 }
 
-bool UITextEdit::onKeyPress(uchar keyCode, int keyboardModifiers, int autoRepeatTicks)
+bool UITextEdit::onKeyPress(unsigned char keyCode, int keyboardModifiers, int autoRepeatTicks)
 {
     if(UIWidget::onKeyPress(keyCode, keyboardModifiers, autoRepeatTicks))
         return true;

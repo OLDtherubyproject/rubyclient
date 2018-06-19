@@ -46,7 +46,7 @@ void Platform::processArgs(std::vector<std::string>& args)
 bool Platform::spawnProcess(std::string process, const std::vector<std::string>& args)
 {
     std::string commandLine;
-    for(uint i = 0; i < args.size(); ++i)
+    for(unsigned int i = 0; i < args.size(); ++i)
         commandLine += stdext::format(" \"%s\"", args[i]);
 
     boost::replace_all(process, "/", "\\");

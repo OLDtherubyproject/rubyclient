@@ -47,7 +47,7 @@ protected:
     void onStyleApply(const std::string& styleName, const OTMLNodePtr& styleNode);
 
     TexturePtr m_sprite;
-    uint16 m_spriteId;
+    uint16_t m_spriteId;
     Color m_spriteColor;
 
     stdext::boolean<true> m_spriteVisible;

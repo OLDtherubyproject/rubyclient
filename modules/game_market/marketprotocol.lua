@@ -28,7 +28,7 @@ local function readMarketOffer(msg, action, var)
   local playerName
   local state = MarketOfferState.Active
   if var == MarketRequest.MyHistory then
-    state = msg:getU8()
+    state = msg:getByte()
   elseif var == MarketRequest.MyOffers then
   else
     playerName = msg:getString()
@@ -43,7 +43,7 @@ local function parseMarketEnter(protocol, msg)
   balance = msg:getU64()
 
   local vocation = -1
-  local offers = msg:getU8()
+  local offers = msg:getByte()
 
   local depotItems = {}
   local depotCount = msg:getU16()
@@ -77,7 +77,7 @@ local function parseMarketDetail(protocol, msg)
   local time = (os.time() / 1000) * statistics.SECONDS_PER_DAY;
 
   local purchaseStats = {}
-  local count = msg:getU8()
+  local count = msg:getByte()
   for i=1, count do
     local transactions = msg:getU32() -- transaction count
     local totalPrice = msg:getU32() -- total price
@@ -89,7 +89,7 @@ local function parseMarketDetail(protocol, msg)
   end
 
   local saleStats = {}
-  count = msg:getU8()
+  count = msg:getByte()
   for i=1, count do
     local transactions = msg:getU32() -- transaction count
     local totalPrice = msg:getU32() -- total price

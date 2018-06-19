@@ -44,7 +44,7 @@ DatabaseMySQL::~DatabaseMySQL()
 }
 
 void DatabaseMySQL::connect(const std::string& host, const std::string& user, const std::string& pass,
-             const std::string& db, uint16 port, const std::string& unix_socket)
+             const std::string& db, uint16_t port, const std::string& unix_socket)
 {
     if(!mysql_real_connect(m_handle,
                            host.c_str(),
@@ -168,9 +168,9 @@ DBResultPtr DatabaseMySQL::storeQuery(const std::string& query)
     return nullptr;
 }
 
-uint64 DatabaseMySQL::getLastInsertedRowID()
+uint64_t DatabaseMySQL::getLastInsertedRowID()
 {
-    return (uint64)mysql_insert_id(m_handle);
+    return (uint64_t)mysql_insert_id(m_handle);
 }
 
 std::string DatabaseMySQL::escapeString(const std::string &s)
@@ -178,7 +178,7 @@ std::string DatabaseMySQL::escapeString(const std::string &s)
     return escapeBlob( s.c_str(), s.length() );
 }
 
-std::string DatabaseMySQL::escapeBlob(const char* s, uint32 length)
+std::string DatabaseMySQL::escapeBlob(const char* s, uint32_t length)
 {
     if(!s) {
         return std::string();
@@ -195,7 +195,7 @@ std::string DatabaseMySQL::escapeBlob(const char* s, uint32 length)
     return res;
 }
 
-int32 MySQLResult::getDataInt(const std::string& s)
+int32_t MySQLResult::getDataInt(const std::string& s)
 {
     RowNames_t::iterator it = m_names.find(s);
     if(it != m_names.end())
@@ -205,7 +205,7 @@ int32 MySQLResult::getDataInt(const std::string& s)
     return 0;
 }
 
-int64 MySQLResult::getDataLong(const std::string& s)
+int64_t MySQLResult::getDataLong(const std::string& s)
 {
     RowNames_t::iterator it = m_names.find(s);
     if(it != m_names.end())
@@ -225,7 +225,7 @@ std::string MySQLResult::getDataString(const std::string& s)
     return std::string();
 }
 
-const char* MySQLResult::getDataStream(const std::string& s, uint64& size)
+const char* MySQLResult::getDataStream(const std::string& s, uint64_t& size)
 {
     size = 0;
     RowNames_t::iterator it = m_names.find(s);
@@ -270,7 +270,7 @@ MySQLResult::MySQLResult(MYSQL_RES* result)
     m_names.clear();
 
     MYSQL_FIELD* field;
-    int32 i = 0;
+    int32_t i = 0;
     while((field = mysql_fetch_field(m_result))) {
         m_names[field->name] = i++;
     }

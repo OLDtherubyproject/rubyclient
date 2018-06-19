@@ -224,7 +224,7 @@ void Texture::setupTranformMatrix()
     }
 }
 
-void Texture::setupPixels(int level, const Size& size, uchar* pixels, int channels, bool compress)
+void Texture::setupPixels(int level, const Size& size, unsigned char* pixels, int channels, bool compress)
 {
     GLenum format = 0;
     switch(channels) {

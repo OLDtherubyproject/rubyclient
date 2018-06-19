@@ -294,7 +294,7 @@ ThingPtr Tile::getThing(int stackPos)
     return nullptr;
 }
 
-EffectPtr Tile::getEffect(uint16 id)
+EffectPtr Tile::getEffect(uint16_t id)
 {
     for(const EffectPtr& effect : m_effects)
         if(effect->getId() == id)
@@ -309,7 +309,7 @@ bool Tile::hasThing(const ThingPtr& thing)
 
 int Tile::getThingStackPos(const ThingPtr& thing)
 {
-    for(uint stackpos = 0; stackpos < m_things.size(); ++stackpos)
+    for(unsigned int stackpos = 0; stackpos < m_things.size(); ++stackpos)
         if(thing == m_things[stackpos])
             return stackpos;
     return -1;
@@ -365,16 +365,16 @@ int Tile::getGroundSpeed()
     return groundSpeed;
 }
 
-uint8 Tile::getMinimapColorByte()
+uint8_t Tile::getMinimapColorByte()
 {
-    uint8 color = 255; // alpha
+    uint8_t color = 255; // alpha
     if(m_minimapColor != 0)
         return m_minimapColor;
 
     for(const ThingPtr& thing : m_things) {
         if(!thing->isGround() && !thing->isGroundBorder() && !thing->isOnBottom() && !thing->isOnTop())
             break;
-        uint8 c = thing->getMinimapColor();
+        uint8_t c = thing->getMinimapColor();
         if(c != 0)
             color = c;
     }
@@ -386,7 +386,7 @@ ThingPtr Tile::getTopLookThing()
     if(isEmpty())
         return nullptr;
 
-    for(uint i = 0; i < m_things.size(); ++i) {
+    for(unsigned int i = 0; i < m_things.size(); ++i) {
         ThingPtr thing = m_things[i];
         if(!thing->isIgnoreLook() && (!thing->isGround() && !thing->isGroundBorder() && !thing->isOnBottom() && !thing->isOnTop()))
             return thing;
@@ -400,13 +400,13 @@ ThingPtr Tile::getTopUseThing()
     if(isEmpty())
         return nullptr;
 
-    for(uint i = 0; i < m_things.size(); ++i) {
+    for(unsigned int i = 0; i < m_things.size(); ++i) {
         ThingPtr thing = m_things[i];
         if (thing->isForceUse() || (!thing->isGround() && !thing->isGroundBorder() && !thing->isOnBottom() && !thing->isOnTop() && !thing->isCreature() && !thing->isSplash()))
             return thing;
     }
 
-    for(uint i = 0; i < m_things.size(); ++i) {
+    for(unsigned int i = 0; i < m_things.size(); ++i) {
         ThingPtr thing = m_things[i];
         if (!thing->isGround() && !thing->isGroundBorder() && !thing->isCreature() && !thing->isSplash())
             return thing;
@@ -418,7 +418,7 @@ ThingPtr Tile::getTopUseThing()
 CreaturePtr Tile::getTopCreature()
 {
     CreaturePtr creature;
-    for(uint i = 0; i < m_things.size(); ++i) {
+    for(unsigned int i = 0; i < m_things.size(); ++i) {
         ThingPtr thing = m_things[i];
         if(thing->isLocalPlayer()) // return local player if there is no other creature
             creature = thing->static_self_cast<Creature>();
@@ -455,7 +455,7 @@ ThingPtr Tile::getTopMoveThing()
     if(isEmpty())
         return nullptr;
 
-    for(uint i = 0; i < m_things.size(); ++i) {
+    for(unsigned int i = 0; i < m_things.size(); ++i) {
         ThingPtr thing = m_things[i];
         if(!thing->isGround() && !thing->isGroundBorder() && !thing->isOnBottom() && !thing->isOnTop() && !thing->isCreature()) {
             if(i > 0 && thing->isNotMoveable())
@@ -480,13 +480,13 @@ ThingPtr Tile::getTopMultiUseThing()
     if(CreaturePtr topCreature = getTopCreature())
         return topCreature;
 
-    for(uint i = 0; i < m_things.size(); ++i) {
+    for(unsigned int i = 0; i < m_things.size(); ++i) {
         ThingPtr thing = m_things[i];
         if(thing->isForceUse())
             return thing;
     }
 
-    for(uint i = 0; i < m_things.size(); ++i) {
+    for(unsigned int i = 0; i < m_things.size(); ++i) {
         ThingPtr thing = m_things[i];
         if(!thing->isGround() && !thing->isGroundBorder() && !thing->isOnBottom() && !thing->isOnTop()) {
             if(i > 0 && thing->isSplash())
@@ -495,7 +495,7 @@ ThingPtr Tile::getTopMultiUseThing()
         }
     }
 
-    for(uint i = 0; i < m_things.size(); ++i) {
+    for(unsigned int i = 0; i < m_things.size(); ++i) {
         ThingPtr thing = m_things[i];
         if(!thing->isGround() && !thing->isOnTop())
             return thing;

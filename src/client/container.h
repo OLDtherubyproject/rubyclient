@@ -49,7 +49,7 @@ public:
     bool hasPages() { return m_hasPages; }
     int getSize() { return m_size; }
     int getFirstIndex() { return m_firstIndex; }
-    ItemPtr findItemById(uint itemId, int subType);
+    ItemPtr findItemById(unsigned int itemId, int subType);
 
 protected:
     void onOpen(const ContainerPtr& previousContainer);

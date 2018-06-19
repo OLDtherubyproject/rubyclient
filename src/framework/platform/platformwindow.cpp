@@ -118,7 +118,7 @@ void PlatformWindow::processKeyUp(Fw::Key keyCode)
         m_inputEvent.keyboardModifiers &= ~Fw::KeyboardShiftModifier;
         return;
     } else if(keyCode == Fw::KeyNumLock) {
-        for(uchar k = Fw::KeyNumpad0; k <= Fw::KeyNumpad9; ++k) {
+        for(unsigned char k = Fw::KeyNumpad0; k <= Fw::KeyNumpad9; ++k) {
             if(m_keysState[(Fw::Key)k])
                 processKeyUp((Fw::Key)k);
         }

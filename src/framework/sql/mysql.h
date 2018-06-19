@@ -40,7 +40,7 @@ public:
     virtual ~DatabaseMySQL();
 
     virtual void connect(const std::string& host, const std::string& user, const std::string& pass,
-                 const std::string& db, uint16 port, const std::string& unix_socket = "");
+                 const std::string& db, uint16_t port, const std::string& unix_socket = "");
 
     virtual bool beginTransaction();
     virtual bool rollback();
@@ -50,9 +50,9 @@ public:
     virtual DBResultPtr storeQuery(const std::string& query);
 
     virtual std::string escapeString(const std::string &s);
-    virtual std::string escapeBlob(const char* s, uint32 length);
+    virtual std::string escapeBlob(const char* s, uint32_t length);
 
-    virtual uint64 getLastInsertedRowID();
+    virtual uint64_t getLastInsertedRowID();
     virtual Fw::DatabaseEngine getDatabaseEngine() {return Fw::DatabaseMySQL;}
 
 protected:
@@ -71,17 +71,17 @@ public:
     MySQLResult(MYSQL_RES* result);
     virtual ~MySQLResult();
 
-    virtual int32 getDataInt(const std::string& s);
-    virtual int64 getDataLong(const std::string& s);
+    virtual int32_t getDataInt(const std::string& s);
+    virtual int64_t getDataLong(const std::string& s);
     virtual std::string getDataString(const std::string& s);
-    virtual const char* getDataStream(const std::string& s, uint64& size);
+    virtual const char* getDataStream(const std::string& s, uint64_t& size);
 
     virtual void free();
     virtual bool next();
     virtual int getRowCount() { return mysql_num_rows(m_result); }
 
 protected:
-    typedef std::map<const std::string, uint32> RowNames_t;
+    typedef std::map<const std::string, uint32_t> RowNames_t;
     RowNames_t m_names;
 
     MYSQL_RES* m_result;

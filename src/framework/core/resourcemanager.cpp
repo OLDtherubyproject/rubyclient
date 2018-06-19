@@ -192,7 +192,7 @@ std::string ResourceManager::readFileContents(const std::string& fileName)
     return buffer;
 }
 
-bool ResourceManager::writeFileBuffer(const std::string& fileName, const uchar* data, uint size)
+bool ResourceManager::writeFileBuffer(const std::string& fileName, const unsigned char* data, unsigned int size)
 {
     PHYSFS_file* file = PHYSFS_openWrite(fileName.c_str());
     if(!file) {
@@ -213,14 +213,14 @@ bool ResourceManager::writeFileStream(const std::string& fileName, std::iostream
     in.seekg(0, std::ios::beg);
     std::vector<char> buffer(size);
     in.read(&buffer[0], size);
-    bool ret = writeFileBuffer(fileName, (const uchar*)&buffer[0], size);
+    bool ret = writeFileBuffer(fileName, (const unsigned char*)&buffer[0], size);
     in.seekg(oldPos, std::ios::beg);
     return ret;
 }
 
 bool ResourceManager::writeFileContents(const std::string& fileName, const std::string& data)
 {
-    return writeFileBuffer(fileName, (const uchar*)data.c_str(), data.size());
+    return writeFileBuffer(fileName, (const unsigned char*)data.c_str(), data.size());
 }
 
 FileStreamPtr ResourceManager::openFile(const std::string& fileName)

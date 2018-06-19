@@ -113,7 +113,7 @@ protected:
     PainterState m_olderStates[10];
     int m_oldStateIndex;
 
-    uint m_glTextureId;
+    unsigned int m_glTextureId;
 };
 
 #endif

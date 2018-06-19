@@ -374,9 +374,9 @@ void Map::cleanTile(const Position& pos)
 void Map::setShowZone(tileflags_t zone, bool show)
 {
     if(show)
-        m_zoneFlags |= (uint32)zone;
+        m_zoneFlags |= (uint32_t)zone;
     else
-        m_zoneFlags &= ~(uint32)zone;
+        m_zoneFlags &= ~(uint32_t)zone;
 }
 
 void Map::setShowZones(bool show)
@@ -439,10 +439,10 @@ void Map::endGhostMode()
     g_painter->resetOpacity();
 }
 
-std::map<Position, ItemPtr> Map::findItemsById(uint16 clientId, uint32 max)
+std::map<Position, ItemPtr> Map::findItemsById(uint16_t clientId, uint32_t max)
 {
     std::map<Position, ItemPtr> ret;
-    uint32 count = 0;
+    uint32_t count = 0;
     for(uint8_t z = 0; z <= Otc::MAX_Z; ++z) {
         for(const auto& pair : m_tileBlocks[z]) {
             const TileBlock& block = pair.second;
@@ -468,7 +468,7 @@ void Map::addCreature(const CreaturePtr& creature)
     m_knownCreatures[creature->getId()] = creature;
 }
 
-CreaturePtr Map::getCreatureById(uint32 id)
+CreaturePtr Map::getCreatureById(uint32_t id)
 {
     auto it = m_knownCreatures.find(id);
     if(it == m_knownCreatures.end())
@@ -476,7 +476,7 @@ CreaturePtr Map::getCreatureById(uint32 id)
     return it->second;
 }
 
-void Map::removeCreatureById(uint32 id)
+void Map::removeCreatureById(uint32_t id)
 {
     if(id == 0)
         return;
@@ -507,7 +507,7 @@ void Map::removeUnawareThings()
     if(!g_game.getFeature(Otc::GameKeepUnawareTiles)) {
         // remove tiles that we are not aware anymore
         for(int z = 0; z <= Otc::MAX_Z; ++z) {
-            std::unordered_map<uint, TileBlock>& tileBlocks = m_tileBlocks[z];
+            std::unordered_map<unsigned int, TileBlock>& tileBlocks = m_tileBlocks[z];
             for(auto it = tileBlocks.begin(); it != tileBlocks.end();) {
                 TileBlock& block = (*it).second;
                 bool blockEmpty = true;

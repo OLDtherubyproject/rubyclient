@@ -31,7 +31,7 @@
 class Connection : public LuaObject
 {
     typedef std::function<void(const boost::system::error_code&)> ErrorCallback;
-    typedef std::function<void(uint8*, uint16)> RecvCallback;
+    typedef std::function<void(uint8_t*, uint16_t)> RecvCallback;
 
     enum {
         READ_TIMEOUT = 30,
@@ -47,11 +47,11 @@ public:
     static void poll();
     static void terminate();
 
-    void connect(const std::string& host, uint16 port, const std::function<void()>& connectCallback);
+    void connect(const std::string& host, uint16_t port, const std::function<void()>& connectCallback);
     void close();
 
-    void write(uint8* buffer, size_t size);
-    void read(uint16 bytes, const RecvCallback& callback);
+    void write(uint8_t* buffer, size_t size);
+    void read(uint16_t bytes, const RecvCallback& callback);
     void read_until(const std::string& what, const RecvCallback& callback);
     void read_some(const RecvCallback& callback);
 

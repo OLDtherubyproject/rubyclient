@@ -31,11 +31,11 @@
 class ProtocolGame : public Protocol
 {
 public:
-    void login(const std::string& accountName, const std::string& accountPassword, const std::string& host, uint16 port, const std::string& characterName, const std::string& authenticatorToken, const std::string& sessionKey);
+    void login(const std::string& accountName, const std::string& accountPassword, const std::string& host, uint16_t port, const std::string& characterName, const std::string& authenticatorToken, const std::string& sessionKey);
     void send(const OutputMessagePtr& outputMessage);
 
-    void sendExtendedOpcode(uint8 opcode, const std::string& buffer);
-    void sendLoginPacket(uint challengeTimestamp, uint8 challengeRandom);
+    void sendExtendedOpcode(uint8_t opcode, const std::string& buffer);
+    void sendLoginPacket(unsigned int challengeTimestamp, uint8_t challengeRandom);
     void sendEnterGame();
     void sendLogout();
     void sendPing();
@@ -60,20 +60,20 @@ public:
     void sendBuyItem(int itemId, int subType, int amount, bool ignoreCapacity, bool buyWithBackpack);
     void sendSellItem(int itemId, int subType, int amount, bool ignoreEquipped);
     void sendCloseNpcTrade();
-    void sendRequestTrade(const Position& pos, int thingId, int stackpos, uint playerId);
+    void sendRequestTrade(const Position& pos, int thingId, int stackpos, unsigned int playerId);
     void sendInspectTrade(bool counterOffer, int index);
     void sendAcceptTrade();
     void sendRejectTrade();
     void sendUseItem(const Position& position, int itemId, int stackpos, int index);
     void sendUseItemWith(const Position& fromPos, int itemId, int fromStackPos, const Position& toPos, int toThingId, int toStackPos);
-    void sendUseOnCreature(const Position& pos, int thingId, int stackpos, uint creatureId);
+    void sendUseOnCreature(const Position& pos, int thingId, int stackpos, unsigned int creatureId);
     void sendRotateItem(const Position& pos, int thingId, int stackpos);
     void sendCloseContainer(int containerId);
     void sendUpContainer(int containerId);
-    void sendEditText(uint id, const std::string& text);
-    void sendEditList(uint id, int doorId, const std::string& text);
+    void sendEditText(unsigned int id, const std::string& text);
+    void sendEditList(unsigned int id, int doorId, const std::string& text);
     void sendLook(const Position& position, int thingId, int stackpos);
-    void sendLookCreature(uint creatureId);
+    void sendLookCreature(unsigned int creatureId);
     void sendTalk(Otc::MessageMode mode, int channelId, const std::string& receiver, const std::string& message);
     void sendRequestChannels();
     void sendJoinChannel(int channelId);
@@ -84,12 +84,12 @@ public:
     void sendCancelRuleViolation();
     void sendCloseNpcChannel();
     void sendChangeFightModes(Otc::FightModes fightMode, Otc::ChaseModes chaseMode, bool safeFight, Otc::PVPModes pvpMode);
-    void sendAttack(uint creatureId, uint seq);
-    void sendFollow(uint creatureId, uint seq);
-    void sendInviteToParty(uint creatureId);
-    void sendJoinParty(uint creatureId);
-    void sendRevokeInvitation(uint creatureId);
-    void sendPassLeadership(uint creatureId);
+    void sendAttack(unsigned int creatureId, unsigned int seq);
+    void sendFollow(unsigned int creatureId, unsigned int seq);
+    void sendInviteToParty(unsigned int creatureId);
+    void sendJoinParty(unsigned int creatureId);
+    void sendRevokeInvitation(unsigned int creatureId);
+    void sendPassLeadership(unsigned int creatureId);
     void sendLeaveParty();
     void sendShareExperience(bool active);
     void sendOpenOwnChannel();
@@ -101,8 +101,8 @@ public:
     void sendChangeOutfit(const Outfit& outfit);
     void sendMountStatus(bool mount);
     void sendAddVip(const std::string& name);
-    void sendRemoveVip(uint playerId);
-    void sendEditVip(uint playerId, const std::string& description, int iconId, bool notifyLogin);
+    void sendRemoveVip(unsigned int playerId);
+    void sendEditVip(unsigned int playerId, const std::string& description, int iconId, bool notifyLogin);
     void sendBugReport(const std::string& comment);
     void sendRuleViolation(const std::string& target, int reason, int action, const std::string& comment, const std::string& statement, int statementId, bool ipBanishment);
     void sendDebugReport(const std::string& a, const std::string& b, const std::string& c, const std::string& d);
@@ -110,7 +110,7 @@ public:
     void sendRequestQuestLine(int questId);
     void sendNewNewRuleViolation(int reason, int action, const std::string& characterName, const std::string& comment, const std::string& translation);
     void sendRequestItemInfo(int itemId, int subType, int index);
-    void sendAnswerModalDialog(uint32 dialog, int button, int choice);
+    void sendAnswerModalDialog(uint32_t dialog, int button, int choice);
     void sendBrowseField(const Position& position);
     void sendSeekInContainer(int cid, int index);
     void sendBuyStoreOffer(int offerId, int productType, const std::string& name);

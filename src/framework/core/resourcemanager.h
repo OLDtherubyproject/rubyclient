@@ -53,7 +53,7 @@ public:
     void readFileStream(const std::string& fileName, std::iostream& out);
     std::string readFileContents(const std::string& fileName);
     // @dontbind
-    bool writeFileBuffer(const std::string& fileName, const uchar* data, uint size);
+    bool writeFileBuffer(const std::string& fileName, const unsigned char* data, unsigned int size);
     bool writeFileContents(const std::string& fileName, const std::string& data);
     // @dontbind
     bool writeFileStream(const std::string& fileName, std::iostream& in);

@@ -58,7 +58,7 @@ void Effect::onAppear()
     g_dispatcher.scheduleEvent([self]() { g_map.removeThing(self); }, m_phaseDuration * getAnimationPhases());
 }
 
-void Effect::setId(uint32 id)
+void Effect::setId(uint32_t id)
 {
     if(!g_things.isValidDatId(id, ThingCategoryEffect))
         id = 0;

@@ -84,13 +84,13 @@ public:
     // TODO: Point, PointF, Color, Size, SizeF ?
 
     bool isLinked() { return m_linked; }
-    uint getProgramId() { return m_programId; }
+    unsigned int getProgramId() { return m_programId; }
     ShaderList getShaders() { return m_shaders; }
 
 private:
     bool m_linked;
-    uint m_programId;
-    static uint m_currentProgram;
+    unsigned int m_programId;
+    static unsigned int m_currentProgram;
     ShaderList m_shaders;
     std::array<int, MAX_UNIFORM_LOCATIONS> m_uniformLocations;
 };

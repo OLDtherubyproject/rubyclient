@@ -27,7 +27,7 @@ template<class T>
 class DataBuffer
 {
 public:
-    DataBuffer(uint res = 64) :
+    DataBuffer(unsigned int res = 64) :
         m_size(0),
         m_capacity(res),
         m_buffer(new T[m_capacity]) { }
@@ -45,19 +45,19 @@ public:
     }
 
     inline bool empty() const { return m_size == 0; }
-    inline uint size() const { return m_size; }
+    inline unsigned int size() const { return m_size; }
     inline T *data() const { return m_buffer; }
 
-    inline const T& at(uint i) const { return m_buffer[i]; }
+    inline const T& at(unsigned int i) const { return m_buffer[i]; }
     inline const T& last() const { return m_buffer[m_size-1]; }
     inline const T& first() const { return m_buffer[0]; }
-    inline const T& operator[](uint i) const { return m_buffer[i]; }
-    inline T& operator[](uint i) { return m_buffer[i]; }
+    inline const T& operator[](unsigned int i) const { return m_buffer[i]; }
+    inline T& operator[](unsigned int i) { return m_buffer[i]; }
 
-    inline void reserve(uint n) {
+    inline void reserve(unsigned int n) {
         if(n > m_capacity) {
             T *buffer = new T[n];
-            for(uint i=0;i<m_size;++i)
+            for(unsigned int i=0;i<m_size;++i)
                 buffer[i] = m_buffer[i];
             if(m_buffer)
                 delete[] m_buffer;
@@ -66,20 +66,20 @@ public:
         }
     }
 
-    inline void resize(uint n, T def = T()) {
+    inline void resize(unsigned int n, T def = T()) {
         if(n == m_size)
             return;
         reserve(n);
-        for(uint i=m_size;i<n;++i)
+        for(unsigned int i=m_size;i<n;++i)
             m_buffer[i] = def;
         m_size = n;
     }
 
-    inline void grow(uint n) {
+    inline void grow(unsigned int n) {
         if(n <= m_size)
             return;
         if(n > m_capacity) {
-            uint newcapacity = m_capacity;
+            unsigned int newcapacity = m_capacity;
             do { newcapacity *= 2; } while(newcapacity < n);
             reserve(newcapacity);
         }
@@ -94,8 +94,8 @@ public:
     inline DataBuffer &operator<<(const T &t) { add(t); return *this; }
 
 private:
-    uint m_size;
-    uint m_capacity;
+    unsigned int m_size;
+    unsigned int m_capacity;
     T *m_buffer;
 };
 

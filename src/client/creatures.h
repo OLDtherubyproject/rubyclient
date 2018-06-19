@@ -27,7 +27,7 @@
 #include <framework/luaengine/luaobject.h>
 #include "outfit.h"
 
-enum CreatureAttr : uint8
+enum CreatureAttr : uint8_t
 {
     CreatureAttrPosition  = 0,
     CreatureAttrName      = 1,
@@ -37,13 +37,13 @@ enum CreatureAttr : uint8
     CreatureAttrRace      = 5
 };
 
-enum CreatureRace : uint8
+enum CreatureRace : uint8_t
 {
     CreatureRaceNpc     = 0,
     CreatureRaceMonster = 1
 };
 
-enum SpawnAttr : uint8
+enum SpawnAttr : uint8_t
 {
     SpawnAttrRadius  = 0,
     SpawnAttrCenter  = 1,
@@ -53,10 +53,10 @@ class Spawn : public LuaObject
 {
 public:
     Spawn() = default;
-    Spawn(int32 radius) { setRadius(radius); }
+    Spawn(int32_t radius) { setRadius(radius); }
 
-    void setRadius(int32 r) { m_attribs.set(SpawnAttrRadius, r) ;}
-    int32 getRadius() { return m_attribs.get<int32>(SpawnAttrRadius); }
+    void setRadius(int32_t r) { m_attribs.set(SpawnAttrRadius, r) ;}
+    int32_t getRadius() { return m_attribs.get<int32_t>(SpawnAttrRadius); }
 
     void setCenterPos(const Position& pos) { m_attribs.set(SpawnAttrCenter, pos); }
     Position getCenterPos() { return m_attribs.get<Position>(SpawnAttrCenter); }
@@ -71,7 +71,7 @@ protected:
     void save(TiXmlElement* node);
 
 private:
-    stdext::dynamic_storage<uint8> m_attribs;
+    stdext::dynamic_storage<uint8_t> m_attribs;
     std::unordered_map<Position, CreatureTypePtr, PositionHasher> m_creatures;
     friend class CreatureManager;
 };
@@ -82,8 +82,8 @@ public:
     CreatureType() = default;
     CreatureType(const std::string& name) { setName(name); }
 
-    void setSpawnTime(int32 spawnTime) { m_attribs.set(CreatureAttrSpawnTime, spawnTime); }
-    int32 getSpawnTime() { return m_attribs.get<int32>(CreatureAttrSpawnTime); }
+    void setSpawnTime(int32_t spawnTime) { m_attribs.set(CreatureAttrSpawnTime, spawnTime); }
+    int32_t getSpawnTime() { return m_attribs.get<int32_t>(CreatureAttrSpawnTime); }
 
     void setName(const std::string& name) { m_attribs.set(CreatureAttrName, name); }
     std::string getName() { return m_attribs.get<std::string>(CreatureAttrName); }
@@ -100,7 +100,7 @@ public:
     CreaturePtr cast();
 
 private:
-    stdext::dynamic_storage<uint8> m_attribs;
+    stdext::dynamic_storage<uint8_t> m_attribs;
 };
 
 class CreatureManager

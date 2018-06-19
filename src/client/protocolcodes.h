@@ -40,7 +40,7 @@ namespace Proto {
         Creature = 99
     };
 
-    enum GameServerOpcodes : uint8
+    enum GameServerOpcodes : uint8_t
     {
         GameServerLoginOrPendingState       = 10,
         GameServerGMActions                 = 11,
@@ -165,7 +165,7 @@ namespace Proto {
         GameServerStoreCompletePurchase     = 254  // 1080
     };
 
-    enum ClientOpcodes : uint8
+    enum ClientOpcodes : uint8_t
     {
         ClientEnterAccount                  = 1,
         ClientPendingGame                   = 10,
@@ -292,8 +292,8 @@ namespace Proto {
     };
 
     void buildMessageModesMap(int version);
-    Otc::MessageMode translateMessageModeFromServer(uint8 mode);
-    uint8 translateMessageModeToServer(Otc::MessageMode mode);
+    Otc::MessageMode translateMessageModeFromServer(uint8_t mode);
+    uint8_t translateMessageModeToServer(Otc::MessageMode mode);
 }
 
 #endif

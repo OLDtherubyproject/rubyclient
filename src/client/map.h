@@ -93,7 +93,7 @@ enum {
     BLOCK_SIZE = 32
 };
 
-enum : uint8 {
+enum : uint8_t {
     Animation_Force,
     Animation_Show
 };
@@ -116,7 +116,7 @@ public:
     const TilePtr& get(const Position& pos) { return m_tiles[getTileIndex(pos)]; }
     void remove(const Position& pos) { m_tiles[getTileIndex(pos)] = nullptr; }
 
-    uint getTileIndex(const Position& pos) { return ((pos.y % BLOCK_SIZE) * BLOCK_SIZE) + (pos.x % BLOCK_SIZE); }
+    unsigned int getTileIndex(const Position& pos) { return ((pos.y % BLOCK_SIZE) * BLOCK_SIZE) + (pos.x % BLOCK_SIZE); }
 
     const std::array<TilePtr, BLOCK_SIZE*BLOCK_SIZE>& getTiles() const { return m_tiles; }
 
@@ -158,12 +158,12 @@ public:
     void setDescription(const std::string& desc) { m_attribs.set(OTBM_ATTR_DESCRIPTION, desc); }
 
     void clearDescriptions() { m_attribs.remove(OTBM_ATTR_DESCRIPTION); }
-    void setWidth(uint16 w) { m_attribs.set(OTBM_ATTR_WIDTH, w); }
-    void setHeight(uint16 h) { m_attribs.set(OTBM_ATTR_HEIGHT, h); }
+    void setWidth(uint16_t w) { m_attribs.set(OTBM_ATTR_WIDTH, w); }
+    void setHeight(uint16_t h) { m_attribs.set(OTBM_ATTR_HEIGHT, h); }
 
     std::string getHouseFile() { return m_attribs.get<std::string>(OTBM_ATTR_HOUSE_FILE); }
     std::string getSpawnFile() { return m_attribs.get<std::string>(OTBM_ATTR_SPAWN_FILE); }
-    Size getSize() { return Size(m_attribs.get<uint16>(OTBM_ATTR_WIDTH), m_attribs.get<uint16>(OTBM_ATTR_HEIGHT)); }
+    Size getSize() { return Size(m_attribs.get<uint16_t>(OTBM_ATTR_WIDTH), m_attribs.get<uint16_t>(OTBM_ATTR_HEIGHT)); }
     std::vector<std::string> getDescriptions() { return stdext::split(m_attribs.get<std::string>(OTBM_ATTR_DESCRIPTION), "\n"); }
 
     void clean();
@@ -209,12 +209,12 @@ public:
     void beginGhostMode(float opacity);
     void endGhostMode();
 
-    std::map<Position, ItemPtr> findItemsById(uint16 clientId, uint32 max);
+    std::map<Position, ItemPtr> findItemsById(uint16_t clientId, uint32_t max);
 
     // known creature related
     void addCreature(const CreaturePtr& creature);
-    CreaturePtr getCreatureById(uint32 id);
-    void removeCreatureById(uint32 id);
+    CreaturePtr getCreatureById(uint32_t id);
+    void removeCreatureById(uint32_t id);
     std::vector<CreaturePtr> getSightSpectators(const Position& centerPos, bool multiFloor);
     std::vector<CreaturePtr> getSpectators(const Position& centerPos, bool multiFloor);
     std::vector<CreaturePtr> getSpectatorsInRange(const Position& centerPos, bool multiFloor, int xRange, int yRange);
@@ -245,26 +245,26 @@ public:
 
 private:
     void removeUnawareThings();
-    uint getBlockIndex(const Position& pos) { return ((pos.y / BLOCK_SIZE) * (65536 / BLOCK_SIZE)) + (pos.x / BLOCK_SIZE); }
+    unsigned int getBlockIndex(const Position& pos) { return ((pos.y / BLOCK_SIZE) * (65536 / BLOCK_SIZE)) + (pos.x / BLOCK_SIZE); }
 
-    std::unordered_map<uint, TileBlock> m_tileBlocks[Otc::MAX_Z+1];
-    std::unordered_map<uint32, CreaturePtr> m_knownCreatures;
+    std::unordered_map<unsigned int, TileBlock> m_tileBlocks[Otc::MAX_Z+1];
+    std::unordered_map<uint32_t, CreaturePtr> m_knownCreatures;
     std::array<std::vector<MissilePtr>, Otc::MAX_Z+1> m_floorMissiles;
     std::vector<AnimatedTextPtr> m_animatedTexts;
     std::vector<StaticTextPtr> m_staticTexts;
     std::vector<MapViewPtr> m_mapViews;
     std::unordered_map<Position, std::string, PositionHasher> m_waypoints;
 
-    uint8 m_animationFlags;
-    uint32 m_zoneFlags;
-    std::map<uint32, Color> m_zoneColors;
+    uint8_t m_animationFlags;
+    uint32_t m_zoneFlags;
+    std::map<uint32_t, Color> m_zoneColors;
     float m_zoneOpacity;
 
     Light m_light;
     Position m_centralPosition;
     Rect m_tilesRect;
 
-    stdext::packed_storage<uint8> m_attribs;
+    stdext::packed_storage<uint8_t> m_attribs;
     AwareRange m_awareRange;
     static TilePtr m_nulltile;
 };

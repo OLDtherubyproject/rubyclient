@@ -40,7 +40,7 @@ Protocol::~Protocol()
     disconnect();
 }
 
-void Protocol::connect(const std::string& host, uint16 port)
+void Protocol::connect(const std::string& host, uint16_t port)
 {
     m_connection = ConnectionPtr(new Connection);
     m_connection->setErrorCallback(std::bind(&Protocol::onError, asProtocol(), std::placeholders::_1));
@@ -107,18 +107,18 @@ void Protocol::recv()
         m_connection->read(2, std::bind(&Protocol::internalRecvHeader, asProtocol(), std::placeholders::_1,  std::placeholders::_2));
 }
 
-void Protocol::internalRecvHeader(uint8* buffer, uint16 size)
+void Protocol::internalRecvHeader(uint8_t* buffer, uint16_t size)
 {
     // read message size
     m_inputMessage->fillBuffer(buffer, size);
-    uint16 remainingSize = m_inputMessage->readSize();
+    uint16_t remainingSize = m_inputMessage->readSize();
 
     // read remaining message data
     if(m_connection)
         m_connection->read(remainingSize, std::bind(&Protocol::internalRecvData, asProtocol(), std::placeholders::_1,  std::placeholders::_2));
 }
 
-void Protocol::internalRecvData(uint8* buffer, uint16 size)
+void Protocol::internalRecvData(uint8_t* buffer, uint16_t size)
 {
     // process data only if really connected
     if(!isConnected()) {
@@ -145,14 +145,14 @@ void Protocol::internalRecvData(uint8* buffer, uint16 size)
 void Protocol::generateXteaKey()
 {
     std::mt19937 eng(std::time(NULL));
-    std::uniform_int_distribution<uint32> unif(0, 0xFFFFFFFF);
+    std::uniform_int_distribution<uint32_t> unif(0, 0xFFFFFFFF);
     m_xteaKey[0] = unif(eng);
     m_xteaKey[1] = unif(eng);
     m_xteaKey[2] = unif(eng);
     m_xteaKey[3] = unif(eng);
 }
 
-void Protocol::setXteaKey(uint32 a, uint32 b, uint32 c, uint32 d)
+void Protocol::setXteaKey(uint32_t a, uint32_t b, uint32_t c, uint32_t d)
 {
     m_xteaKey[0] = a;
     m_xteaKey[1] = b;
@@ -160,9 +160,9 @@ void Protocol::setXteaKey(uint32 a, uint32 b, uint32 c, uint32 d)
     m_xteaKey[3] = d;
 }
 
-std::vector<uint32> Protocol::getXteaKey()
+std::vector<uint32_t> Protocol::getXteaKey()
 {
-    std::vector<uint32> xteaKey;
+    std::vector<uint32_t> xteaKey;
     xteaKey.resize(4);
     for(int i = 0; i < 4; ++i)
         xteaKey[i] = m_xteaKey[i];
@@ -171,21 +171,21 @@ std::vector<uint32> Protocol::getXteaKey()
 
 bool Protocol::xteaDecrypt(const InputMessagePtr& inputMessage)
 {
-    uint16 encryptedSize = inputMessage->getUnreadSize();
+    uint16_t encryptedSize = inputMessage->getUnreadSize();
     if(encryptedSize % 8 != 0) {
         g_logger.traceError("invalid encrypted network message");
         return false;
     }
 
-    uint32 *buffer = (uint32*)(inputMessage->getReadBuffer());
+    uint32_t *buffer = (uint32_t*)(inputMessage->getReadBuffer());
     int readPos = 0;
 
     while(readPos < encryptedSize/4) {
-        uint32 v0 = buffer[readPos], v1 = buffer[readPos + 1];
-        uint32 delta = 0x61C88647;
-        uint32 sum = 0xC6EF3720;
+        uint32_t v0 = buffer[readPos], v1 = buffer[readPos + 1];
+        uint32_t delta = 0x61C88647;
+        uint32_t sum = 0xC6EF3720;
 
-        for(int32 i = 0; i < 32; i++) {
+        for(int32_t i = 0; i < 32; i++) {
             v1 -= ((v0 << 4 ^ v0 >> 5) + v0) ^ (sum + m_xteaKey[sum>>11 & 3]);
             sum += delta;
             v0 -= ((v1 << 4 ^ v1 >> 5) + v1) ^ (sum + m_xteaKey[sum & 3]);
@@ -194,7 +194,7 @@ bool Protocol::xteaDecrypt(const InputMessagePtr& inputMessage)
         readPos = readPos + 2;
     }
 
-    uint16 decryptedSize = inputMessage->getU16() + 2;
+    uint16_t decryptedSize = inputMessage->get<uint16_t>() + 2;
     int sizeDelta = decryptedSize - encryptedSize;
     if(sizeDelta > 0 || -sizeDelta > encryptedSize) {
         g_logger.traceError("invalid decrypted network message");
@@ -208,23 +208,23 @@ bool Protocol::xteaDecrypt(const InputMessagePtr& inputMessage)
 void Protocol::xteaEncrypt(const OutputMessagePtr& outputMessage)
 {
     outputMessage->writeMessageSize();
-    uint16 encryptedSize = outputMessage->getMessageSize();
+    uint16_t encryptedSize = outputMessage->getMessageSize();
 
     //add bytes until reach 8 multiple
     if((encryptedSize % 8) != 0) {
-        uint16 n = 8 - (encryptedSize % 8);
+        uint16_t n = 8 - (encryptedSize % 8);
         outputMessage->addPaddingBytes(n);
         encryptedSize += n;
     }
 
     int readPos = 0;
-    uint32 *buffer = (uint32*)(outputMessage->getDataBuffer() - 2);
+    uint32_t *buffer = (uint32_t*)(outputMessage->getDataBuffer() - 2);
     while(readPos < encryptedSize / 4) {
-        uint32 v0 = buffer[readPos], v1 = buffer[readPos + 1];
-        uint32 delta = 0x61C88647;
-        uint32 sum = 0;
+        uint32_t v0 = buffer[readPos], v1 = buffer[readPos + 1];
+        uint32_t delta = 0x61C88647;
+        uint32_t sum = 0;
 
-        for(int32 i = 0; i < 32; i++) {
+        for(int32_t i = 0; i < 32; i++) {
             v0 += ((v1 << 4 ^ v1 >> 5) + v1) ^ (sum + m_xteaKey[sum & 3]);
             sum -= delta;
             v1 += ((v0 << 4 ^ v0 >> 5) + v0) ^ (sum + m_xteaKey[sum>>11 & 3]);

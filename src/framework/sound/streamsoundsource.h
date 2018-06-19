@@ -53,7 +53,7 @@ public:
 private:
     void queueBuffers();
     void unqueueBuffers();
-    bool fillBufferAndQueue(uint buffer);
+    bool fillBufferAndQueue(unsigned int buffer);
 
     SoundFilePtr m_soundFile;
     std::array<SoundBufferPtr,STREAM_FRAGMENTS> m_buffers;

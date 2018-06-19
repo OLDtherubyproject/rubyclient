@@ -29,8 +29,8 @@ function load()
     datPath = resolvepath('/things/' .. filename)
     sprPath = resolvepath('/things/' .. filename)
   else
-    datPath = resolvepath('/things/' .. version .. '/Tibia')
-    sprPath = resolvepath('/things/' .. version .. '/Tibia')
+    datPath = resolvepath('/things/ruby')
+    sprPath = resolvepath('/things/ruby')
   end
 
   local errorMessage = ''

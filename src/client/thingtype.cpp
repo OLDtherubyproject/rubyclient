@@ -90,7 +90,7 @@ void ThingType::serialize(const FileStreamPtr& fin)
             case ThingAttrMinimapColor:
             case ThingAttrCloth:
             case ThingAttrLensHelp:
-                fin->addU16(m_attribs.get<uint16>(attr));
+                fin->addU16(m_attribs.get<uint16_t>(attr));
                 break;
             default:
                 break;
@@ -116,7 +116,7 @@ void ThingType::serialize(const FileStreamPtr& fin)
         }
     }
 
-    for(uint i = 0; i < m_spritesIndex.size(); i++) {
+    for(unsigned int i = 0; i < m_spritesIndex.size(); i++) {
         if(g_game.getFeature(Otc::GameSpritesU32))
             fin->addU32(m_spritesIndex[i]);
         else
@@ -124,7 +124,7 @@ void ThingType::serialize(const FileStreamPtr& fin)
     }
 }
 
-void ThingType::unserialize(uint16 clientId, ThingCategory category, const FileStreamPtr& fin)
+void ThingType::unserialize(uint16_t clientId, ThingCategory category, const FileStreamPtr& fin)
 {
     m_null = false;
     m_id = clientId;
@@ -195,18 +195,18 @@ void ThingType::unserialize(uint16 clientId, ThingCategory category, const FileS
             m_id, m_category, count, attr));
 
     bool hasFrameGroups = (category == ThingCategoryCreature && g_game.getFeature(Otc::GameIdleAnimations));
-    uint8 groupCount = hasFrameGroups ? fin->getU8() : 1;
+    uint8_t groupCount = hasFrameGroups ? fin->getU8() : 1;
 
     m_animationPhases = 0;
     int totalSpritesCount = 0;
 
     for(int i = 0; i < groupCount; ++i) {
-        uint8 frameGroupType = FrameGroupDefault;
+        uint8_t frameGroupType = FrameGroupDefault;
         if(hasFrameGroups)
             frameGroupType = fin->getU8();
 
-        uint8 width = fin->getU8();
-        uint8 height = fin->getU8();
+        uint8_t width = fin->getU8();
+        uint8_t height = fin->getU8();
         m_size = Size(width, height);
         if(width > 1 || height > 1) {
             m_realSize = fin->getU8();
@@ -308,7 +308,7 @@ void ThingType::draw(const Point& dest, float scaleFactor, int layer, int xPatte
     if(!texture)
         return;
 
-    uint frameIndex = getTextureIndex(layer, xPattern, yPattern, zPattern);
+    unsigned int frameIndex = getTextureIndex(layer, xPattern, yPattern, zPattern);
     if(frameIndex >= m_texturesFramesRects[animationPhase].size())
         return;
 
@@ -384,7 +384,7 @@ const TexturePtr& ThingType::getTexture(int animationPhase)
                         if(!useCustomImage) {
                             for(int h = 0; h < m_size.height(); ++h) {
                                 for(int w = 0; w < m_size.width(); ++w) {
-                                    uint spriteIndex = getSpriteIndex(w, h, spriteMask ? 1 : l, x, y, z, animationPhase);
+                                    unsigned int spriteIndex = getSpriteIndex(w, h, spriteMask ? 1 : l, x, y, z, animationPhase);
                                     ImagePtr spriteImage = g_sprites.getSpriteImage(m_spritesIndex[spriteIndex]);
                                     if(spriteImage) {
                                         if(spriteMask) {
@@ -403,7 +403,7 @@ const TexturePtr& ThingType::getTexture(int animationPhase)
                         Rect drawRect(framePos + Point(m_size.width(), m_size.height()) * Otc::TILE_PIXELS - Point(1,1), framePos);
                         for(int x = framePos.x; x < framePos.x + m_size.width() * Otc::TILE_PIXELS; ++x) {
                             for(int y = framePos.y; y < framePos.y + m_size.height() * Otc::TILE_PIXELS; ++y) {
-                                uint8 *p = fullImage->getPixel(x,y);
+                                uint8_t *p = fullImage->getPixel(x,y);
                                 if(p[3] != 0x00) {
                                     drawRect.setTop   (std::min<int>(y, (int)drawRect.top()));
                                     drawRect.setLeft  (std::min<int>(x, (int)drawRect.left()));
@@ -460,8 +460,8 @@ Size ThingType::getBestTextureDimension(int w, int h, int count)
     return bestDimension;
 }
 
-uint ThingType::getSpriteIndex(int w, int h, int l, int x, int y, int z, int a) {
-    uint index =
+unsigned int ThingType::getSpriteIndex(int w, int h, int l, int x, int y, int z, int a) {
+    unsigned int index =
         ((((((a % m_animationPhases)
         * m_numPatternZ + z)
         * m_numPatternY + y)
@@ -473,7 +473,7 @@ uint ThingType::getSpriteIndex(int w, int h, int l, int x, int y, int z, int a) 
     return index;
 }
 
-uint ThingType::getTextureIndex(int l, int x, int y, int z) {
+unsigned int ThingType::getTextureIndex(int l, int x, int y, int z) {
     return ((l * m_numPatternZ + z)
                * m_numPatternY + y)
                * m_numPatternX + x;

@@ -35,7 +35,7 @@ void OutputMessage::reset()
     m_messageSize = 0;
 }
 
-void OutputMessage::addU8(uint8 value)
+void OutputMessage::addU8(uint8_t value)
 {
     checkWrite(1);
     m_buffer[m_writePos] = value;
@@ -43,7 +43,7 @@ void OutputMessage::addU8(uint8 value)
     m_messageSize += 1;
 }
 
-void OutputMessage::addU16(uint16 value)
+void OutputMessage::addU16(uint16_t value)
 {
     checkWrite(2);
     stdext::writeULE16(m_buffer + m_writePos, value);
@@ -51,7 +51,7 @@ void OutputMessage::addU16(uint16 value)
     m_messageSize += 2;
 }
 
-void OutputMessage::addU32(uint32 value)
+void OutputMessage::addU32(uint32_t value)
 {
     checkWrite(4);
     stdext::writeULE32(m_buffer + m_writePos, value);
@@ -59,7 +59,7 @@ void OutputMessage::addU32(uint32 value)
     m_messageSize += 4;
 }
 
-void OutputMessage::addU64(uint64 value)
+void OutputMessage::addU64(uint64_t value)
 {
     checkWrite(8);
     stdext::writeULE64(m_buffer + m_writePos, value);
@@ -79,7 +79,7 @@ void OutputMessage::addString(const std::string& buffer)
     m_messageSize += len;
 }
 
-void OutputMessage::addPaddingBytes(int bytes, uint8 byte)
+void OutputMessage::addPaddingBytes(int bytes, uint8_t byte)
 {
     if(bytes <= 0)
         return;
@@ -101,7 +101,7 @@ void OutputMessage::encryptRsa()
 
 void OutputMessage::writeChecksum()
 {
-    uint32 checksum = stdext::adler32(m_buffer + m_headerPos, m_messageSize);
+    uint32_t checksum = stdext::adler32(m_buffer + m_headerPos, m_messageSize);
     assert(m_headerPos - 4 >= 0);
     m_headerPos -= 4;
     stdext::writeULE32(m_buffer + m_headerPos, checksum);

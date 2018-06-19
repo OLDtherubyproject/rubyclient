@@ -32,7 +32,7 @@ namespace stdext {
 #pragma pack(push,1)
 
 // this class was designed to use less memory as possible
-template<typename Key, typename SizeType = uint8>
+template<typename Key, typename SizeType = uint8_t>
 class packed_storage {
     struct value_pair {
         Key id;

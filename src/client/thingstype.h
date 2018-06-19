@@ -46,17 +46,17 @@ public:
     bool parseThingType(const FileStreamPtr& fin, ThingType& thingType);
 
     ThingType *getEmptyThingType() { return &m_emptyThingType; }
-    ThingType *getThingType(uint16 id, Categories category);
+    ThingType *getThingType(uint16_t id, Categories category);
 
-    uint32 getSignature() { return m_signature; }
+    uint32_t getSignature() { return m_signature; }
     bool isLoaded() { return m_loaded; }
 
-    uint16 getFirstItemId() { return 100; }
-    uint16 getMaxItemid() { return m_things[Item].size() + 99; }
+    uint16_t getFirstItemId() { return 100; }
+    uint16_t getMaxItemid() { return m_things[Item].size() + 99; }
     bool isValidItemId(int id) { return id >= getFirstItemId() && id <= getMaxItemid(); }
 
 private:
-    uint32 m_signature;
+    uint32_t m_signature;
     stdext::boolean<false> m_loaded;
     ThingTypeList m_things[LastCategory];
     static ThingType m_emptyThingType;

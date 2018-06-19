@@ -650,8 +650,8 @@ void X11Window::poll()
                     Atom wmStateMaximizedVert = XInternAtom(m_display, "_NET_WM_STATE_MAXIMIZED_VERT", False);
                     Atom wmStateMaximizedHorz = XInternAtom(m_display, "_NET_WM_STATE_MAXIMIZED_HORZ", False);
                     Atom actualType;
-                    ulong i, numItems, bytesAfter;
-                    uchar *propertyValue = NULL;
+                    unsigned long i, numItems, bytesAfter;
+                    unsigned char *propertyValue = NULL;
                     int actualFormat;
 
                     if(XGetWindowProperty(m_display, m_window, wmState,
@@ -698,7 +698,7 @@ void X11Window::poll()
                     XChangeProperty(m_display, req->requestor,
                                     req->property, req->target,
                                     8, PropModeReplace,
-                                    (uchar *)&typeList,
+                                    (unsigned char *)&typeList,
                                     sizeof(typeList));
                     respond.xselection.property = req->property;
                 } else {
@@ -708,7 +708,7 @@ void X11Window::poll()
                                     req->property, req->target,
                                     8,
                                     PropModeReplace,
-                                    (uchar *)clipboardText.c_str(),
+                                    (unsigned char *)clipboardText.c_str(),
                                     clipboardText.length());
                     respond.xselection.property = req->property;
                 }
@@ -745,11 +745,11 @@ void X11Window::poll()
                 }
 
                 // filter unwanted characters
-                if(len == 0 || (uchar)(buf[0]) < 32 || keysym == XK_BackSpace || keysym == XK_Return || keysym == XK_Delete || keysym == XK_Escape)
+                if(len == 0 || (unsigned char)(buf[0]) < 32 || keysym == XK_BackSpace || keysym == XK_Return || keysym == XK_Delete || keysym == XK_Escape)
                     break;
                 std::string text = buf;
 
-                //g_logger.debug("char: ", buf[0], " code: ", (int)((uchar)buf[0]));
+                //g_logger.debug("char: ", buf[0], " code: ", (int)((unsigned char)buf[0]));
 
                 if(m_onInputEvent && text.length() > 0) {
                     m_inputEvent.reset(Fw::KeyTextInputEvent);
@@ -904,11 +904,11 @@ int X11Window::internalLoadMouseCursor(const ImagePtr& image, const Point& hotSp
     fg.green = 0;
     fg.blue  = 0;
 
-    std::vector<uchar> mapBits(numbytes, 0);
-    std::vector<uchar> maskBits(numbytes, 0);
+    std::vector<unsigned char> mapBits(numbytes, 0);
+    std::vector<unsigned char> maskBits(numbytes, 0);
 
     for(int i=0;i<numbits;++i) {
-        uint32 rgba = stdext::readULE32(image->getPixelData() + i*4);
+        uint32_t rgba = stdext::readULE32(image->getPixelData() + i*4);
         if(rgba == 0xffffffff) { //white, background
             LSB_BIT_SET(maskBits, i);
         } else if(rgba == 0xff000000) { //black, foreground
@@ -1003,7 +1003,7 @@ void X11Window::setIcon(const std::string& file)
     iconData[0] = image->getWidth();
     iconData[1] = image->getHeight();
     for(int i=0; i < n;++i) {
-        uint8 *pixel = (uint8*)&iconData[2 + i];
+        uint8_t *pixel = (uint8_t*)&iconData[2 + i];
         pixel[2] = *(image->getPixelData() + (i * 4) + 0);
         pixel[1] = *(image->getPixelData() + (i * 4) + 1);
         pixel[0] = *(image->getPixelData() + (i * 4) + 2);
@@ -1047,7 +1047,7 @@ std::string X11Window::getClipboardText()
         // check for data
         Atom type;
         int format;
-        ulong len, bytesLeft;
+        unsigned long len, bytesLeft;
         char *data;
         XGetWindowProperty(m_display, ownerWindow,
                             XA_PRIMARY, 0, 10000000L, 0, XA_STRING,
@@ -1055,7 +1055,7 @@ std::string X11Window::getClipboardText()
                             &format,
                             &len,
                             &bytesLeft,
-                            (uchar**)&data);
+                            (unsigned char**)&data);
         if(len > 0) {
             if(stdext::is_valid_utf8(data))
                 clipboardText = stdext::utf8_to_latin1(data);

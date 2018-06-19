@@ -49,7 +49,7 @@ public:
 
 private:
     Type m_type;
-    uint m_id;
+    unsigned int m_id;
 };
 
 #endif

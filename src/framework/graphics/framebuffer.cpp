@@ -27,7 +27,7 @@
 #include <framework/platform/platformwindow.h>
 #include <framework/core/application.h>
 
-uint FrameBuffer::boundFbo = 0;
+unsigned int FrameBuffer::boundFbo = 0;
 
 FrameBuffer::FrameBuffer()
 {

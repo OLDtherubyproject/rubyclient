@@ -92,7 +92,7 @@ void Creature::draw(const Point& dest, float scaleFactor, bool animate, LightVie
 
         // local player always have a minimum light in complete darkness
         if(isLocalPlayer() && (g_map.getLight().intensity < 64 || m_position.z > Otc::SEA_FLOOR)) {
-            light.intensity = std::max<uint8>(light.intensity, 3);
+            light.intensity = std::max<uint8_t>(light.intensity, 3);
             if(light.color == 0 || light.color > 215)
                 light.color = 215;
         }
@@ -244,7 +244,7 @@ void Creature::drawInformation(const Point& point, bool useGray, const Rect& par
         textRect.bind(parentRect);
 
     // distance them
-    uint32 offset = 12;
+    uint32_t offset = 12;
     if(isLocalPlayer()) {
         offset *= 2;
     }
@@ -638,12 +638,12 @@ void Creature::setName(const std::string& name)
     m_name = name;
 }
 
-void Creature::setNameColor(uint8 nameColor)
+void Creature::setNameColor(uint8_t nameColor)
 {
     m_nameColor = nameColor;
 }
 
-void Creature::setHealthPercent(uint8 healthPercent)
+void Creature::setHealthPercent(uint8_t healthPercent)
 {
     if(healthPercent > 92)
         m_informationColor = Color(0x00, 0xBC, 0x00);
@@ -720,9 +720,9 @@ void Creature::updateOutfitColor(Color color, Color finalColor, Color delta, int
     }
 }
 
-void Creature::setSpeed(uint16 speed)
+void Creature::setSpeed(uint16_t speed)
 {
-    uint16 oldSpeed = m_speed;
+    uint16_t oldSpeed = m_speed;
     m_speed = speed;
 
     // speed can change while walking (utani hur, paralyze, etc..)
@@ -742,31 +742,31 @@ void Creature::setBaseSpeed(double baseSpeed)
     }
 }
 
-void Creature::setGender(uint8 gender)
+void Creature::setGender(uint8_t gender)
 {
     m_gender = gender;
     callLuaField("onGenderChange", m_gender);
 }
 
-void Creature::setShield(uint8 shield)
+void Creature::setShield(uint8_t shield)
 {
     m_shield = shield;
     callLuaField("onShieldChange", m_shield);
 }
 
-void Creature::setEmblem(uint8 emblem)
+void Creature::setEmblem(uint8_t emblem)
 {
     m_emblem = emblem;
     callLuaField("onEmblemChange", m_emblem);
 }
 
-void Creature::setType(uint8 type)
+void Creature::setType(uint8_t type)
 {
     m_type = type;
     callLuaField("onTypeChange", m_type);
 }
 
-void Creature::setIcon(uint8 icon)
+void Creature::setIcon(uint8_t icon)
 {
     m_icon = icon;
     callLuaField("onIconChange", m_icon);
@@ -820,7 +820,7 @@ bool Creature::hasSpeedFormula()
             && m_speedFormula[Otc::SpeedFormulaC] != -1;
 }
 
-void Creature::addTimedSquare(uint8 color)
+void Creature::addTimedSquare(uint8_t color)
 {
     m_showTimedSquare = true;
     m_timedSquareColor = Color::from8bit(color);

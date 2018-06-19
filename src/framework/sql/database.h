@@ -42,7 +42,7 @@ public:
     * Connects the database to the source host.
     */
     virtual void connect(const std::string& host, const std::string& user, const std::string& pass,
-                 const std::string& db, uint16 port, const std::string& unix_socket = "") {}
+                 const std::string& db, uint16_t port, const std::string& unix_socket = "") {}
 
     /**
     * Transaction related methods.
@@ -97,14 +97,14 @@ public:
     * @param long stream length
     * @return quoted string
     */
-    virtual std::string escapeBlob(const char*, uint32) { return "''"; }
+    virtual std::string escapeBlob(const char*, uint32_t) { return "''"; }
 
     /**
      * Retrieve id of last inserted row
      *
      * @return id on success, 0 if last query did not result on any rows with auto_increment keys
      */
-    virtual uint64 getLastInsertedRowID() { return 0; }
+    virtual uint64_t getLastInsertedRowID() { return 0; }
 
     /**
     * Get case insensitive string comparison operator
@@ -160,13 +160,13 @@ public:
     *\returns The Integer value of the selected field and row
     *\param s The name of the field
     */
-    virtual int32 getDataInt(const std::string&) { return 0; }
+    virtual int32_t getDataInt(const std::string&) { return 0; }
 
     /** Get the Long value of a field in database
     *\returns The Long value of the selected field and row
     *\param s The name of the field
     */
-    virtual int64 getDataLong(const std::string&) { return 0; }
+    virtual int64_t getDataLong(const std::string&) { return 0; }
 
     /** Get the String of a field in database
     *\returns The String of the selected field and row
@@ -178,7 +178,7 @@ public:
     *\returns a PropStream that is initiated with the blob data field, if not exist it returns NULL.
     *\param s The name of the field
     */
-    virtual const char* getDataStream(const std::string&, uint64&) { return ""; }
+    virtual const char* getDataStream(const std::string&, uint64_t&) { return ""; }
 
     /** Result freeing
     */
@@ -259,7 +259,7 @@ public:
 protected:
     DatabasePtr m_db;
 
-    uint32 m_rows;
+    uint32_t m_rows;
     std::string m_query;
     std::string m_buf;
 };

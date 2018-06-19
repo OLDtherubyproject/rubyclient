@@ -30,7 +30,7 @@
 class SoundSource : public LuaObject
 {
 protected:
-    SoundSource(uint sourceId) : m_sourceId(sourceId) { }
+    SoundSource(unsigned int sourceId) : m_sourceId(sourceId) { }
 
 public:
     enum FadeState { NoFading, FadingOn, FadingOff };
@@ -55,19 +55,19 @@ public:
     virtual void setFading(FadeState state, float fadetime);
 
     std::string getName() { return m_name; }
-    uchar getChannel() { return m_channel; }
+    unsigned char getChannel() { return m_channel; }
     float getGain() { return m_gain; }
 
 protected:
     void setBuffer(const SoundBufferPtr& buffer);
-    void setChannel(uchar channel) { m_channel = channel; }
+    void setChannel(unsigned char channel) { m_channel = channel; }
 
     virtual void update();
     friend class SoundManager;
     friend class CombinedSoundSource;
 
-    uint m_sourceId;
-    uchar m_channel;
+    unsigned int m_sourceId;
+    unsigned char m_channel;
     std::string m_name;
     SoundBufferPtr m_buffer;
     FadeState m_fadeState;

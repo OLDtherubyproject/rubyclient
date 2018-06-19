@@ -143,7 +143,7 @@ end
 
 function ProtocolLogin:onRecv(msg)
   while not msg:eof() do
-    local opcode = msg:getU8()
+    local opcode = msg:getByte()
     if opcode == LoginServerErrorNew then
       self:parseError(msg)
     elseif opcode == LoginServerError then
@@ -153,10 +153,10 @@ function ProtocolLogin:onRecv(msg)
     elseif opcode == LoginServerUpdateNeeded then
       signalcall(self.onLoginError, self, tr("Client needs update."))
     elseif opcode == LoginServerTokenSuccess then
-      local unknown = msg:getU8()
+      local unknown = msg:getByte()
     elseif opcode == LoginServerTokenError then
       -- TODO: prompt for token here
-      local unknown = msg:getU8()
+      local unknown = msg:getByte()
       signalcall(self.onLoginError, self, tr("Invalid authentification token."))
     elseif opcode == LoginServerCharacterList then
       self:parseCharacterList(msg)
@@ -194,21 +194,21 @@ function ProtocolLogin:parseCharacterList(msg)
 
   local worlds = {}
 
-  local worldsCount = msg:getU8()
+  local worldsCount = msg:getByte()
   for i=1, worldsCount do
     local world = {}
-    local worldId = msg:getU8()
+    local worldId = msg:getByte()
     world.worldName = msg:getString()
     world.worldIp = msg:getString()
     world.worldPort = msg:getU16()
-    world.previewState = msg:getU8()
+    world.previewState = msg:getByte()
     worlds[worldId] = world
   end
 
-  local charactersCount = msg:getU8()
+  local charactersCount = msg:getByte()
   for i=1, charactersCount do
     local character = {}
-    local worldId = msg:getU8()
+    local worldId = msg:getByte()
     character.name = msg:getString()
     character.worldName = worlds[worldId].worldName
     character.worldIp = worlds[worldId].worldIp

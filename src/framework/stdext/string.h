@@ -67,7 +67,7 @@ std::vector<std::string> split(const std::string& str, const std::string& separa
 template<typename T> std::vector<T> split(const std::string& str, const std::string& separators = " ") {
     std::vector<std::string> splitted = split(str, separators);
     std::vector<T> results(splitted.size());
-    for(uint i=0;i<splitted.size();++i)
+    for(unsigned int i=0;i<splitted.size();++i)
         results[i] = safe_cast<T>(splitted[i]);
     return results;
 }

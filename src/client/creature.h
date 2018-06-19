@@ -50,21 +50,21 @@ public:
     void drawOutfit(const Rect& destRect, bool resize);
     void drawInformation(const Point& point, bool useGray, const Rect& parentRect, int drawFlags);
 
-    void setId(uint32 id) { m_id = id; }
+    void setId(uint32_t id) { m_id = id; }
     void setName(const std::string& name);
-    void setNameColor(uint8 nameColor);
-    void setHealthPercent(uint8 healthPercent);
+    void setNameColor(uint8_t nameColor);
+    void setHealthPercent(uint8_t healthPercent);
     void setDirection(Otc::Direction direction);
     void setOutfit(const Outfit& outfit);
     void setOutfitColor(const Color& color, int duration);
     void setLight(const Light& light) { m_light = light; }
-    void setSpeed(uint16 speed);
+    void setSpeed(uint16_t speed);
     void setBaseSpeed(double baseSpeed);
-    void setGender(uint8 gender);
-    void setShield(uint8 shield);
-    void setEmblem(uint8 emblem);
-    void setType(uint8 type);
-    void setIcon(uint8 icon);
+    void setGender(uint8_t gender);
+    void setShield(uint8_t shield);
+    void setEmblem(uint8_t emblem);
+    void setType(uint8_t type);
+    void setIcon(uint8_t icon);
     void setGenderTexture(const std::string& filename);
     void setShieldTexture(const std::string& filename, bool blink);
     void setEmblemTexture(const std::string& filename);
@@ -73,26 +73,26 @@ public:
     void setPassable(bool passable) { m_passable = passable; }
     void setSpeedFormula(double speedA, double speedB, double speedC);
 
-    void addTimedSquare(uint8 color);
+    void addTimedSquare(uint8_t color);
     void removeTimedSquare() { m_showTimedSquare = false; }
 
     void showStaticSquare(const Color& color) { m_showStaticSquare = true; m_staticSquareColor = color; }
     void hideStaticSquare() { m_showStaticSquare = false; }
 
-    uint32 getId() { return m_id; }
+    uint32_t getId() { return m_id; }
     std::string getName() { return m_name; }
-    uint8 getNameColor() { return m_nameColor; }
-    uint8 getHealthPercent() { return m_healthPercent; }
+    uint8_t getNameColor() { return m_nameColor; }
+    uint8_t getHealthPercent() { return m_healthPercent; }
     Otc::Direction getDirection() { return m_direction; }
     Outfit getOutfit() { return m_outfit; }
     Light getLight() { return m_light; }
-    uint16 getSpeed() { return m_speed; }
+    uint16_t getSpeed() { return m_speed; }
     double getBaseSpeed() { return m_baseSpeed; }
-    uint8 getGender() { return m_gender; }
-    uint8 getShield() { return m_shield; }
-    uint8 getEmblem() { return m_emblem; }
-    uint8 getType() { return m_type; }
-    uint8 getIcon() { return m_icon; }
+    uint8_t getGender() { return m_gender; }
+    uint8_t getShield() { return m_shield; }
+    uint8_t getEmblem() { return m_emblem; }
+    uint8_t getType() { return m_type; }
+    uint8_t getIcon() { return m_icon; }
     bool isPassable() { return m_passable; }
     Point getDrawOffset();
     int getStepDuration(bool ignoreDiagonal = false, Otc::Direction dir = Otc::InvalidDirection);
@@ -147,20 +147,20 @@ protected:
     void updateOutfitColor(Color color, Color finalColor, Color delta, int duration);
     void updateJump();
 
-    uint32 m_id;
+    uint32_t m_id;
     std::string m_name;
-    uint8 m_nameColor;
-    uint8 m_healthPercent;
+    uint8_t m_nameColor;
+    uint8_t m_healthPercent;
     Otc::Direction m_direction;
     Outfit m_outfit;
     Light m_light;
     int m_speed;
     double m_baseSpeed;
-    uint8 m_gender;
-    uint8 m_shield;
-    uint8 m_emblem;
-    uint8 m_type;
-    uint8 m_icon;
+    uint8_t m_gender;
+    uint8_t m_shield;
+    uint8_t m_emblem;
+    uint8_t m_type;
+    uint8_t m_icon;
     TexturePtr m_genderTexture;
     TexturePtr m_shieldTexture;
     TexturePtr m_emblemTexture;
@@ -185,7 +185,7 @@ protected:
     // walk related
     int m_walkAnimationPhase;
     int m_walkedPixels;
-    uint m_footStep;
+    unsigned int m_footStep;
     Timer m_walkTimer;
     Timer m_footTimer;
     TilePtr m_walkingTile;

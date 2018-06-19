@@ -45,7 +45,7 @@ public:
     void setValidCharacters(const std::string validCharacters) { m_validCharacters = validCharacters; }
     void setShiftNavigation(bool enable) { m_shiftNavigation = enable; }
     void setMultiline(bool enable) { m_multiline = enable; }
-    void setMaxLength(uint maxLength) { m_maxLength = maxLength; }
+    void setMaxLength(unsigned int maxLength) { m_maxLength = maxLength; }
     void setTextVirtualOffset(const Point& offset);
     void setEditable(bool editable) { m_editable = editable; }
     void setSelectable(bool selectable) { m_selectable = selectable; }
@@ -75,7 +75,7 @@ public:
     Point getTextVirtualOffset() { return m_textVirtualOffset; }
     Size getTextVirtualSize() { return m_textVirtualSize; }
     Size getTextTotalSize() { return m_textTotalSize; }
-    uint getMaxLength() { return m_maxLength; }
+    unsigned int getMaxLength() { return m_maxLength; }
     int getSelectionStart() { return m_selectionStart; }
     int getSelectionEnd() { return m_selectionEnd; }
     Color getSelectionColor() { return m_selectionColor; }
@@ -98,7 +98,7 @@ protected:
     virtual void onGeometryChange(const Rect& oldRect, const Rect& newRect);
     virtual void onFocusChange(bool focused, Fw::FocusReason reason);
     virtual bool onKeyText(const std::string& keyText);
-    virtual bool onKeyPress(uchar keyCode, int keyboardModifiers, int autoRepeatTicks);
+    virtual bool onKeyPress(unsigned char keyCode, int keyboardModifiers, int autoRepeatTicks);
     virtual bool onMousePress(const Point& mousePos, Fw::MouseButton button);
     virtual bool onMouseRelease(const Point& mousePos, Fw::MouseButton button);
     virtual bool onMouseMove(const Point& mousePos, const Point& mouseMoved);
@@ -124,7 +124,7 @@ private:
     bool m_editable;
     bool m_changeCursorImage;
     std::string m_validCharacters;
-    uint m_maxLength;
+    unsigned int m_maxLength;
     bool m_updatesEnabled;
     bool m_autoScroll;
 

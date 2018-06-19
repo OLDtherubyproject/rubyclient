@@ -80,7 +80,7 @@ void Application::init(std::vector<std::string>& args)
     g_asyncDispatcher.init();
 
     std::string startupOptions;
-    for(uint i=1;i<args.size();++i) {
+    for(unsigned int i=1;i<args.size();++i) {
         const std::string& arg = args[i];
         startupOptions += " ";
         startupOptions += arg;

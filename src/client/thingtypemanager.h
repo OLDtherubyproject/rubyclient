@@ -39,12 +39,12 @@ public:
     bool loadOtml(std::string file);
     void loadOtb(const std::string& file);
     void loadXml(const std::string& file);
-    void parseItemType(uint16 id, TiXmlElement *elem);
+    void parseItemType(uint16_t id, TiXmlElement *elem);
 
     void saveDat(std::string fileName);
 
     void addItemType(const ItemTypePtr& itemType);
-    const ItemTypePtr& findItemTypeByClientId(uint16 id);
+    const ItemTypePtr& findItemTypeByClientId(uint16_t id);
     const ItemTypePtr& findItemTypeByName(std::string name);
     ItemTypeList findItemTypesByName(std::string name);
     ItemTypeList findItemTypesByString(std::string str);
@@ -52,10 +52,10 @@ public:
     const ThingTypePtr& getNullThingType() { return m_nullThingType; }
     const ItemTypePtr& getNullItemType() { return m_nullItemType; }
 
-    const ThingTypePtr& getThingType(uint16 id, ThingCategory category);
-    const ItemTypePtr& getItemType(uint16 id);
-    ThingType* rawGetThingType(uint16 id, ThingCategory category) { return m_thingTypes[category][id].get(); }
-    ItemType* rawGetItemType(uint16 id) { return m_itemTypes[id].get(); }
+    const ThingTypePtr& getThingType(uint16_t id, ThingCategory category);
+    const ItemTypePtr& getItemType(uint16_t id);
+    ThingType* rawGetThingType(uint16_t id, ThingCategory category) { return m_thingTypes[category][id].get(); }
+    ItemType* rawGetItemType(uint16_t id) { return m_itemTypes[id].get(); }
 
     ThingTypeList findThingTypeByAttr(ThingAttr attr, ThingCategory category);
     ItemTypeList findItemTypeByCategory(ItemCategory category);
@@ -63,17 +63,17 @@ public:
     const ThingTypeList& getThingTypes(ThingCategory category);
     const ItemTypeList& getItemTypes() { return m_itemTypes; }
 
-    uint32 getDatSignature() { return m_datSignature; }
-    uint32 getOtbMajorVersion() { return m_otbMajorVersion; }
-    uint32 getOtbMinorVersion() { return m_otbMinorVersion; }
-    uint16 getContentRevision() { return m_contentRevision; }
+    uint32_t getDatSignature() { return m_datSignature; }
+    uint32_t getOtbMajorVersion() { return m_otbMajorVersion; }
+    uint32_t getOtbMinorVersion() { return m_otbMinorVersion; }
+    uint16_t getContentRevision() { return m_contentRevision; }
 
     bool isDatLoaded() { return m_datLoaded; }
     bool isXmlLoaded() { return m_xmlLoaded; }
     bool isOtbLoaded() { return m_otbLoaded; }
 
-    bool isValidDatId(uint16 id, ThingCategory category) { return id >= 1 && id < m_thingTypes[category].size(); }
-    bool isValidOtbId(uint16 id) { return id >= 1 && id < m_itemTypes.size(); }
+    bool isValidDatId(uint16_t id, ThingCategory category) { return id >= 1 && id < m_thingTypes[category].size(); }
+    bool isValidOtbId(uint16_t id) { return id >= 1 && id < m_itemTypes.size(); }
 
 private:
     ThingTypeList m_thingTypes[ThingLastCategory];
@@ -87,10 +87,10 @@ private:
     bool m_xmlLoaded;
     bool m_otbLoaded;
 
-    uint32 m_otbMinorVersion;
-    uint32 m_otbMajorVersion;
-    uint32 m_datSignature;
-    uint16 m_contentRevision;
+    uint32_t m_otbMinorVersion;
+    uint32_t m_otbMajorVersion;
+    uint32_t m_datSignature;
+    uint16_t m_contentRevision;
 };
 
 extern ThingTypeManager g_things;

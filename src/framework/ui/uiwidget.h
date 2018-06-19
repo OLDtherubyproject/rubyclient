@@ -192,9 +192,9 @@ protected:
     virtual bool onDragMove(const Point& mousePos, const Point& mouseMoved);
     virtual bool onDrop(UIWidgetPtr draggedWidget, const Point& mousePos);
     virtual bool onKeyText(const std::string& keyText);
-    virtual bool onKeyDown(uchar keyCode, int keyboardModifiers);
-    virtual bool onKeyPress(uchar keyCode, int keyboardModifiers, int autoRepeatTicks);
-    virtual bool onKeyUp(uchar keyCode, int keyboardModifiers);
+    virtual bool onKeyDown(unsigned char keyCode, int keyboardModifiers);
+    virtual bool onKeyPress(unsigned char keyCode, int keyboardModifiers, int autoRepeatTicks);
+    virtual bool onKeyUp(unsigned char keyCode, int keyboardModifiers);
     virtual bool onMousePress(const Point& mousePos, Fw::MouseButton button);
     virtual bool onMouseRelease(const Point& mousePos, Fw::MouseButton button);
     virtual bool onMouseMove(const Point& mousePos, const Point& mouseMoved);
@@ -205,9 +205,9 @@ protected:
     friend class UILayout;
 
     bool propagateOnKeyText(const std::string& keyText);
-    bool propagateOnKeyDown(uchar keyCode, int keyboardModifiers);
-    bool propagateOnKeyPress(uchar keyCode, int keyboardModifiers, int autoRepeatTicks);
-    bool propagateOnKeyUp(uchar keyCode, int keyboardModifiers);
+    bool propagateOnKeyDown(unsigned char keyCode, int keyboardModifiers);
+    bool propagateOnKeyPress(unsigned char keyCode, int keyboardModifiers, int autoRepeatTicks);
+    bool propagateOnKeyUp(unsigned char keyCode, int keyboardModifiers);
     bool propagateOnMouseEvent(const Point& mousePos, UIWidgetList& widgetList);
     bool propagateOnMouseMove(const Point& mousePos, const Point& mouseMoved, UIWidgetList& widgetList);
 

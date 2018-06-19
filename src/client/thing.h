@@ -38,10 +38,10 @@ public:
 
     virtual void draw(const Point& dest, float scaleFactor, bool animate, LightView *lightView = nullptr) { }
 
-    virtual void setId(uint32 id) { }
+    virtual void setId(uint32_t id) { }
     void setPosition(const Position& position);
 
-    virtual uint32 getId() { return 0; }
+    virtual uint32_t getId() { return 0; }
     Position getPosition() { return m_position; }
     int getStackPriority();
     const TilePtr& getTile();
@@ -129,7 +129,7 @@ public:
 
 protected:
     Position m_position;
-    uint16 m_datId;
+    uint16_t m_datId;
 };
 #pragma pack(pop)
 

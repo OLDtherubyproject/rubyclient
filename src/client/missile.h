@@ -37,10 +37,10 @@ class Missile : public Thing
 public:
     void draw(const Point& dest, float scaleFactor, bool animate, LightView *lightView = nullptr);
 
-    void setId(uint32 id);
+    void setId(uint32_t id);
     void setPath(const Position& fromPosition, const Position& toPosition);
 
-    uint32 getId() { return m_id; }
+    uint32_t getId() { return m_id; }
 
     MissilePtr asMissile() { return static_self_cast<Missile>(); }
     bool isMissile() { return true; }
@@ -52,7 +52,7 @@ private:
     Timer m_animationTimer;
     Point m_delta;
     float m_duration;
-    uint16 m_id;
+    uint16_t m_id;
     Otc::Direction m_direction;
 };
 

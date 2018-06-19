@@ -59,12 +59,12 @@ private:
     TexturePtr m_texture;
     TexturePtr m_screenBackup;
     Size m_oldViewportSize;
-    uint m_fbo;
-    uint m_prevBoundFbo;
+    unsigned int m_fbo;
+    unsigned int m_prevBoundFbo;
     stdext::boolean<true> m_backuping;
     stdext::boolean<true> m_smooth;
 
-    static uint boundFbo;
+    static unsigned int boundFbo;
 };
 
 #endif

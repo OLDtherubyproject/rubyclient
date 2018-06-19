@@ -88,7 +88,7 @@ void Connection::close()
     }
 }
 
-void Connection::connect(const std::string& host, uint16 port, const std::function<void()>& connectCallback)
+void Connection::connect(const std::string& host, uint16_t port, const std::function<void()>& connectCallback)
 {
     m_connected = false;
     m_connecting = true;
@@ -112,7 +112,7 @@ void Connection::internal_connect(asio::ip::basic_resolver<asio::ip::tcp>::itera
     m_readTimer.async_wait(std::bind(&Connection::onTimeout, asConnection(), std::placeholders::_1));
 }
 
-void Connection::write(uint8* buffer, size_t size)
+void Connection::write(uint8_t* buffer, size_t size)
 {
     if(!m_connected)
         return;
@@ -152,7 +152,7 @@ void Connection::internal_write()
     m_writeTimer.async_wait(std::bind(&Connection::onTimeout, asConnection(), std::placeholders::_1));
 }
 
-void Connection::read(uint16 bytes, const RecvCallback& callback)
+void Connection::read(uint16_t bytes, const RecvCallback& callback)
 {
     if(!m_connected)
         return;
@@ -274,7 +274,7 @@ void Connection::onRecv(const boost::system::error_code& error, size_t recvSize)
         if(!error) {
             if(m_recvCallback) {
                 const char* header = boost::asio::buffer_cast<const char*>(m_inputStream.data());
-                m_recvCallback((uint8*)header, recvSize);
+                m_recvCallback((uint8_t*)header, recvSize);
             }
         } else
             handleError(error);
