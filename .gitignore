@@ -24,6 +24,9 @@ CMakeLists.txt.user*
 *.bak
 *.swp
 *.pic
+*.spr
+*.dat
+*.otfi
 .lvimrc
 .clang_complete
 config.otml
