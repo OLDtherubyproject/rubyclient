@@ -16,6 +16,10 @@ Panel
     !text: tr('Show timestamps in console')
 
   OptionCheckBox
+    id: showLevelsInConsole
+    !text: tr('Show levels in console')
+
+  OptionCheckBox
     id: showPrivateMessagesInConsole
     !text: tr('Show private messages in console')
 

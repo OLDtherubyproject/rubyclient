@@ -462,7 +462,7 @@ local function updateBalance(balance)
   if balance < 0 then balance = 0 end
   information.balance = balance
 
-  balanceLabel:setText('Balance: '..balance..' gold')
+  balanceLabel:setText('Balance: '..(balance/100.0)..' dollars')
   balanceLabel:resizeToText()
 end
 

@@ -1,137 +1,3 @@
-MinimapMain < UIWidget
-  phantom: true
-
-MinimapText < UIWidget
-  focusable: true
-  opacity: 0.8
-  $pressed:
-    opacity: 0.6
-  $hover !pressed:
-    opacity: 1.0
-
-MinimapFloorUpButton < Button
-  size: 20 20
-  margin-right: 28
-  margin-bottom: 28
-  anchors.right: parent.right
-  anchors.bottom: parent.bottom
-  icon-source: /images/game/minimap/floor_up
-  icon-clip: 0 32 16 16
-  $pressed:
-    icon-clip: 0 0 16 16
-  $hover !pressed:
-    icon-clip: 0 16 16 16
-  @onClick: self:getParent():floorUp(1)
-  id: floorUp
-
-MinimapFloorDownButton < Button
-  size: 20 20
-  margin-right: 28
-  margin-bottom: 4
-  anchors.right: parent.right
-  anchors.bottom: parent.bottom
-  icon-source: /images/game/minimap/floor_down
-  icon-clip: 0 32 16 16
-  $pressed:
-    icon-clip: 0 0 16 16
-  $hover !pressed:
-    icon-clip: 0 16 16 16
-  @onClick: self:getParent():floorDown(1)
-  id: floorDown
-
-MinimapZoomInButton < Button
-  text: +
-  size: 20 20
-  margin-right: 4
-  margin-bottom: 28
-  anchors.right: parent.right
-  anchors.bottom: parent.bottom
-  //icon-source: /images/game/minimap/zoom_in
-  @onClick: self:getParent():zoomIn()
-  id: zoomIn
-
-MinimapZoomOutButton < Button
-  text: -
-  size: 20 20
-  margin-right: 4
-  margin-bottom: 4
-  anchors.right: parent.right
-  anchors.bottom: parent.bottom
-  //icon-source: /images/game/minimap/zoom_out
-  @onClick: self:getParent():zoomOut()
-  id: zoomOut
-
-MinimapResetButton < Button
-  !text: tr('Center')
-  size: 44 20
-  anchors.left: parent.left
-  anchors.top: parent.top
-  margin: 4
-  @onClick: self:getParent():reset()
-  id: reset
-
-TPLabel < Label
-  text: Already.
-  color: white
-  font: verdana-11px-rounded
-  margin-right: 4
-  margin-botton: 2
-  anchors.right: floorDown.left
-  anchors.bottom: floorDown.bottom
-  id: tptime
-
-TPLabelText < Label
-  text: Teleport time: 
-  color: white
-  font: verdana-11px-rounded
-  margin-right: 2
-  anchors.right: tptime.left
-  anchors.bottom: tptime.bottom
-  id: tptext
-  
-Button < UIButton
-  font: verdana-11px-antialised
-  color: #dfdfdf
-  size: 64 20
-  text-offset: 0 0
-  image-source: /images/ui/button_rounded
-  image-color: white
-  image-clip: 0 0 20 20
-  image-border: 3
-  padding: 5 10 5 10
-
-  $hover !disabled:
-    image-clip: 0 20 20 20
-    color: white
-
-  $pressed:
-    image-clip: 0 40 20 20
-    text-offset: 1 1
-    color: #dfdfdf
-
-  $disabled:
-    color: #5353A3
-
-HouseTeleportButton < UIButton
-  margin-right: 4
-  margin-bottom: 4
-  image-source: /images/ui/button_rounded2
-  image-color: white
-  image-clip: 0 0 25 25
-  image-border: 3
-  padding: 5 10 5 10
-  anchors.right: tptext.left
-  anchors.bottom: parent.bottom
-  icon-source: /images/game/minimap/house
-  id: housetp
-  size: 25 25
-  $hover !disabled:
-    image-clip: 0 25 25 25
-
-  $pressed:
-    image-clip: 0 50 25 25
-    text-offset: 1 1
-
 MiniWindow
   id: minimapWindow
   !text: tr('Minimap')
@@ -144,7 +10,7 @@ MiniWindow
     text: ?
     text-align: center
     phantom: false
-    !tooltip: tr('Hold left mouse button to navigate\nScroll mouse middle button to zoom\nRight mouse button to create map marks\nPress Ctrl+Tab to view the entire game map')
+    !tooltip: tr('Hold left mouse button to navigate\nScroll mouse middle button to zoom\nRight mouse button to create map marks\nPress Ctrl+Shift+M to view the entire game map')
     anchors.top: minimizeButton.top
     anchors.right: minimizeButton.left
     margin-right: 3
@@ -154,3 +20,9 @@ MiniWindow
     Minimap
       id: minimap
       anchors.fill: parent
+
+  ResizeBorder
+    anchors.right: parent.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    enabled: true

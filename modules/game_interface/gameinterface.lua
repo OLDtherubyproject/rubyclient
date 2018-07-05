@@ -902,7 +902,6 @@ function limitZoom()
 end
 
 function getSkills(playeruid)
-  g_logger.info('test')
   g_game.getProtocolGame():sendExtendedOpcode(12, playeruid)
 end
 

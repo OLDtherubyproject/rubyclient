@@ -1,11 +1,9 @@
--- 55294365
-
 local defaultOptions = {
   vsync = false,
   showFps = false,
   showPing = false,
   fullscreen = false,
-  classicControl = true,
+  classicControl = false,
   smartWalk = false,
   dashWalk = false,
   autoChaseOverride = true,
@@ -13,9 +11,10 @@ local defaultOptions = {
   showEventMessagesInConsole = true,
   showInfoMessagesInConsole = true,
   showTimestampsInConsole = true,
+  showLevelsInConsole = true,
   showPrivateMessagesInConsole = true,
   showPrivateMessagesOnScreen = true,
-  showLeftPanel = true,
+  showLeftPanel = false,
   foregroundFrameRate = 61,
   backgroundFrameRate = 201,
   painterEngine = 0,
@@ -26,8 +25,11 @@ local defaultOptions = {
   ambientLight = 25,
   displayNames = true,
   displayHealth = true,
+  displayMana = true,
   displayText = true,
-  dontStretchShrink = false
+  dontStretchShrink = false,
+  turnDelay = 50,
+  hotkeyDelay = 50,
 }
 
 local optionsWindow
@@ -39,7 +41,6 @@ local consolePanel
 local graphicsPanel
 local soundPanel
 local audioButton
-local imageSkin
 
 local function setupGraphicsEngines()
   local enginesRadioGroup = UIRadioGroup.create()
@@ -111,42 +112,18 @@ function init()
   audioPanel = g_ui.loadUI('audio')
   optionsTabBar:addTab(tr('Audio'), audioPanel, '/images/optionstab/audio')
 
-  skinPanel = g_ui.displayUI('skin')
-  skinPanel:hide()
-  optionsTabBar:addButton(tr('Skin'), function() skinPanel:show() skinPanel:raise() skinPanel:focus() end, '/images/optionstab/skin')
-
   optionsButton = modules.client_topmenu.addLeftButton('optionsButton', tr('Options'), '/images/topbuttons/options', toggle)
-  optionsButton:setWidth(32)
   audioButton = modules.client_topmenu.addLeftButton('audioButton', tr('Audio'), '/images/topbuttons/audio', function() toggleOption('enableAudio') end)
-  audioButton:setWidth(34)
 
-  addEvent(function() setup() load() end)
+  addEvent(function() setup() end)
 end
 
 function terminate()
-  save()
-
   g_keyboard.unbindKeyDown('Ctrl+Shift+F')
   g_keyboard.unbindKeyDown('Ctrl+N')
   optionsWindow:destroy()
   optionsButton:destroy()
   audioButton:destroy()
-  skinPanel:destroy()
-end
-
-function save()
-  local settings = {}
-  settings.imageSkin = imageSkin
-  g_settings.setNode('client_options', settings)
-end
-
-function load()
-  local settings = g_settings.getNode('client_options')
-  if settings then
-    if settings.imageSkin then
-      imageSkin = settings.imageSkin
-    end
-  end
 end
 
 function setup()
@@ -181,15 +158,17 @@ function hide()
 end
 
 function toggleDisplays()
-  if options['displayNames'] and options['displayHealth'] then
+  if options['displayNames'] and options['displayHealth'] and options['displayMana'] then
     setOption('displayNames', false)
   elseif options['displayHealth'] then
     setOption('displayHealth', false)
+    setOption('displayMana', false)
   else
     if not options['displayNames'] and not options['displayHealth'] then
       setOption('displayNames', true)
     else
       setOption('displayHealth', true)
+      setOption('displayMana', true)
     end
   end
 end
@@ -248,12 +227,18 @@ function setOption(key, value, force)
     gameMapPanel:setDrawNames(value)
   elseif key == 'displayHealth' then
     gameMapPanel:setDrawHealthBars(value)
+  elseif key == 'displayMana' then
+    gameMapPanel:setDrawManaBar(value)
   elseif key == 'displayText' then
     gameMapPanel:setDrawTexts(value)
   elseif key == 'dontStretchShrink' then
     addEvent(function()
       modules.game_interface.updateStretchShrink()
     end)
+  elseif key == 'turnDelay' then
+    generalPanel:getChildById('turnDelayLabel'):setText(tr('Turn delay: %sms', value))
+  elseif key == 'hotkeyDelay' then
+    generalPanel:getChildById('hotkeyDelayLabel'):setText(tr('Hotkey delay: %sms', value))
   end
 
   -- change value for keybind updates
@@ -271,19 +256,6 @@ function setOption(key, value, force)
 
   g_settings.set(key, value)
   options[key] = value
-end
-
-function setImageSkin(image)
-  local skinRight = modules.game_interface.getSkinRight()
-  local skinLeft = modules.game_interface.getSkinLeft()
-
-  skinRight:setImageSource(image)
-  skinLeft:setImageSource(image)
-  imageSkin = image
-end
-
-function getImageSkin()
-  return imageSkin
 end
 
 function getOption(key)
