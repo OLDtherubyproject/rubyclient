@@ -39,6 +39,7 @@
 #include <framework/graphics/ogl/painterogl2_shadersources.h>
 #include <framework/graphics/texturemanager.h>
 #include <framework/graphics/framebuffermanager.h>
+#include <framework/graphics/image.h>
 #include "spritemanager.h"
 
 Creature::Creature() : Thing()
@@ -77,8 +78,10 @@ void Creature::draw(const Point& dest, float scaleFactor, bool animate, LightVie
     }
 
     if(m_showStaticSquare && animate) {
+        ImagePtr tarf = Image::load("data/images/game/target.png");
+		TexturePtr tarfe = TexturePtr(new Texture(tarf, false));
         g_painter->setColor(m_staticSquareColor);
-        g_painter->drawBoundingRect(Rect(dest + (animationOffset - getDisplacement())*scaleFactor, Size(Otc::TILE_PIXELS, Otc::TILE_PIXELS)*scaleFactor), std::max<int>((int)(2*scaleFactor), 1));
+        g_painter->drawTexturedRect(Rect(dest + (animationOffset - getDisplacement() + 2)*scaleFactor, Size(tarfe->getHeight(), tarfe->getWidth())*scaleFactor), tarfe);
         g_painter->setColor(Color::white);
     }
 
