@@ -167,7 +167,7 @@ MainWindow
       margin-right: 5
       show-value: true
       minimum: 1
-      maximum: 100
+      maximum: 250
       step: 1
       @onValueChange: modules.game_npctrade.onQuantityValueChange(self:getValue())
 

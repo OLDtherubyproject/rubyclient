@@ -109,7 +109,7 @@ GameLoginPending = 35
 GameNewSpeedLaw = 36
 GameForceFirstAutoWalkStep = 37
 GameMinimapRemove = 38
-GameDoubleShopSellAmount = 39
+-- empty
 GameContainerPagination = 40
 GameThingMarks = 41
 GameLooktypeU16 = 42

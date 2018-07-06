@@ -1,7 +1,7 @@
 BUY = 1
 SELL = 2
-CURRENCY = 'gold'
-CURRENCY_DECIMAL = false
+CURRENCY = 'dollars'
+CURRENCY_DECIMAL = true
 WEIGHT_UNIT = 'oz'
 LAST_INVENTORY = 10
 
@@ -495,7 +495,7 @@ function checkSellAllTooltip()
           info = info..(not first and "\n" or "")..
                  amount.." "..
                  data.name.." ("..
-                 data.price*amount.." gold)"
+                 ((data.price*amount)/100.0).." dollars)"
 
           total = total+(data.price*amount)
           if first then first = false end
@@ -504,7 +504,7 @@ function checkSellAllTooltip()
     end
   end
   if info ~= '' then
-    info = info.."\nTotal: "..total.." gold"
+    info = info.."\nTotal: ".. (total/100.0) .." dollars"
     sellAllButton:setTooltip(info)
   else
     sellAllButton:setEnabled(false)
@@ -520,10 +520,10 @@ function formatCurrency(amount)
 end
 
 function getMaxAmount()
-  if getCurrentTradeType() == SELL and g_game.getFeature(GameDoubleShopSellAmount) then
+  if getCurrentTradeType() == SELL then
     return 10000
   end
-  return 100
+  return 1000
 end
 
 function sellAll()

@@ -29,8 +29,8 @@ function load()
     datPath = resolvepath('/things/' .. filename)
     sprPath = resolvepath('/things/' .. filename)
   else
-    datPath = resolvepath('/things/ruby')
-    sprPath = resolvepath('/things/ruby')
+    datPath = resolvepath('/things/Ruby')
+    sprPath = resolvepath('/things/Ruby')
   end
 
   local errorMessage = ''

@@ -86,7 +86,7 @@ public:
 
     void setId(uint32_t id);
     void setOtbId(uint16_t id);
-    void setCountOrSubType(int value) { m_countOrSubType = value; }
+    void setCountOrSubType(uint16_t value) { m_countOrSubType = value; }
     void setCount(int count) { m_countOrSubType = count; }
     void setSubType(int subType) { m_countOrSubType = subType; }
     void setColor(const Color& c) { m_color = c; }
@@ -153,7 +153,7 @@ public:
 private:
     uint16_t m_clientId;
     uint16_t m_serverId;
-    uint8_t m_countOrSubType;
+    uint16_t m_countOrSubType;
     stdext::packed_storage<uint8_t> m_attribs;
     ItemVector m_containerItems;
     Color m_color;
