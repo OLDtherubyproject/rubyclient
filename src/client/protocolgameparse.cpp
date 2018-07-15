@@ -300,10 +300,10 @@ void ProtocolGame::parseMessage(const InputMessagePtr& msg)
                 break;
             // PROTOCOL>=870
             case Proto::GameServerSpellDelay:
-                parseSpellCooldown(msg);
+                parseMoveCooldown(msg);
                 break;
             case Proto::GameServerSpellGroupDelay:
-                parseSpellGroupCooldown(msg);
+                parsePokemonMoves(msg);
                 break;
             case Proto::GameServerMultiUseDelay:
                 parseMultiUseCooldown(msg);
@@ -1428,20 +1428,28 @@ void ProtocolGame::parsePlayerModes(const InputMessagePtr& msg)
     g_game.processPlayerModes((Otc::FightModes)fightMode, (Otc::ChaseModes)chaseMode, safeMode, (Otc::PVPModes)pvpMode);
 }
 
-void ProtocolGame::parseSpellCooldown(const InputMessagePtr& msg)
+void ProtocolGame::parseMoveCooldown(const InputMessagePtr& msg)
 {
-    int spellId = msg->getByte();
+    int spellId = msg->get<uint16_t>();
     int delay = msg->get<uint32_t>();
 
-    g_lua.callGlobalField("g_game", "onSpellCooldown", spellId, delay);
+    g_lua.callGlobalField("g_game", "onPokemonMoveCooldown", spellId, delay);
 }
 
-void ProtocolGame::parseSpellGroupCooldown(const InputMessagePtr& msg)
+void ProtocolGame::parsePokemonMoves(const InputMessagePtr& msg)
 {
-    int groupId = msg->getByte();
-    int delay = msg->get<uint32_t>();
+    uint8_t size = msg->getByte();
+    std::vector<std::tuple<uint16_t, uint32_t, uint8_t, uint32_t> > moveList;
 
-    g_lua.callGlobalField("g_game", "onSpellGroupCooldown", groupId, delay);
+    for(uint8_t i = 0; i < size; i++) {
+        uint16_t id = msg->get<uint16_t>();
+        uint32_t cd = msg->get<uint32_t>();
+        uint8_t premium = msg->getByte();
+        uint32_t level = msg->get<uint32_t>();
+        moveList.push_back(std::make_tuple(id, cd, premium, level));
+    }
+
+    g_lua.callGlobalField("g_game", "onPokemonMovesCooldown", moveList);
 }
 
 void ProtocolGame::parseMultiUseCooldown(const InputMessagePtr& msg)

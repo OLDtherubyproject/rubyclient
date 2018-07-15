@@ -28,5 +28,6 @@ Module
     - game_viplist
     - game_inventory
     - game_minimap
+    - game_movesbar
   @onLoad: init()
   @onUnload: terminate()

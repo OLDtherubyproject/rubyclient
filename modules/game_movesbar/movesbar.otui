@@ -1,0 +1,32 @@
+UIWindow
+  id: movesWindow
+  &save: true
+  size: 450 40
+  image-source: /images/ui/window_headless
+  focusable: false
+  anchors.centerIn: parent
+
+Icon < UIButton
+  width: 32
+  height: 32
+  image-size: 32 32
+  image-clip: 0 0 0 0
+  image-color: white
+  image-source: /images/ui/menubox
+  focusable: false
+  anchors.top: parent.top
+  anchors.left: parent.left
+
+Progress < UIProgressRect
+  background: black
+  percent: 0
+  opacity: 0.9
+  focusable: false
+  font: verdana-11px-rounded
+
+Text < UILabel
+  color: white
+  font: verdana-11px-rounded
+
+  text-align: center
+  text-auto-resize: true

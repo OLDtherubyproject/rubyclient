@@ -1,0 +1,11 @@
+Module
+  name: game_movesbar
+  description: Display bar of your pokemon moves
+  author: Crypter and Leohige
+  website:
+  sandboxed: true
+  scripts: [ movesbar.lua ]
+  @onLoad: |
+    dofile 'moves'
+    init()
+  @onUnload: terminate()
