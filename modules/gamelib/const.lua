@@ -95,7 +95,7 @@ GameChargeableItems = 19
 -- 20 is unused
 GamePurseSlot = 21
 GameFormatCreatureName = 22
-GameSpellList = 23
+-- 23 is unused
 GameClientPing = 24
 GameExtendedClientPing = 25
 GameDoubleHealth = 28

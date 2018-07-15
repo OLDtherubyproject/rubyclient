@@ -21,6 +21,5 @@ Module
     dofile 'market'
     dofile 'textmessages'
     dofile 'thing'
-    dofile 'spells'
 
     dofiles 'ui'

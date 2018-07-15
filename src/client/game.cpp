@@ -1533,7 +1533,6 @@ void Game::setClientVersion(int version)
     enableFeature(Otc::GamePenalityOnDeath);
     enableFeature(Otc::GameDoubleExperience);
     enableFeature(Otc::GamePlayerMounts);
-    enableFeature(Otc::GameSpellList);
     enableFeature(Otc::GameNameOnNpcTrade);
     enableFeature(Otc::GameTotalCapacity);
     enableFeature(Otc::GameSkillsBase);
