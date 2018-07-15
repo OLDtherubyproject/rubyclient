@@ -2220,6 +2220,9 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
         unpass = msg->getByte();
 
         if(creature) {
+            if(creatureType != -1)
+                creature->setType(creatureType);
+
             creature->setNameColor(nameColor);
             creature->setHealthPercent(healthPercent);
             creature->setDirection(direction);
@@ -2232,9 +2235,6 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
 
             if(emblem != -1)
                 creature->setEmblem(emblem);
-
-            if(creatureType != -1)
-                creature->setType(creatureType);
 
             if(icon != -1)
                 creature->setIcon(icon);

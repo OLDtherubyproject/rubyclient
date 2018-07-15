@@ -30,6 +30,7 @@
 #include "effect.h"
 #include "luavaluecasts.h"
 #include "lightview.h"
+#include "protocolcodes.h"
 
 #include <framework/graphics/graphics.h>
 #include <framework/core/eventdispatcher.h>
@@ -289,7 +290,7 @@ void Creature::drawInformation(const Point& point, bool useGray, const Rect& par
         g_painter->drawFilledRect(healthRect);
         ImagePtr health_bar = Image::load("data/images/game/health.png");
         TexturePtr health_texture = TexturePtr(new Texture(health_bar, false));
-        g_painter->drawTextureRect(backgroundRect, Size(27, 4), health_texture);
+        g_painter->drawTexturedRect(backgroundRect, health_texture);
     }
 
     if(drawFlags & Otc::DrawNames) {
@@ -649,31 +650,35 @@ void Creature::setNameColor(uint8_t nameColor)
 
 void Creature::setHealthPercent(uint8_t healthPercent)
 {
-    if (m_type == Proto::CreatureTypeSummonOwn && healthPercent > 50)
-        m_informationColor = Color(232, 252, 227);
-    else if (m_type == Proto::CreatureTypeSummonOwn && healthPercent > 20)
-         m_informationColor = Color(182, 209, 175);
-    else if (m_type == Proto::CreatureTypeSummonOwn && healthPercent > 0)
-         m_informationColor = Color(141, 170, 133);
-    else if(m_type == Proto::CreatureTypeMonster && healthPercent > 50)
-        m_informationColor = Color(112, 248, 168);
-    else if(m_type == Proto::CreatureTypeMonster && healthPercent > 20)
-        m_informationColor = Color(248, 224, 56);
-    else if(m_type == Proto::CreatureTypeMonster && healthPercent > 20)
-        m_informationColor = Color(248, 88, 56);
-    else if(m_type == Proto::CreatureTypePlayer && healthPercent > 92 || m_type == Proto::CreatureTypeNpc && healthPercent > 92)
-        m_informationColor = Color(0x00, 0xBC, 0x00);
-    else if(m_type == Proto::CreatureTypePlayer && healthPercent > 60 || m_type == Proto::CreatureTypeNpc && healthPercent > 60)
-        m_informationColor = Color(0x50, 0xA1, 0x50);
-    else if(m_type == Proto::CreatureTypePlayer && healthPercent > 30 || m_type == Proto::Proto::CreatureTypeNpc && healthPercent > 30)
-        m_informationColor = Color(0xA1, 0xA1, 0x00);
-    else if(m_type == Proto::CreatureTypePlayer && healthPercent > 8 || m_type == Proto::CreatureTypeNpc && healthPercent > 8)
-        m_informationColor = Color(0xBF, 0x0A, 0x0A);
-    else if(m_type == Proto::CreatureTypePlayer && healthPercent > 3 || m_type == Proto::CreatureTypeNpc && healthPercent > 3)
-        m_informationColor = Color(0x91, 0x0F, 0x0F);
-    else
-        m_informationColor = Color(0x85, 0x0C, 0x0C);
-
+    if (m_type != Proto::CreatureTypeUnknown){
+        if (m_type == Proto::CreatureTypeSummonOwn){
+            if (healthPercent > 50)
+                m_informationColor = Color(232, 252, 227);
+            else if (healthPercent > 20)
+                 m_informationColor = Color(182, 209, 175);
+            else if (healthPercent > 0)
+                 m_informationColor = Color(141, 170, 133);
+        } else if (m_type == Proto::CreatureTypeMonster){
+            if(healthPercent > 50)
+            m_informationColor = Color(112, 248, 168);
+            else if(healthPercent > 20)
+                m_informationColor = Color(248, 224, 56);
+            else if(healthPercent > 0)
+                m_informationColor = Color(248, 88, 56);
+        } else if (m_type == Proto::CreatureTypePlayer || m_type == Proto::CreatureTypeNpc ) {
+            if(healthPercent > 92)
+                m_informationColor = Color(0x00, 0xBC, 0x00);
+            else if(healthPercent > 60)
+                m_informationColor = Color(0x50, 0xA1, 0x50);
+            else if(healthPercent > 30)
+                m_informationColor = Color(0xA1, 0xA1, 0x00);
+            else if(healthPercent > 8)
+                m_informationColor = Color(0xBF, 0x0A, 0x0A);
+            else if(healthPercent > 3)
+                m_informationColor = Color(0x91, 0x0F, 0x0F);
+        }
+    }
+  
     m_healthPercent = healthPercent;
     callLuaField("onHealthPercentChange", healthPercent);
 
