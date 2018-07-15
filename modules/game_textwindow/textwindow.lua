@@ -23,14 +23,7 @@ function destroyWindows()
   windows = {}
 end
 
-function onGameEditText(id, itemId, maxLength, text, writter, time)
-
-  local name = text:match('Name: (.-)\n')
-  local type = text:match('Type: (.-)\n')
-  
-  --Se for chamada de pokedex
-  if name and type then return end
-  
+function onGameEditText(id, itemId, maxLength, text, writer, time)
   local textWindow = g_ui.createWidget('TextWindow', rootWidget)
 
   local writeable = #text < maxLength and maxLength > 0
@@ -42,6 +35,10 @@ function onGameEditText(id, itemId, maxLength, text, writter, time)
 
   local textScroll = textWindow:getChildById('textScroll')
 
+  if textItem:isHidden() then
+    textItem:show()
+  end
+
   textItem:setItemId(itemId)
   textEdit:setMaxLength(maxLength)
   textEdit:setText(text)
@@ -49,8 +46,8 @@ function onGameEditText(id, itemId, maxLength, text, writter, time)
   textEdit:setCursorVisible(writeable)
 
   local desc = ''
-  if #writter > 0 then
-    desc = tr('You read the following, written by \n%s\n', writter)
+  if #writer > 0 then
+    desc = tr('You read the following, written by \n%s\n', writer)
     if #time > 0 then
       desc = desc .. tr('on %s.\n', time)
     end
@@ -113,6 +110,11 @@ function onGameEditList(id, doorId, text)
   local description = textWindow:getChildById('description')
   local okButton = textWindow:getChildById('okButton')
   local cancelButton = textWindow:getChildById('cancelButton')
+
+  local textItem = textWindow:getChildById('textItem')
+  if textItem and not textItem:isHidden() then
+    textItem:hide()
+  end
 
   textEdit:setMaxLength(8192)
   textEdit:setText(text)
