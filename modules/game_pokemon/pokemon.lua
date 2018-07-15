@@ -234,8 +234,6 @@ function onStatesChange(localPlayer, now, old)
   now = now + 1
   old = old + 1
 
-  g_logger.info(bitChanged)
-
   local content = pokemonWindow:recursiveGetChildById('conditionPanel')
 
   if old ~= 0 then
@@ -247,18 +245,6 @@ function onStatesChange(localPlayer, now, old)
 
   icon = loadIcon(now)
   icon:setParent(content)
-
-  --local bitsChanged = bit32.bxor(now, old)
-  --for i = 1, 32 do
-    --local pow = math.pow(2, i-1)
-    --if pow > bitsChanged then break end
-    --local bitChanged = bit32.band(bitsChanged, pow)
-    --if bitChanged ~= 0 then
-      --toggleIcon(bitChanged)
-    --else
-      --toggleIcon(20000)
-    --end
-  --end
 
   return true
 end
@@ -286,5 +272,9 @@ function onSetFightMode(self, selectedFightButton)
     fightMode = 3
   end
 	g_game.setFightMode(fightMode)
-	g_game.getProtocolGame():sendExtendedOpcode(107, fightMode)
+
+  local protocolGame = g_game.getProtocolGame()
+  if protocolGame then
+    protocolGame:sendExtendedOpcode(107, fightMode)
+  end
 end
