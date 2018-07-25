@@ -18,9 +18,10 @@ GameServerOpcodes = {
     GameServerExtendedOpcode            = 50,
 
     -- NOTE: add any custom opcodes in this range
-    -- 51 - 99
+    -- 51 - 98
 
     -- original tibia ONLY
+    GameServerDistanceSoundEffect       = 99,
     GameServerFullMap                   = 100,
     GameServerMapTopRow                 = 101,
     GameServerMapRightRow               = 102,
@@ -105,7 +106,8 @@ GameServerOpcodes = {
     GameServerStore                     = 251, -- 1080
     GameServerStoreOffers               = 252, -- 1080
     GameServerStoreTransactionHistory   = 253, -- 1080
-    GameServerStoreCompletePurchase     = 254  -- 1080
+    GameServerStoreCompletePurchase     = 254, -- 1080
+    GameServerSoundEffect               = 255  --
 }
 
 ClientOpcodes = {

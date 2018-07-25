@@ -24,6 +24,7 @@
 #define LOCALPLAYER_H
 
 #include "player.h"
+#include <framework/sound/soundmanager.h>
 
 // @bindclass
 class LocalPlayer : public Player
@@ -59,6 +60,7 @@ public:
     void setInventoryItem(Otc::InventorySlot inventory, const ItemPtr& item);
     void setVocation(int vocation);
     void setPremium(bool premium);
+    void setListeningSound(int sound);
     void setRegenerationTime(double regenerationTime);
     void setSpells(const std::vector<int>& spells);
     void setBlessings(int blessings);
@@ -86,6 +88,8 @@ public:
     std::vector<int> getSpells() { return m_spells; }
     ItemPtr getInventoryItem(Otc::InventorySlot inventory) { return m_inventoryItems[inventory]; }
     int getBlessings() { return m_blessings; }
+    int getSound() { return m_sound; }
+    int getListeningSound() { return m_sound; }
 
     bool hasSight(const Position& pos);
     bool isKnown() { return m_known; }
@@ -143,6 +147,7 @@ private:
     int m_states;
     int m_vocation;
     int m_blessings;
+    int m_sound;
 
     double m_health;
     double m_maxHealth;

@@ -415,6 +415,7 @@ const TexturePtr& ThingType::getTexture(int animationPhase)
 
                         m_texturesFramesRects[animationPhase][frameIndex] = drawRect;
                         m_texturesFramesOriginRects[animationPhase][frameIndex] = Rect(framePos, Size(m_size.width(), m_size.height()) * Otc::TILE_PIXELS);
+                        m_textures[animationPhase] = animationPhaseTexture;
                         m_texturesFramesOffsets[animationPhase][frameIndex] = drawRect.topLeft() - framePos;
                     }
                 }

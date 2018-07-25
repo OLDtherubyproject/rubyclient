@@ -54,6 +54,7 @@ LocalPlayer::LocalPlayer()
     m_baseSpeed = -1;
     m_regenerationTime = -1;
     m_totalCapacity = -1;
+    m_sound = -1;
 }
 
 void LocalPlayer::lockWalk(int millis)
@@ -503,6 +504,15 @@ void LocalPlayer::setPremium(bool premium)
         m_premium = premium;
 
         callLuaField("onPremiumChange", premium);
+    }
+}
+
+void LocalPlayer::setListeningSound(int sound)
+{
+    if(m_sound != sound) {
+        m_sound = sound;
+
+        //callLuaField("onListeningSoundChange", sound);
     }
 }
 

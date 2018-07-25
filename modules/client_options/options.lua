@@ -193,6 +193,12 @@ function setOption(key, value, force)
     g_sounds.setAudioEnabled(value)
     if value then
       audioButton:setIcon('/images/topbuttons/audio')
+      local localPlayer = g_game.getLocalPlayer()
+      if localPlayer then
+        local channel = g_sounds.getChannel(SoundChannels.Music)
+        channel:stop()
+        channel:enqueue('/sounds/'..localPlayer:getListeningSound())
+      end
     else
       audioButton:setIcon('/images/topbuttons/audio_mute')
     end

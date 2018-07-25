@@ -32,6 +32,7 @@
 #include "tile.h"
 #include "luavaluecasts.h"
 #include <framework/core/eventdispatcher.h>
+#include <framework/sound/soundmanager.h>
 
 void ProtocolGame::parseMessage(const InputMessagePtr& msg)
 {
@@ -387,6 +388,12 @@ void ProtocolGame::parseMessage(const InputMessagePtr& msg)
                 break;
             case Proto::GameServerSetStoreDeepLink:
                 parseSetStoreDeepLink(msg);
+                break;
+            case Proto::GameServerSoundEffect:
+                parseSoundEffect(msg);
+                break;
+            case Proto::GameServerDistanceSoundEffect:
+                parseDistanceMissile(msg);
                 break;
             // otclient ONLY
             case Proto::GameServerExtendedOpcode:
@@ -1061,6 +1068,21 @@ void ProtocolGame::parseMagicEffect(const InputMessagePtr& msg)
     EffectPtr effect = EffectPtr(new Effect());
     effect->setId(effectId);
     g_map.addThing(effect, pos);
+}
+
+void ProtocolGame::parseSoundEffect(const InputMessagePtr& msg)
+{
+    uint8_t channelId = msg->getByte();
+    uint16_t soundId = msg->get<uint16_t>();
+
+    if (channelId == 1) {
+        auto channel = g_sounds.getChannel(1);
+        channel->stop();
+        channel->enqueue("/sounds/" + std::to_string(soundId), 3);
+        m_localPlayer->setListeningSound(soundId);
+    } else {
+        g_sounds.play("/sounds/" + std::to_string(soundId));
+    }
 }
 
 void ProtocolGame::parseAnimatedText(const InputMessagePtr& msg)
