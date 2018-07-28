@@ -168,7 +168,7 @@ void Client::registerLuaFunctions()
     g_lua.bindSingletonFunction("g_creatures", "getSpawn", &CreatureManager::getSpawn, &g_creatures);
     g_lua.bindSingletonFunction("g_creatures", "getSpawnForPlacePos", &CreatureManager::getSpawnForPlacePos, &g_creatures);
     g_lua.bindSingletonFunction("g_creatures", "addSpawn", &CreatureManager::addSpawn, &g_creatures);
-    g_lua.bindSingletonFunction("g_creatures", "loadMonsters", &CreatureManager::loadMonsters, &g_creatures);
+    g_lua.bindSingletonFunction("g_creatures", "loadPokemons", &CreatureManager::loadPokemons, &g_creatures);
     g_lua.bindSingletonFunction("g_creatures", "loadNpcs", &CreatureManager::loadNpcs, &g_creatures);
     g_lua.bindSingletonFunction("g_creatures", "loadSingleCreature", &CreatureManager::loadSingleCreature, &g_creatures);
     g_lua.bindSingletonFunction("g_creatures", "loadSpawns", &CreatureManager::loadSpawns, &g_creatures);
@@ -362,7 +362,7 @@ void Client::registerLuaFunctions()
     g_lua.bindClassMemberFunction<Thing>("getAnimationPhases", &Thing::getAnimationPhases);
     g_lua.bindClassMemberFunction<Thing>("getTile", &Thing::getTile);
     g_lua.bindClassMemberFunction<Thing>("isItem", &Thing::isItem);
-    g_lua.bindClassMemberFunction<Thing>("isMonster", &Thing::isMonster);
+    g_lua.bindClassMemberFunction<Thing>("isPokemon", &Thing::isPokemon);
     g_lua.bindClassMemberFunction<Thing>("isNpc", &Thing::isNpc);
     g_lua.bindClassMemberFunction<Thing>("isCreature", &Thing::isCreature);
     g_lua.bindClassMemberFunction<Thing>("isEffect", &Thing::isEffect);
@@ -609,7 +609,7 @@ void Client::registerLuaFunctions()
 
     g_lua.registerClass<Player, Creature>();
     g_lua.registerClass<Npc, Creature>();
-    g_lua.registerClass<Monster, Creature>();
+    g_lua.registerClass<Pokemon, Creature>();
 
     g_lua.registerClass<LocalPlayer, Player>();
     g_lua.bindClassMemberFunction<LocalPlayer>("unlockWalk", &LocalPlayer::unlockWalk);
@@ -622,9 +622,8 @@ void Client::registerLuaFunctions()
     g_lua.bindClassMemberFunction<LocalPlayer>("setFreeCapacity", &LocalPlayer::setFreeCapacity);
     g_lua.bindClassMemberFunction<LocalPlayer>("setExperience", &LocalPlayer::setExperience);
     g_lua.bindClassMemberFunction<LocalPlayer>("setLevel", &LocalPlayer::setLevel);
-    g_lua.bindClassMemberFunction<LocalPlayer>("setMana", &LocalPlayer::setMana);
-    g_lua.bindClassMemberFunction<LocalPlayer>("setMagicLevel", &LocalPlayer::setMagicLevel);
-    g_lua.bindClassMemberFunction<LocalPlayer>("setSoul", &LocalPlayer::setSoul);
+    g_lua.bindClassMemberFunction<LocalPlayer>("setPokemonHealth", &LocalPlayer::setPokemonHealth);
+    g_lua.bindClassMemberFunction<LocalPlayer>("setPokemonCount", &LocalPlayer::setPokemonCount);
     g_lua.bindClassMemberFunction<LocalPlayer>("setStamina", &LocalPlayer::setStamina);
     g_lua.bindClassMemberFunction<LocalPlayer>("setKnown", &LocalPlayer::setKnown);
     g_lua.bindClassMemberFunction<LocalPlayer>("setInventoryItem", &LocalPlayer::setInventoryItem);
@@ -638,17 +637,15 @@ void Client::registerLuaFunctions()
     g_lua.bindClassMemberFunction<LocalPlayer>("getExperience", &LocalPlayer::getExperience);
     g_lua.bindClassMemberFunction<LocalPlayer>("getLevel", &LocalPlayer::getLevel);
     g_lua.bindClassMemberFunction<LocalPlayer>("getLevelPercent", &LocalPlayer::getLevelPercent);
-    g_lua.bindClassMemberFunction<LocalPlayer>("getMana", &LocalPlayer::getMana);
-    g_lua.bindClassMemberFunction<LocalPlayer>("getMaxMana", &LocalPlayer::getMaxMana);
-    g_lua.bindClassMemberFunction<LocalPlayer>("getMagicLevel", &LocalPlayer::getMagicLevel);
-    g_lua.bindClassMemberFunction<LocalPlayer>("getMagicLevelPercent", &LocalPlayer::getMagicLevelPercent);
-    g_lua.bindClassMemberFunction<LocalPlayer>("getSoul", &LocalPlayer::getSoul);
+    g_lua.bindClassMemberFunction<LocalPlayer>("getPokemonHealth", &LocalPlayer::getPokemonHealth);
+    g_lua.bindClassMemberFunction<LocalPlayer>("getPokemonHealthMax", &LocalPlayer::getPokemonHealthMax);
+    g_lua.bindClassMemberFunction<LocalPlayer>("getPokemonCount", &LocalPlayer::getPokemonCount);
     g_lua.bindClassMemberFunction<LocalPlayer>("getStamina", &LocalPlayer::getStamina);
     g_lua.bindClassMemberFunction<LocalPlayer>("getRegenerationTime", &LocalPlayer::getRegenerationTime);
-    g_lua.bindClassMemberFunction<LocalPlayer>("getBaseMagicLevel", &LocalPlayer::getBaseMagicLevel);
     g_lua.bindClassMemberFunction<LocalPlayer>("getTotalCapacity", &LocalPlayer::getTotalCapacity);
     g_lua.bindClassMemberFunction<LocalPlayer>("getInventoryItem", &LocalPlayer::getInventoryItem);
-    g_lua.bindClassMemberFunction<LocalPlayer>("getVocation", &LocalPlayer::getVocation);
+    g_lua.bindClassMemberFunction<LocalPlayer>("getProfession", &LocalPlayer::getProfession);
+    g_lua.bindClassMemberFunction<LocalPlayer>("getClan", &LocalPlayer::getClan);
     g_lua.bindClassMemberFunction<LocalPlayer>("getBlessings", &LocalPlayer::getBlessings);
     g_lua.bindClassMemberFunction<LocalPlayer>("getListeningSound", &LocalPlayer::getListeningSound);
     g_lua.bindClassMemberFunction<LocalPlayer>("isPremium", &LocalPlayer::isPremium);

@@ -18,9 +18,8 @@ function isLoaded()
 end
 
 function load()
-  g_game.enableFeature(GameSpritesU32)
-  g_game.enableFeature(GameSpritesAlphaChannel)
   g_game.enableFeature(GameMagicEffectU16)
+  g_game.enableFeature(GameSpritesAlphaChannel)
 
   local version = g_game.getClientVersion()
 

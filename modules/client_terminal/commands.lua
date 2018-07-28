@@ -122,10 +122,7 @@ function ping()
     g_game.setPingDelay(1000)
     disconnect(g_game, 'onPingBack', pingBack)
   else
-    if not (g_game.getFeature(GameClientPing) or g_game.getFeature(GameExtendedClientPing)) then
-      pcolored('this server does not support ping', 'red')
-      return
-    elseif not g_game.isOnline() then
+    if not g_game.isOnline() then
       pcolored('ping command is only allowed when online', 'red')
       return
     end

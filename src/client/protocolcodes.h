@@ -277,7 +277,7 @@ namespace Proto {
 
     enum CreatureType {
         CreatureTypePlayer = 0,
-        CreatureTypeMonster,
+        CreatureTypePokemon,
         CreatureTypeNpc,
         CreatureTypeSummonOwn,
         CreatureTypeSummonOther,
@@ -287,8 +287,8 @@ namespace Proto {
     enum CreaturesIdRange {
         PlayerStartId = 0x10000000,
         PlayerEndId = 0x40000000,
-        MonsterStartId = 0x40000000,
-        MonsterEndId = 0x80000000,
+        PokemonStartId = 0x40000000,
+        PokemonEndId = 0x80000000,
         NpcStartId = 0x80000000,
         NpcEndId = 0xffffffff
     };

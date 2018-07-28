@@ -109,7 +109,7 @@ struct MarketData {
     std::string name;
     int category;
     uint16_t requiredLevel;
-    uint16_t restrictVocation;
+    uint16_t restrictProfession;
     uint16_t showAs;
     uint16_t tradeAs;
 };

@@ -63,14 +63,6 @@ MiniWindow
         background-color: red
 
     SkillButton
-      id: magiclevel
-      SkillNameLabel
-        !text: tr('Magic Level')
-      SkillValueLabel
-      SkillPercentPanel
-        background-color: red
-
-    SkillButton
       id: skillId0
       SkillNameLabel
         !text: tr('Fist Fighting')

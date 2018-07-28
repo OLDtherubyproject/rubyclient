@@ -64,10 +64,10 @@ Panel
     height: 20
 
   MarketButtonBox
-    id: filterVocation
+    id: filterProfession
     &default: false
     !text: tr('Voc.')
-    !tooltip: tr('Filter list to match your vocation')
+    !tooltip: tr('Filter list to match your profession')
     anchors.top: prev.top
     anchors.left: prev.right
     margin-right: 3

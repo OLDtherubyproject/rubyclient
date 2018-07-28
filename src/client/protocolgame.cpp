@@ -43,12 +43,7 @@ void ProtocolGame::onConnect()
     Protocol::onConnect();
 
     m_localPlayer = g_game.getLocalPlayer();
-
-    if(g_game.getFeature(Otc::GameProtocolChecksum))
-        enableChecksum();
-
-    if(!g_game.getFeature(Otc::GameChallengeOnLogin))
-        sendLoginPacket(0, 0);
+    enableChecksum();
 
     recv();
 }
@@ -58,12 +53,10 @@ void ProtocolGame::onRecv(const InputMessagePtr& inputMessage)
     if(m_firstRecv) {
         m_firstRecv = false;
 
-        if(g_game.getFeature(Otc::GameMessageSizeCheck)) {
-            uint16_t size = inputMessage->get<uint16_t>();
-            if(size != inputMessage->getUnreadSize()) {
-                g_logger.traceError("invalid message size");
-                return;
-            }
+        uint16_t size = inputMessage->get<uint16_t>();
+        if(size != inputMessage->getUnreadSize()) {
+            g_logger.traceError("invalid message size");
+            return;
         }
     }
 

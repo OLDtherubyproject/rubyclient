@@ -30,10 +30,8 @@ int push_luavalue(const Outfit& outfit)
     g_lua.setField("type");
     g_lua.pushInteger(outfit.getAuxId());
     g_lua.setField("auxType");
-    if(g_game.getFeature(Otc::GamePlayerAddons)) {
-        g_lua.pushInteger(outfit.getAddons());
-        g_lua.setField("addons");
-    }
+    g_lua.pushInteger(outfit.getAddons());
+    g_lua.setField("addons");
     g_lua.pushInteger(outfit.getHead());
     g_lua.setField("head");
     g_lua.pushInteger(outfit.getBody());
@@ -56,10 +54,8 @@ bool luavalue_cast(int index, Outfit& outfit)
         outfit.setId(g_lua.popInteger());
         g_lua.getField("auxType", index);
         outfit.setAuxId(g_lua.popInteger());
-        if(g_game.getFeature(Otc::GamePlayerAddons)) {
-            g_lua.getField("addons", index);
-            outfit.setAddons(g_lua.popInteger());
-        }
+        g_lua.getField("addons", index);
+        outfit.setAddons(g_lua.popInteger());
         g_lua.getField("head", index);
         outfit.setHead(g_lua.popInteger());
         g_lua.getField("body", index);
@@ -115,8 +111,8 @@ int push_luavalue(const MarketData& data)
     g_lua.setField("name");
     g_lua.pushInteger(data.requiredLevel);
     g_lua.setField("requiredLevel");
-    g_lua.pushInteger(data.restrictVocation);
-    g_lua.setField("restrictVocation");
+    g_lua.pushInteger(data.restrictProfession);
+    g_lua.setField("restrictProfession");
     g_lua.pushInteger(data.showAs);
     g_lua.setField("showAs");
     g_lua.pushInteger(data.tradeAs);
@@ -133,8 +129,8 @@ bool luavalue_cast(int index, MarketData& data)
         data.name = g_lua.popString();
         g_lua.getField("requiredLevel", index);
         data.requiredLevel = g_lua.popInteger();
-        g_lua.getField("restrictVocation", index);
-        data.restrictVocation = g_lua.popInteger();
+        g_lua.getField("restrictProfession", index);
+        data.restrictProfession = g_lua.popInteger();
         g_lua.getField("showAs", index);
         data.showAs = g_lua.popInteger();
         g_lua.getField("tradeAs", index);

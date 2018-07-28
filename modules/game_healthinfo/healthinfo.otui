@@ -24,8 +24,8 @@ ExperienceBar < ProgressBar
   margin: 1
   margin-top: 3
 
-SoulLabel < GameLabel
-  id: soulLabel
+PokemonCountLabel < GameLabel
+  id: pokemonCountLabel
   text-align: right
   color: white
   font: verdana-11px-rounded
@@ -88,5 +88,5 @@ MiniWindow
       border-width: 1
       border-color: #00000077
       background-color: #ffffff11
-    SoulLabel
+    PokemonCountLabel
     CapLabel

@@ -78,7 +78,7 @@ void ThingType::serialize(const FileStreamPtr& fin)
                 fin->addU16(market.tradeAs);
                 fin->addU16(market.showAs);
                 fin->addString(market.name);
-                fin->addU16(market.restrictVocation);
+                fin->addU16(market.restrictProfession);
                 fin->addU16(market.requiredLevel);
                 break;
             }
@@ -110,17 +110,12 @@ void ThingType::serialize(const FileStreamPtr& fin)
     fin->addU8(m_numPatternZ);
     fin->addU8(m_animationPhases);
 
-    if(g_game.getFeature(Otc::GameEnhancedAnimations)) {
-        if(m_animationPhases > 1 && m_animator != nullptr)  {
-            m_animator->serialize(fin);
-        }
+    if(m_animationPhases > 1 && m_animator != nullptr)  {
+        m_animator->serialize(fin);
     }
 
     for(unsigned int i = 0; i < m_spritesIndex.size(); i++) {
-        if(g_game.getFeature(Otc::GameSpritesU32))
-            fin->addU32(m_spritesIndex[i]);
-        else
-            fin->addU16(m_spritesIndex[i]);
+        fin->addU32(m_spritesIndex[i]);
     }
 }
 
@@ -165,7 +160,7 @@ void ThingType::unserialize(uint16_t clientId, ThingCategory category, const Fil
                 market.tradeAs = fin->getU16();
                 market.showAs = fin->getU16();
                 market.name = fin->getString();
-                market.restrictVocation = fin->getU16();
+                market.restrictProfession = fin->getU16();
                 market.requiredLevel = fin->getU16();
                 m_attribs.set(attr, market);
                 break;
@@ -194,7 +189,7 @@ void ThingType::unserialize(uint16_t clientId, ThingCategory category, const Fil
         stdext::throw_exception(stdext::format("corrupt data (id: %d, category: %d, count: %d, lastAttr: %d)",
             m_id, m_category, count, attr));
 
-    bool hasFrameGroups = (category == ThingCategoryCreature && g_game.getFeature(Otc::GameIdleAnimations));
+    bool hasFrameGroups = (category == ThingCategoryCreature);
     uint8_t groupCount = hasFrameGroups ? fin->getU8() : 1;
 
     m_animationPhases = 0;
@@ -223,7 +218,7 @@ void ThingType::unserialize(uint16_t clientId, ThingCategory category, const Fil
         int groupAnimationsPhases = fin->getU8();
         m_animationPhases += groupAnimationsPhases;
 
-        if(groupAnimationsPhases > 1 && g_game.getFeature(Otc::GameEnhancedAnimations)) {
+        if(groupAnimationsPhases > 1) {
             m_animator = AnimatorPtr(new Animator);
             m_animator->unserialize(groupAnimationsPhases, fin);
         }
@@ -235,7 +230,7 @@ void ThingType::unserialize(uint16_t clientId, ThingCategory category, const Fil
 
         m_spritesIndex.resize((totalSpritesCount+totalSprites));
         for(int i = totalSpritesCount; i < (totalSpritesCount+totalSprites); i++)
-            m_spritesIndex[i] = g_game.getFeature(Otc::GameSpritesU32) ? fin->getU32() : fin->getU16();
+            m_spritesIndex[i] = fin->getU32();
 
         totalSpritesCount += totalSprites;
     }

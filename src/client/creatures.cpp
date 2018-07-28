@@ -59,7 +59,7 @@ void Spawn::load(TiXmlElement* node)
 
     CreatureTypePtr cType(nullptr);
     for(TiXmlElement* cNode = node->FirstChildElement(); cNode; cNode = cNode->NextSiblingElement()) {
-        if(cNode->ValueStr() != "monster" && cNode->ValueStr() != "npc")
+        if(cNode->ValueStr() != "pokemon" && cNode->ValueStr() != "npc")
             stdext::throw_exception(stdext::format("invalid spawn-subnode %s", cNode->ValueStr()));
 
         std::string cName = cNode->Attribute("name");
@@ -82,7 +82,7 @@ void Spawn::load(TiXmlElement* node)
         placePos.y = centerPos.y + cNode->readType<int>("y");
         placePos.z = cNode->readType<int>("z");
 
-        cType->setRace(cNode->ValueStr() == "npc" ? CreatureRaceNpc : CreatureRaceMonster);
+        cType->setRace(cNode->ValueStr() == "npc" ? CreatureRaceNpc : CreatureRacePokemon);
         addCreature(placePos, cType);
     }
 }
@@ -100,7 +100,7 @@ void Spawn::save(TiXmlElement* node)
 
     for(const auto& pair : m_creatures) {
         const CreatureTypePtr& creature = pair.second;
-        if(!(creatureNode = new TiXmlElement(creature->getRace() == CreatureRaceNpc ? "npc" : "monster")))
+        if(!(creatureNode = new TiXmlElement(creature->getRace() == CreatureRaceNpc ? "npc" : "pokemon")))
             stdext::throw_exception("Spawn::save: Ran out of memory while allocating XML element!  Terminating now.");
 
         creatureNode->SetAttribute("name", creature->getName());
@@ -179,19 +179,19 @@ void CreatureManager::clearSpawns()
     m_spawns.clear();
 }
 
-void CreatureManager::loadMonsters(const std::string& file)
+void CreatureManager::loadPokemons(const std::string& file)
 {
     TiXmlDocument doc;
     doc.Parse(g_resources.readFileContents(file).c_str());
     if(doc.Error())
-        stdext::throw_exception(stdext::format("cannot open monsters file '%s': '%s'", file, doc.ErrorDesc()));
+        stdext::throw_exception(stdext::format("cannot open pokemons file '%s': '%s'", file, doc.ErrorDesc()));
 
     TiXmlElement* root = doc.FirstChildElement();
-    if(!root || root->ValueStr() != "monsters")
-        stdext::throw_exception("malformed monsters xml file");
+    if(!root || root->ValueStr() != "pokemons")
+        stdext::throw_exception("malformed pokemons xml file");
 
-    for(TiXmlElement* monster = root->FirstChildElement(); monster; monster = monster->NextSiblingElement()) {
-        std::string fname = file.substr(0, file.find_last_of('/')) + '/' + monster->Attribute("file");
+    for(TiXmlElement* pokemon = root->FirstChildElement(); pokemon; pokemon = pokemon->NextSiblingElement()) {
+        std::string fname = file.substr(0, file.find_last_of('/')) + '/' + pokemon->Attribute("file");
         if(fname.substr(fname.length() - 4) != ".xml")
             fname += ".xml";
 
@@ -291,7 +291,7 @@ void CreatureManager::loadCreatureBuffer(const std::string& buffer)
         stdext::throw_exception(stdext::format("cannot load creature buffer: %s", doc.ErrorDesc()));
 
     TiXmlElement* root = doc.FirstChildElement();
-    if(!root || (root->ValueStr() != "monster" && root->ValueStr() != "npc"))
+    if(!root || (root->ValueStr() != "pokemon" && root->ValueStr() != "npc"))
         stdext::throw_exception("invalid root tag name");
 
     std::string cName = root->Attribute("name");

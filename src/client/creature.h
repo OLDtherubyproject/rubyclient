@@ -217,10 +217,10 @@ public:
 };
 
 // @bindclass
-class Monster : public Creature
+class Pokemon : public Creature
 {
 public:
-    bool isMonster() { return true; }
+    bool isPokemon() { return true; }
 };
 
 #endif

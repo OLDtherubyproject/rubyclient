@@ -37,29 +37,10 @@ end
 function ProtocolLogin:sendLoginPacket()
   local msg = OutputMessage.create()
   msg:addU8(ClientOpcodes.ClientEnterAccount)
-  msg:addU16(g_game.getOs())
-
   msg:addU16(g_game.getProtocolVersion())
 
-  if g_game.getFeature(GameClientVersion) then
-    msg:addU32(g_game.getClientVersion())
-  end
-
-  if g_game.getFeature(GameContentRevision) then
-    msg:addU16(g_things.getContentRevision())
-    msg:addU16(0)
-  else
-    msg:addU32(g_things.getDatSignature())
-  end
-  msg:addU32(g_sprites.getSprSignature())
-  msg:addU32(PIC_SIGNATURE)
-
-  if g_game.getFeature(GamePreviewState) then
-    msg:addU8(0)
-  end
-
   local offset = msg:getMessageSize()
-  if g_game.getFeature(GameLoginPacketEncryption) then
+  --if g_game.getFeature(GameLoginPacketEncryption) then
     -- first RSA byte must be 0
     msg:addU8(0)
 
@@ -70,13 +51,13 @@ function ProtocolLogin:sendLoginPacket()
     msg:addU32(xteaKey[2])
     msg:addU32(xteaKey[3])
     msg:addU32(xteaKey[4])
-  end
+  --end
 
-  if g_game.getFeature(GameAccountNames) then
+  --if g_game.getFeature(GameAccountNames) then
     msg:addString(self.accountName)
-  else
-    msg:addU32(tonumber(self.accountName))
-  end
+  --else
+  --  msg:addU32(tonumber(self.accountName))
+  --end
 
   msg:addString(self.accountPassword)
 
@@ -91,29 +72,29 @@ function ProtocolLogin:sendLoginPacket()
     msg:addU8(math.random(0, 0xff))
   end
 
-  if g_game.getFeature(GameLoginPacketEncryption) then
+  --if g_game.getFeature(GameLoginPacketEncryption) then
     msg:encryptRsa()
-  end
+  --end
 
-  if g_game.getFeature(GameOGLInformation) then
+  --if g_game.getFeature(GameOGLInformation) then
     msg:addU8(1) --unknown
     msg:addU8(1) --unknown
 
     msg:addString(string.format('%s %s', g_graphics.getVendor(), g_graphics.getRenderer()))
     msg:addString(g_graphics.getVersion())
-  end
+  --end
 
   -- add RSA encrypted auth token
-  if g_game.getFeature(GameAuthenticator) then
+  --if g_game.getFeature(GameAuthenticator) then
     offset = msg:getMessageSize()
 
     -- first RSA byte must be 0
     msg:addU8(0)
     msg:addString(self.authenticatorToken)
 
-    if g_game.getFeature(GameSessionKey) then
+    --if g_game.getFeature(GameSessionKey) then
       msg:addU8(booleantonumber(self.stayLogged))
-    end
+    --end
 
     paddingBytes = g_crypt.rsaGetSize() - (msg:getMessageSize() - offset)
     assert(paddingBytes >= 0)
@@ -122,16 +103,16 @@ function ProtocolLogin:sendLoginPacket()
     end
 
     msg:encryptRsa()
-  end
+  --end
 
-  if g_game.getFeature(GameProtocolChecksum) then
+  --if g_game.getFeature(GameProtocolChecksum) then
     self:enableChecksum()
-  end
+  --end
 
   self:send(msg)
-  if g_game.getFeature(GameLoginPacketEncryption) then
+  --if g_game.getFeature(GameLoginPacketEncryption) then
     self:enableXteaEncryption()
-  end
+  --end
   self:recv()
 end
 
@@ -161,6 +142,7 @@ function ProtocolLogin:onRecv(msg)
     elseif opcode == LoginServerCharacterList then
       self:parseCharacterList(msg)
     elseif opcode == LoginServerExtendedCharacterList then
+      print("xd" .. opcode)
       self:parseExtendedCharacterList(msg)
     elseif opcode == LoginServerUpdate then
       local signature = msg:getString()

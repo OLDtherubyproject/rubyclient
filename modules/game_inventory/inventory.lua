@@ -78,7 +78,7 @@ function refresh()
     toggleAdventurerStyle(player and Bit.hasBit(player:getBlessings(), Blessings.Adventurer) or false)
   end
 
-  purseButton:setVisible(g_game.getFeature(GamePurseSlot))
+  purseButton:setVisible(true)
 end
 
 function toggle()
@@ -100,9 +100,7 @@ function onInventoryChange(player, slot, item, oldItem)
   if slot > InventorySlotPurse then return end
 
   if slot == InventorySlotPurse then
-    if g_game.getFeature(GamePurseSlot) then
-      purseButton:setEnabled(item and true or false)
-    end
+    purseButton:setEnabled(item and true or false)
     return
   end
 

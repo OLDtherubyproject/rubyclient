@@ -70,17 +70,10 @@ MiniWindow
       SkillValueLabel
 
     SkillButton
-      id: mana
+      id: pokemonCount
       height: 15
       SkillNameLabel
-        !text: tr('Mana')
-      SkillValueLabel
-
-    SkillButton
-      id: soul
-      height: 15
-      SkillNameLabel
-        !text: tr('Soul Points')
+        !text: tr('Pokemon')
       SkillValueLabel
 
     SkillButton
@@ -109,14 +102,6 @@ MiniWindow
         !text: tr('Stamina')
       SkillValueLabel
       SkillPercentPanel
-
-    SkillButton
-      id: magiclevel
-      SkillNameLabel
-        !text: tr('Magic Level')
-      SkillValueLabel
-      SkillPercentPanel
-        background-color: red
 
     SkillButton
       id: skillId0

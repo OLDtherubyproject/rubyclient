@@ -52,7 +52,7 @@ bool SpriteManager::loadSpr(std::string file)
         m_spritesFile->cache();
 
         m_signature = m_spritesFile->getU32();
-        m_spritesCount = g_game.getFeature(Otc::GameSpritesU32) ? m_spritesFile->getU32() : m_spritesFile->getU16();
+        m_spritesCount = m_spritesFile->getU32();
         m_spritesOffset = m_spritesFile->tell();
         m_loaded = true;
         g_lua.callGlobalField("g_sprites", "onLoadSpr", file);
@@ -76,10 +76,7 @@ void SpriteManager::saveSpr(std::string fileName)
         fin->cache();
 
         fin->addU32(m_signature);
-        if(g_game.getFeature(Otc::GameSpritesU32))
-            fin->addU32(m_spritesCount);
-        else
-            fin->addU16(m_spritesCount);
+        fin->addU32(m_spritesCount);
 
         uint32_t offset = fin->tell();
         uint32_t spriteAddress = offset + 4 * m_spritesCount;

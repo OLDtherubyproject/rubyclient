@@ -148,7 +148,7 @@ function doCreatureFitFilters(creature)
     return false
   elseif hideNPCs and creature:isNpc() then
     return false
-  elseif hidePokemon and creature:isMonster() then
+  elseif hidePokemon and creature:isPokemon() then
     return false
   end
 

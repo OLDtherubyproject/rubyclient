@@ -72,13 +72,7 @@ function toggle()
 end
 
 function online()
-  if g_game.getFeature(GameUnjustifiedPoints) then
-    unjustifiedPointsButton:show()
-  else
-    unjustifiedPointsButton:hide()
-    unjustifiedPointsWindow:close()
-  end
-
+  unjustifiedPointsButton:show()
   refresh()
 end
 

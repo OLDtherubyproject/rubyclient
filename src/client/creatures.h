@@ -40,7 +40,7 @@ enum CreatureAttr : uint8_t
 enum CreatureRace : uint8_t
 {
     CreatureRaceNpc     = 0,
-    CreatureRaceMonster = 1
+    CreatureRacePokemon = 1
 };
 
 enum SpawnAttr : uint8_t
@@ -111,7 +111,7 @@ public:
     void clearSpawns();
     void terminate();
 
-    void loadMonsters(const std::string& file);
+    void loadPokemons(const std::string& file);
     void loadSingleCreature(const std::string& file);
     void loadNpcs(const std::string& folder);
     void loadCreatureBuffer(const std::string& buffer);

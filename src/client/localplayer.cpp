@@ -30,7 +30,8 @@
 LocalPlayer::LocalPlayer()
 {
     m_states = 0;
-    m_vocation = 0;
+    m_profession = 0;
+    m_clan = 0;
     m_blessings = Otc::BlessingNone;
     m_walkLockExpiration = 0;
 
@@ -44,12 +45,9 @@ LocalPlayer::LocalPlayer()
     m_experience = -1;
     m_level = -1;
     m_levelPercent = -1;
-    m_mana = -1;
-    m_maxMana = -1;
-    m_magicLevel = -1;
-    m_magicLevelPercent = -1;
-    m_baseMagicLevel = -1;
-    m_soul = -1;
+    m_pokemonHealth = -1;
+    m_maxPokemonHealth = -1;
+    m_pokemonCount = -1;
     m_stamina = -1;
     m_baseSpeed = -1;
     m_regenerationTime = -1;
@@ -419,47 +417,25 @@ void LocalPlayer::setLevel(double level, double levelPercent)
     }
 }
 
-void LocalPlayer::setMana(double mana, double maxMana)
+void LocalPlayer::setPokemonHealth(double pokemonHealth, double maxPokemonHealth)
 {
-    if(m_mana != mana || m_maxMana != maxMana) {
-        double oldMana = m_mana;
-        double oldMaxMana;
-        m_mana = mana;
-        m_maxMana = maxMana;
+    if(m_pokemonHealth != pokemonHealth || m_maxPokemonHealth != maxPokemonHealth) {
+        double oldPokemonHealth = m_pokemonHealth;
+        double oldMaxPokemonHealth;
+        m_pokemonHealth = pokemonHealth;
+        m_maxPokemonHealth = maxPokemonHealth;
 
-        callLuaField("onManaChange", mana, maxMana, oldMana, oldMaxMana);
+        callLuaField("onPokemonHealthChange", pokemonHealth, maxPokemonHealth, oldPokemonHealth, oldMaxPokemonHealth);
     }
 }
 
-void LocalPlayer::setMagicLevel(double magicLevel, double magicLevelPercent)
+void LocalPlayer::setPokemonCount(double pokemonCount)
 {
-    if(m_magicLevel != magicLevel || m_magicLevelPercent != magicLevelPercent) {
-        double oldMagicLevel = m_magicLevel;
-        double oldMagicLevelPercent = m_magicLevelPercent;
-        m_magicLevel = magicLevel;
-        m_magicLevelPercent = magicLevelPercent;
+    if(m_pokemonCount != pokemonCount) {
+        double oldPokemonCount = m_pokemonCount;
+        m_pokemonCount = pokemonCount;
 
-        callLuaField("onMagicLevelChange", magicLevel, magicLevelPercent, oldMagicLevel, oldMagicLevelPercent);
-    }
-}
-
-void LocalPlayer::setBaseMagicLevel(double baseMagicLevel)
-{
-    if(m_baseMagicLevel != baseMagicLevel) {
-        double oldBaseMagicLevel = m_baseMagicLevel;
-        m_baseMagicLevel = baseMagicLevel;
-
-        callLuaField("onBaseMagicLevelChange", baseMagicLevel, oldBaseMagicLevel);
-    }
-}
-
-void LocalPlayer::setSoul(double soul)
-{
-    if(m_soul != soul) {
-        double oldSoul = m_soul;
-        m_soul = soul;
-
-        callLuaField("onSoulChange", soul, oldSoul);
+        callLuaField("onPokemonCountChange", pokemonCount, oldPokemonCount);
     }
 }
 
@@ -488,13 +464,23 @@ void LocalPlayer::setInventoryItem(Otc::InventorySlot inventory, const ItemPtr& 
     }
 }
 
-void LocalPlayer::setVocation(int vocation)
+void LocalPlayer::setProfession(int profession)
 {
-    if(m_vocation != vocation) {
-        int oldVocation = m_vocation;
-        m_vocation = vocation;
+    if(m_profession != profession) {
+        int oldProfession = m_profession;
+        m_profession = profession;
 
-        callLuaField("onVocationChange", vocation, oldVocation);
+        callLuaField("onProfessionChange", profession, oldProfession);
+    }
+}
+
+void LocalPlayer::setClan(int clan)
+{
+    if(m_clan != clan) {
+        int oldClan = m_clan;
+        m_clan = clan;
+
+        callLuaField("onClanChange", clan, oldClan);
     }
 }
 
@@ -523,16 +509,6 @@ void LocalPlayer::setRegenerationTime(double regenerationTime)
         m_regenerationTime = regenerationTime;
 
         callLuaField("onRegenerationChange", regenerationTime, oldRegenerationTime);
-    }
-}
-
-void LocalPlayer::setSpells(const std::vector<int>& spells)
-{
-    if(m_spells != spells) {
-        std::vector<int> oldSpells = m_spells;
-        m_spells = spells;
-
-        callLuaField("onSpellsChange", spells, oldSpells);
     }
 }
 

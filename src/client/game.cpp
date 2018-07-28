@@ -191,11 +191,9 @@ void Game::processGameStart()
     g_lua.callGlobalField("g_game", "onGameStart");
     disableBotCall();
 
-    if(g_game.getFeature(Otc::GameClientPing) || g_game.getFeature(Otc::GameExtendedClientPing)) {
-        m_pingEvent = g_dispatcher.scheduleEvent([this] {
-            g_game.ping();
-        }, m_pingDelay);
-    }
+    m_pingEvent = g_dispatcher.scheduleEvent([this] {
+        g_game.ping();
+    }, m_pingDelay);
 
     m_checkConnectionEvent = g_dispatcher.cycleEvent([this] {
         if(!g_game.isConnectionOk() && !m_connectionFailWarned) {
@@ -1151,8 +1149,7 @@ void Game::editVip(int playerId, const std::string& description, int iconId, boo
     std::get<3>(m_vips[playerId]) = iconId;
     std::get<4>(m_vips[playerId]) = notifyLogin;
 
-    if(getFeature(Otc::GameAdditionalVipInfo))
-        m_protocolGame->sendEditVip(playerId, description, iconId, notifyLogin);
+    m_protocolGame->sendEditVip(playerId, description, iconId, notifyLogin);
 }
 
 void Game::setChaseMode(Otc::ChaseModes chaseMode)
@@ -1192,8 +1189,6 @@ void Game::setPVPMode(Otc::PVPModes pvpMode)
 {
     if(!canPerformGameAction())
         return;
-    if(!getFeature(Otc::GamePVPMode))
-        return;
     if(m_pvpMode == pvpMode)
         return;
     m_pvpMode = pvpMode;
@@ -1204,8 +1199,6 @@ void Game::setPVPMode(Otc::PVPModes pvpMode)
 void Game::setUnjustifiedPoints(UnjustifiedPoints unjustifiedPoints)
 {
     if(!canPerformGameAction())
-        return;
-    if(!getFeature(Otc::GameUnjustifiedPoints))
         return;
     if(m_unjustifiedPoints == unjustifiedPoints)
         return;
@@ -1494,6 +1487,8 @@ void Game::setProtocolVersion(int version)
 
     m_protocolVersion = version;
 
+    std::cout << "version is: " << std::to_string(m_protocolVersion) << std::endl;
+
     Proto::buildMessageModesMap(version);
 
     g_lua.callGlobalField("g_game", "onProtocolVersionChange", version);
@@ -1511,65 +1506,11 @@ void Game::setClientVersion(int version)
         stdext::throw_exception(stdext::format("Client version %d not supported", version));
 
     m_features.reset();
-    enableFeature(Otc::GameFormatCreatureName);
-
-    enableFeature(Otc::GameLooktypeU16);
-    enableFeature(Otc::GameMessageStatements);
-    enableFeature(Otc::GameLoginPacketEncryption);
-    enableFeature(Otc::GamePlayerAddons);
-    enableFeature(Otc::GamePlayerStamina);
-    enableFeature(Otc::GameNewFluids);
-    enableFeature(Otc::GameMessageLevel);
-    enableFeature(Otc::GamePlayerStateU16);
-    enableFeature(Otc::GameNewOutfitProtocol);
-    enableFeature(Otc::GameWritableDate);
-    enableFeature(Otc::GameProtocolChecksum);
-    enableFeature(Otc::GameAccountNames);
-    enableFeature(Otc::GameDoubleFreeCapacity);
-    enableFeature(Otc::GameChallengeOnLogin);
-    enableFeature(Otc::GameMessageSizeCheck);
-    enableFeature(Otc::GameCreatureEmblems);
-    enableFeature(Otc::GameAttackSeq);
-    enableFeature(Otc::GamePenalityOnDeath);
-    enableFeature(Otc::GameDoubleExperience);
-    enableFeature(Otc::GamePlayerMounts);
-    enableFeature(Otc::GameNameOnNpcTrade);
-    enableFeature(Otc::GameTotalCapacity);
-    enableFeature(Otc::GameSkillsBase);
-    enableFeature(Otc::GamePlayerRegenerationTime);
-    enableFeature(Otc::GameChannelPlayerList);
-    enableFeature(Otc::GameEnvironmentEffect);
-    enableFeature(Otc::GameItemAnimationPhase);
-    enableFeature(Otc::GamePlayerMarket);
-    enableFeature(Otc::GamePurseSlot);
-    enableFeature(Otc::GameClientPing);
-    enableFeature(Otc::GameSpritesU32);
-    enableFeature(Otc::GameAdditionalVipInfo);
-    enableFeature(Otc::GamePreviewState);
-    enableFeature(Otc::GameClientVersion);
-    enableFeature(Otc::GameLoginPending);
-    enableFeature(Otc::GameNewSpeedLaw);
-    enableFeature(Otc::GameContainerPagination);
-    enableFeature(Otc::GameBrowseField);
-    enableFeature(Otc::GameThingMarks);
-    enableFeature(Otc::GamePVPMode);
-    enableFeature(Otc::GameDoubleSkills);
-    enableFeature(Otc::GameBaseSkillU16);
-    enableFeature(Otc::GameCreatureIcons);
-    enableFeature(Otc::GameHideNpcNames);
-    enableFeature(Otc::GamePremiumExpiration);
-    enableFeature(Otc::GameEnhancedAnimations);
-    enableFeature(Otc::GameUnjustifiedPoints);
-    enableFeature(Otc::GameExperienceBonus);
-    enableFeature(Otc::GameDeathType);
-    enableFeature(Otc::GameIdleAnimations);
-    enableFeature(Otc::GameOGLInformation);
-    enableFeature(Otc::GameContentRevision);
+    
+    enableFeature(Otc::GamePlayerMounts); // soon as addons
     enableFeature(Otc::GameAuthenticator);
-    enableFeature(Otc::GameSessionKey);
-    enableFeature(Otc::GameIngameStore);
-    enableFeature(Otc::GameIngameStoreServiceType);
-    enableFeature(Otc::GameIngameStoreHighlights);
+    enableFeature(Otc::GameSpritesAlphaChannel);
+    enableFeature(Otc::GameMagicEffectU16);
 
     m_clientVersion = version;
 
@@ -1597,7 +1538,7 @@ void Game::setFollowingCreature(const CreaturePtr& creature)
 std::string Game::formatCreatureName(const std::string& name)
 {
     std::string formatedName = name;
-    if(getFeature(Otc::GameFormatCreatureName) && name.length() > 0) {
+    if(name.length() > 0) {
         bool upnext = true;
         for(unsigned int i=0;i<formatedName.length();++i) {
             char ch = formatedName[i];

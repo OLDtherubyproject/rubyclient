@@ -13,8 +13,8 @@ MessageSettings = {
 }
 
 MessageTypes = {
-  [MessageModes.MonsterSay] = MessageSettings.consoleOrange,
-  [MessageModes.MonsterYell] = MessageSettings.consoleOrange,
+  [MessageModes.PokemonSay] = MessageSettings.consoleOrange,
+  [MessageModes.PokemonYell] = MessageSettings.consoleOrange,
   [MessageModes.BarkLow] = MessageSettings.consoleOrange,
   [MessageModes.BarkLoud] = MessageSettings.consoleOrange,
   [MessageModes.Failure] = MessageSettings.statusSmall,

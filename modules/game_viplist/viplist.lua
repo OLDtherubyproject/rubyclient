@@ -17,9 +17,6 @@ function init()
   vipButton:setOn(true)
   vipWindow = g_ui.loadUI('viplist', modules.game_interface.getRightPanel())
 
-  if not g_game.getFeature(GameAdditionalVipInfo) then
-    loadVipInfo()
-  end
   refresh()
   vipWindow:setup()
 end
@@ -30,10 +27,6 @@ function terminate()
                        onGameEnd = clear,
                        onAddVip = onAddVip,
                        onVipStateChange = onVipStateChange })
-
-  if not g_game.getFeature(GameAdditionalVipInfo) then
-    saveVipInfo()
-  end
 
   if addVipWindow then
     addVipWindow:destroy()
@@ -144,15 +137,7 @@ function createEditWindow(widget)
     local iconId = tonumber(iconRadioGroup:getSelectedWidget():getId():sub(5))
     local notify = notifyCheckBox:isChecked()
 
-    if g_game.getFeature(GameAdditionalVipInfo) then
-      g_game.editVip(id, description, iconId, notify)
-    else
-      if notify ~= false or #description > 0 or iconId > 0 then
-        vipInfo[id] = {description = description, iconId = iconId, notifyLogin = notify}
-      else
-        vipInfo[id] = nil
-      end
-    end
+    g_game.editVip(id, description, iconId, notify)
 
     widget:destroy()
     onAddVip(id, name, state, description, iconId, notify)
@@ -205,7 +190,7 @@ function removeVip(widgetOrName)
     local id = widget:getId():sub(4)
     g_game.removeVip(id)
     vipList:removeChild(widget)
-    if vipInfo[id] and g_game.getFeature(GameAdditionalVipInfo) then
+    if vipInfo[id] then
       vipInfo[id] = nil
     end
   end
@@ -250,27 +235,10 @@ function onAddVip(id, name, state, description, iconId, notify)
   label.onMousePress = onVipListLabelMousePress
   label:setId('vip' .. id)
   label:setText(name)
-
-  if not g_game.getFeature(GameAdditionalVipInfo) then
-    local tmpVipInfo = vipInfo[tostring(id)]
-    label.iconId = 0
-    label.notifyLogin = false
-    if tmpVipInfo then
-      if tmpVipInfo.iconId then
-        label:setImageClip(torect((tmpVipInfo.iconId * 12) .. ' 0 12 12'))
-        label.iconId = tmpVipInfo.iconId
-      end
-      if tmpVipInfo.description then
-        label:setTooltip(tmpVipInfo.description)
-      end
-      label.notifyLogin = tmpVipInfo.notifyLogin or false
-    end
-  else
-    label:setTooltip(description)
-    label:setImageClip(torect((iconId * 12) .. ' 0 12 12'))
-    label.iconId = iconId
-    label.notifyLogin = notify
-  end
+  label:setTooltip(description)
+  label:setImageClip(torect((iconId * 12) .. ' 0 12 12'))
+  label.iconId = iconId
+  label.notifyLogin = notify
 
   if state == VipState.Online then
     label:setColor('#00ff00')

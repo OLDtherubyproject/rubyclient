@@ -138,7 +138,6 @@ function EnterGame.init()
 
   EnterGame.toggleAuthenticatorToken(clientVersion, true)
   EnterGame.toggleStayLoggedBox(clientVersion, true)
-  --connect(clientBox, { onOptionChange = EnterGame.onClientVersionChange })
 
   enterGame:hide()
 
@@ -286,7 +285,7 @@ function EnterGame.toggleStayLoggedBox(clientVersion, init)
   enterGame.stayLoggedBoxEnabled = enabled
 end
 
-function EnterGame.onClientVersionChange(comboBox, text, data)
+function EnterGame.onProtocolVersionChange(version)
   local clientVersion = tonumber(text)
   EnterGame.toggleAuthenticatorToken(clientVersion)
   EnterGame.toggleStayLoggedBox(clientVersion)

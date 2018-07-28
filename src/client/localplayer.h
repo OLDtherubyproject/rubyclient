@@ -50,26 +50,25 @@ public:
     void setTotalCapacity(double totalCapacity);
     void setExperience(double experience);
     void setLevel(double level, double levelPercent);
-    void setMana(double mana, double maxMana);
-    void setMagicLevel(double magicLevel, double magicLevelPercent);
-    void setBaseMagicLevel(double baseMagicLevel);
-    void setSoul(double soul);
+    void setPokemonHealth(double getPokemonHealth, double maxPokemonHealth);
+    void setPokemonCount(double pokemonCount);
     void setStamina(double stamina);
     void setKnown(bool known) { m_known = known; }
     void setPendingGame(bool pending) { m_pending = pending; }
     void setInventoryItem(Otc::InventorySlot inventory, const ItemPtr& item);
-    void setVocation(int vocation);
+    void setProfession(int profession);
+    void setClan(int clan);
     void setPremium(bool premium);
     void setListeningSound(int sound);
     void setRegenerationTime(double regenerationTime);
-    void setSpells(const std::vector<int>& spells);
     void setBlessings(int blessings);
 
     int getStates() { return m_states; }
     int getSkillLevel(Otc::Skill skill) { return m_skillsLevel[skill]; }
     int getSkillBaseLevel(Otc::Skill skill) { return m_skillsBaseLevel[skill]; }
     int getSkillLevelPercent(Otc::Skill skill) { return m_skillsLevelPercent[skill]; }
-    int getVocation() { return m_vocation; }
+    int getProfession() { return m_profession; }
+    int getClan() { return m_clan; }
     double getHealth() { return m_health; }
     double getMaxHealth() { return m_maxHealth; }
     double getFreeCapacity() { return m_freeCapacity; }
@@ -77,15 +76,11 @@ public:
     double getExperience() { return m_experience; }
     double getLevel() { return m_level; }
     double getLevelPercent() { return m_levelPercent; }
-    double getMana() { return m_mana; }
-    double getMaxMana() { return m_maxMana; }
-    double getMagicLevel() { return m_magicLevel; }
-    double getMagicLevelPercent() { return m_magicLevelPercent; }
-    double getBaseMagicLevel() { return m_baseMagicLevel; }
-    double getSoul() { return m_soul; }
+    double getPokemonHealth() { return m_pokemonHealth; }
+    double getPokemonHealthMax() { return m_maxPokemonHealth; }
+    double getPokemonCount() { return m_pokemonCount; }
     double getStamina() { return m_stamina; }
     double getRegenerationTime() { return m_regenerationTime; }
-    std::vector<int> getSpells() { return m_spells; }
     ItemPtr getInventoryItem(Otc::InventorySlot inventory) { return m_inventoryItems[inventory]; }
     int getBlessings() { return m_blessings; }
     int getSound() { return m_sound; }
@@ -142,10 +137,10 @@ private:
     std::array<int, Otc::LastSkill> m_skillsLevel;
     std::array<int, Otc::LastSkill> m_skillsBaseLevel;
     std::array<int, Otc::LastSkill> m_skillsLevelPercent;
-    std::vector<int> m_spells;
 
     int m_states;
-    int m_vocation;
+    int m_profession;
+    int m_clan;
     int m_blessings;
     int m_sound;
 
@@ -156,12 +151,9 @@ private:
     double m_experience;
     double m_level;
     double m_levelPercent;
-    double m_mana;
-    double m_maxMana;
-    double m_magicLevel;
-    double m_magicLevelPercent;
-    double m_baseMagicLevel;
-    double m_soul;
+    double m_pokemonHealth;
+    double m_maxPokemonHealth;
+    double m_pokemonCount;
     double m_stamina;
     double m_regenerationTime;
 };

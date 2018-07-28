@@ -6,16 +6,13 @@ function init()
     onExperienceChange = onExperienceChange,
     onLevelChange = onLevelChange,
     onHealthChange = onHealthChange,
-    onManaChange = onManaChange,
-    onSoulChange = onSoulChange,
+    onPokemonCountChange = onPokemonCountChange,
     onFreeCapacityChange = onFreeCapacityChange,
     onTotalCapacityChange = onTotalCapacityChange,
     onStaminaChange = onStaminaChange,
     onRegenerationChange = onRegenerationChange,
     onSpeedChange = onSpeedChange,
     onBaseSpeedChange = onBaseSpeedChange,
-    onMagicLevelChange = onMagicLevelChange,
-    onBaseMagicLevelChange = onBaseMagicLevelChange,
     onSkillChange = onSkillChange,
     onBaseSkillChange = onBaseSkillChange
   })
@@ -39,16 +36,13 @@ function terminate()
     onExperienceChange = onExperienceChange,
     onLevelChange = onLevelChange,
     onHealthChange = onHealthChange,
-    onManaChange = onManaChange,
-    onSoulChange = onSoulChange,
+    onPokemonCountChange = onPokemonCountChange,
     onFreeCapacityChange = onFreeCapacityChange,
     onTotalCapacityChange = onTotalCapacityChange,
     onStaminaChange = onStaminaChange,
     onRegenerationChange = onRegenerationChange,
     onSpeedChange = onSpeedChange,
     onBaseSpeedChange = onBaseSpeedChange,
-    onMagicLevelChange = onMagicLevelChange,
-    onBaseMagicLevelChange = onBaseMagicLevelChange,
     onSkillChange = onSkillChange,
     onBaseSkillChange = onBaseSkillChange
   })
@@ -176,11 +170,7 @@ end
 
 function update()
   local regenerationTime = skillsWindow:recursiveGetChildById('regenerationTime')
-  if not g_game.getFeature(GamePlayerRegenerationTime) then
-    regenerationTime:hide()
-  else
-    regenerationTime:show()
-  end
+  regenerationTime:show()
 end
 
 function refresh()
@@ -193,11 +183,9 @@ function refresh()
   onExperienceChange(player, player:getExperience())
   onLevelChange(player, player:getLevel(), player:getLevelPercent())
   onHealthChange(player, player:getHealth(), player:getMaxHealth())
-  onManaChange(player, player:getMana(), player:getMaxMana())
-  onSoulChange(player, player:getSoul())
+  onPokemonCountChange(player, player:getPokemonCount())
   onFreeCapacityChange(player, player:getFreeCapacity())
   onStaminaChange(player, player:getStamina())
-  onMagicLevelChange(player, player:getMagicLevel(), player:getMagicLevelPercent())
   onRegenerationChange(player, player:getRegenerationTime())
   onSpeedChange(player, player:getSpeed())
 
@@ -290,13 +278,8 @@ function onHealthChange(localPlayer, health, maxHealth)
   checkAlert('health', health, maxHealth, 30)
 end
 
-function onManaChange(localPlayer, mana, maxMana)
-  setSkillValue('mana', mana)
-  checkAlert('mana', mana, maxMana, 30)
-end
-
-function onSoulChange(localPlayer, soul)
-  setSkillValue('soul', soul)
+function onPokemonCountChange(localPlayer, pokemonCount)
+  setSkillValue('pokemonCount', pokemonCount)
 end
 
 function onFreeCapacityChange(localPlayer, freeCapacity)
@@ -321,7 +304,7 @@ function onStaminaChange(localPlayer, stamina)
 end
 
 function onRegenerationChange(localPlayer, regenerationTime)
-  if not g_game.getFeature(GamePlayerRegenerationTime) or regenerationTime < 0 then
+  if regenerationTime < 0 then
     return
   end
   local minutes = math.floor(regenerationTime / 60)
@@ -342,17 +325,6 @@ end
 
 function onBaseSpeedChange(localPlayer, baseSpeed)
   setSkillBase('speed', localPlayer:getSpeed(), baseSpeed)
-end
-
-function onMagicLevelChange(localPlayer, magiclevel, percent)
-  setSkillValue('magiclevel', magiclevel)
-  setSkillPercent('magiclevel', percent, tr('You have %s percent to go', 100 - percent))
-
-  onBaseMagicLevelChange(localPlayer, localPlayer:getBaseMagicLevel())
-end
-
-function onBaseMagicLevelChange(localPlayer, baseMagicLevel)
-  setSkillBase('magiclevel', localPlayer:getMagicLevel(), baseMagicLevel)
 end
 
 function onSkillChange(localPlayer, id, level, percent)

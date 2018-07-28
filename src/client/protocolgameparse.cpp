@@ -43,14 +43,6 @@ void ProtocolGame::parseMessage(const InputMessagePtr& msg)
         while(!msg->eof()) {
             opcode = msg->getByte();
 
-            // must be > so extended will be enabled before GameStart.
-            if(!g_game.getFeature(Otc::GameLoginPending)) {
-                if(!m_gameInitialized && opcode > Proto::GameServerFirstGameOpcode) {
-                    g_game.processGameStart();
-                    m_gameInitialized = true;
-                }
-            }
-
             // try to parse in lua first
             int readPos = msg->getReadPos();
             if(callLuaField<bool>("onOpcode", opcode, msg))
@@ -60,10 +52,7 @@ void ProtocolGame::parseMessage(const InputMessagePtr& msg)
 
             switch(opcode) {
             case Proto::GameServerLoginOrPendingState:
-                if(g_game.getFeature(Otc::GameLoginPending))
-                    parsePendingGame(msg);
-                else
-                    parseLogin(msg);
+                parsePendingGame(msg);
                 break;
             case Proto::GameServerGMActions:
                 parseGMActions(msg);
@@ -85,8 +74,8 @@ void ProtocolGame::parseMessage(const InputMessagePtr& msg)
                 break;
             case Proto::GameServerPing:
             case Proto::GameServerPingBack:
-                if((opcode == Proto::GameServerPing && g_game.getFeature(Otc::GameClientPing)) ||
-                   (opcode == Proto::GameServerPingBack && !g_game.getFeature(Otc::GameClientPing)))
+                if((opcode == Proto::GameServerPing && true) ||
+                   (opcode == Proto::GameServerPingBack && !true))
                     parsePingBack(msg);
                 else
                     parsePing(msg);
@@ -419,12 +408,10 @@ void ProtocolGame::parseLogin(const InputMessagePtr& msg)
     unsigned int playerId = msg->get<uint32_t>();
     int serverBeat = msg->get<uint16_t>();
 
-    if(g_game.getFeature(Otc::GameNewSpeedLaw)) {
-        double speedA = msg->getDouble();
-        double speedB = msg->getDouble();
-        double speedC = msg->getDouble();
-        m_localPlayer->setSpeedFormula(speedA, speedB, speedC);
-    }
+    double speedA = msg->getDouble();
+    double speedB = msg->getDouble();
+    double speedC = msg->getDouble();
+    m_localPlayer->setSpeedFormula(speedA, speedB, speedC);
     bool canReportBugs = msg->getByte();
 
     msg->getByte(); // can change pvp frame option
@@ -432,14 +419,12 @@ void ProtocolGame::parseLogin(const InputMessagePtr& msg)
     int expertModeEnabled = msg->getByte();
     g_game.setExpertPvpMode(expertModeEnabled);
 
-    if(g_game.getFeature(Otc::GameIngameStore)) {
-        // URL to ingame store images
-        msg->getString();
+    // URL to ingame store images
+    msg->getString();
 
-        // premium coin package size
-        // e.g you can only buy packs of 25, 50, 75, .. coins in the market
-        msg->get<uint16_t>();
-    }
+    // premium coin package size
+    // e.g you can only buy packs of 25, 50, 75, .. coins in the market
+    msg->get<uint16_t>();
 
     m_localPlayer->setId(playerId);
     g_game.setServerBeat(serverBeat);
@@ -503,9 +488,7 @@ void ProtocolGame::parseStore(const InputMessagePtr& msg)
         std::string category = msg->getString();
         std::string description = msg->getString();
 
-        int highlightState = 0;
-        if(g_game.getFeature(Otc::GameIngameStoreHighlights))
-            highlightState = msg->getByte();
+        int highlightState = msg->getByte();
 
         std::vector<std::string> icons;
         int iconCount = msg->getByte();
@@ -581,14 +564,14 @@ void ProtocolGame::parseStoreOffers(const InputMessagePtr& msg)
 
         int price = msg->get<uint32_t>();
         int highlightState = msg->getByte();
-        if(highlightState == 2 && g_game.getFeature(Otc::GameIngameStoreHighlights)) {
+        if(highlightState == 2) {
             int saleValidUntilTimestamp = msg->get<uint32_t>();
             int basePrice = msg->get<uint32_t>();
         }
 
         int disabledState = msg->getByte();
         std::string disabledReason = "";
-        if(g_game.getFeature(Otc::GameIngameStoreHighlights) && disabledState == 1) {
+        if(disabledState == 1) {
             disabledReason = msg->getString();
         }
 
@@ -719,12 +702,9 @@ void ProtocolGame::parseChallenge(const InputMessagePtr& msg)
 void ProtocolGame::parseDeath(const InputMessagePtr& msg)
 {
     int penality = 100;
-    int deathType = Otc::DeathRegular;
+    int deathType = msg->getByte();
 
-    if(g_game.getFeature(Otc::GameDeathType))
-        deathType = msg->getByte();
-
-    if(g_game.getFeature(Otc::GamePenalityOnDeath) && deathType == Otc::DeathRegular)
+    if(deathType == Otc::DeathRegular)
         penality = msg->getByte();
 
     g_game.processDeath(deathType, penality);
@@ -888,12 +868,10 @@ void ProtocolGame::parseOpenContainer(const InputMessagePtr& msg)
     int containerSize = 0;
     int firstIndex = 0;
 
-    if(g_game.getFeature(Otc::GameContainerPagination)) {
-        isUnlocked = (msg->getByte() != 0); // drag and drop
-        hasPages = (msg->getByte() != 0); // pagination
-        containerSize = msg->get<uint16_t>(); // container size
-        firstIndex = msg->get<uint16_t>(); // first index
-    }
+    isUnlocked = (msg->getByte() != 0); // drag and drop
+    hasPages = (msg->getByte() != 0); // pagination
+    containerSize = msg->get<uint16_t>(); // container size
+    firstIndex = msg->get<uint16_t>(); // first index
 
     int itemCount = msg->getByte();
 
@@ -914,9 +892,7 @@ void ProtocolGame::parseContainerAddItem(const InputMessagePtr& msg)
 {
     int containerId = msg->getByte();
     int slot = 0;
-    if(g_game.getFeature(Otc::GameContainerPagination)) {
-        slot = msg->get<uint16_t>(); // slot
-    }
+    slot = msg->get<uint16_t>(); // slot
     ItemPtr item = getItem(msg);
     g_game.processContainerAddItem(containerId, item, slot);
 }
@@ -925,11 +901,7 @@ void ProtocolGame::parseContainerUpdateItem(const InputMessagePtr& msg)
 {
     int containerId = msg->getByte();
     int slot;
-    if(g_game.getFeature(Otc::GameContainerPagination)) {
-        slot = msg->get<uint16_t>();
-    } else {
-        slot = msg->getByte();
-    }
+    slot = msg->get<uint16_t>();
     ItemPtr item = getItem(msg);
     g_game.processContainerUpdateItem(containerId, slot, item);
 }
@@ -939,15 +911,12 @@ void ProtocolGame::parseContainerRemoveItem(const InputMessagePtr& msg)
     int containerId = msg->getByte();
     int slot;
     ItemPtr lastItem;
-    if(g_game.getFeature(Otc::GameContainerPagination)) {
-        slot = msg->get<uint16_t>();
+    slot = msg->get<uint16_t>();
 
-        int itemId = msg->get<uint16_t>();
-        if(itemId != 0)
-            lastItem = getItem(msg, itemId);
-    } else {
-        slot = msg->getByte();
-    }
+    int itemId = msg->get<uint16_t>();
+    if(itemId != 0)
+        lastItem = getItem(msg, itemId);
+    
     g_game.processContainerRemoveItem(containerId, slot, lastItem);
 }
 
@@ -967,10 +936,7 @@ void ProtocolGame::parseRemoveInventoryItem(const InputMessagePtr& msg)
 void ProtocolGame::parseOpenNpcTrade(const InputMessagePtr& msg)
 {
     std::vector<std::tuple<ItemPtr, std::string, int, int, int>> items;
-    std::string npcName;
-
-    if(g_game.getFeature(Otc::GameNameOnNpcTrade))
-        npcName = msg->getString();
+    std::string npcName = msg->getString();
 
     int listCount = msg->get<uint16_t>();
 
@@ -1258,8 +1224,7 @@ void ProtocolGame::parseEditText(const InputMessagePtr& msg)
 
     std::string writer = msg->getString();
     std::string date = "";
-    if(g_game.getFeature(Otc::GameWritableDate))
-        date = msg->getString();
+    date = msg->getString();
 
     g_game.processEditText(id, itemId, maxLength, text, writer, date);
 }
@@ -1285,92 +1250,43 @@ void ProtocolGame::parsePremiumTrigger(const InputMessagePtr& msg)
 void ProtocolGame::parsePlayerInfo(const InputMessagePtr& msg)
 {
     bool premium = msg->getByte(); // premium
-    if(g_game.getFeature(Otc::GamePremiumExpiration))
-        int premiumEx = msg->get<uint32_t>(); // premium expiration used for premium advertisement
-    int vocation = msg->getByte(); // vocation
-
-    int spellCount = msg->get<uint16_t>();
-    std::vector<int> spells;
-    for(int i=0;i<spellCount;++i)
-        spells.push_back(msg->getByte()); // spell id
+    int premiumEx = msg->get<uint32_t>(); // premium expiration used for premium advertisement
+    int profession = msg->getByte(); // profession
+    int clan = msg->getByte();
 
     m_localPlayer->setPremium(premium);
-    m_localPlayer->setVocation(vocation);
-    m_localPlayer->setSpells(spells);
+    m_localPlayer->setProfession(profession);
+    m_localPlayer->setClan(clan);
 }
 
 void ProtocolGame::parsePlayerStats(const InputMessagePtr& msg)
 {
-    double health;
-    double maxHealth;
+    double health = msg->get<uint16_t>();
+    double maxHealth = msg->get<uint16_t>();
 
-    if(g_game.getFeature(Otc::GameDoubleHealth)) {
-        health = msg->get<uint32_t>();
-        maxHealth = msg->get<uint32_t>();
-    } else {
-        health = msg->get<uint16_t>();
-        maxHealth = msg->get<uint16_t>();
-    }
+    double freeCapacity = msg->get<uint32_t>() / 100.0;
+    double totalCapacity = msg->get<uint32_t>() / 100.0;
 
-    double freeCapacity;
-    if(g_game.getFeature(Otc::GameDoubleFreeCapacity))
-        freeCapacity = msg->get<uint32_t>() / 100.0;
-    else
-        freeCapacity = msg->get<uint16_t>() / 100.0;
-
-    double totalCapacity = 0;
-    if(g_game.getFeature(Otc::GameTotalCapacity))
-        totalCapacity = msg->get<uint32_t>() / 100.0;
-
-    double experience;
-    if(g_game.getFeature(Otc::GameDoubleExperience))
-        experience = msg->get<uint64_t>();
-    else
-        experience = msg->get<uint32_t>();
+    double experience = msg->get<uint64_t>();
 
     double level = msg->get<uint16_t>();
     double levelPercent = msg->getByte();
 
-    if(g_game.getFeature(Otc::GameExperienceBonus)) {
-        int baseXpGain = msg->get<uint16_t>();
-        int voucherAddend = msg->get<uint16_t>();
-        int grindingAddend = msg->get<uint16_t>();
-        int storeBoostAddend = msg->get<uint16_t>();
-        int huntingBoostFactor = msg->get<uint16_t>();
-    }
+    int baseXpGain = msg->get<uint16_t>();
+    int voucherAddend = msg->get<uint16_t>();
+    int grindingAddend = msg->get<uint16_t>();
+    int storeBoostAddend = msg->get<uint16_t>();
+    int huntingBoostFactor = msg->get<uint16_t>();
 
-    double mana;
-    double maxMana;
+    double pokemonHealth = msg->get<uint16_t>();
+    double maxPokemonHealth = msg->get<uint16_t>();
 
-    if(g_game.getFeature(Otc::GameDoubleHealth)) {
-        mana = msg->get<uint32_t>();
-        maxMana = msg->get<uint32_t>();
-    } else {
-        mana = msg->get<uint16_t>();
-        maxMana = msg->get<uint16_t>();
-    }
+    double pokemonCount = msg->getByte();
+    double stamina = msg->get<uint16_t>();
 
-    double magicLevel = msg->getByte();
+    double baseSpeed = msg->get<uint16_t>();
 
-    double baseMagicLevel;
-    if(g_game.getFeature(Otc::GameSkillsBase))
-        baseMagicLevel = msg->getByte();
-    else
-        baseMagicLevel = magicLevel;
-
-    double magicLevelPercent = msg->getByte();
-    double soul = msg->getByte();
-    double stamina = 0;
-    if(g_game.getFeature(Otc::GamePlayerStamina))
-        stamina = msg->get<uint16_t>();
-
-    double baseSpeed = 0;
-    if(g_game.getFeature(Otc::GameSkillsBase))
-        baseSpeed = msg->get<uint16_t>();
-
-    double regeneration = 0;
-    if(g_game.getFeature(Otc::GamePlayerRegenerationTime))
-        regeneration = msg->get<uint16_t>();
+    double regeneration = msg->get<uint16_t>();
 
     int remainingStoreXpBoostSeconds = msg->get<uint16_t>();
     bool canBuyMoreStoreXpBoosts = msg->getByte();
@@ -1380,11 +1296,9 @@ void ProtocolGame::parsePlayerStats(const InputMessagePtr& msg)
     m_localPlayer->setTotalCapacity(totalCapacity);
     m_localPlayer->setExperience(experience);
     m_localPlayer->setLevel(level, levelPercent);
-    m_localPlayer->setMana(mana, maxMana);
-    m_localPlayer->setMagicLevel(magicLevel, magicLevelPercent);
-    m_localPlayer->setBaseMagicLevel(baseMagicLevel);
+    m_localPlayer->setPokemonHealth(pokemonHealth, maxPokemonHealth);
     m_localPlayer->setStamina(stamina);
-    m_localPlayer->setSoul(soul);
+    m_localPlayer->setPokemonCount(pokemonCount);
     m_localPlayer->setBaseSpeed(baseSpeed);
     m_localPlayer->setRegenerationTime(regeneration);
 }
@@ -1392,21 +1306,8 @@ void ProtocolGame::parsePlayerStats(const InputMessagePtr& msg)
 void ProtocolGame::parsePlayerSkills(const InputMessagePtr& msg)
 {
     for(int skill = 0; skill < Otc::LastSkill; skill++) {
-        int level;
-
-        if(g_game.getFeature(Otc::GameDoubleSkills))
-            level = msg->get<uint16_t>();
-        else
-            level = msg->getByte();
-
-        int baseLevel;
-        if(g_game.getFeature(Otc::GameSkillsBase))
-            if(g_game.getFeature(Otc::GameBaseSkillU16))
-                baseLevel = msg->get<uint16_t>();
-            else
-                baseLevel = msg->getByte();
-        else
-            baseLevel = level;
+        int level = msg->get<uint16_t>();
+        int baseLevel = msg->get<uint16_t>();
 
         int levelPercent = 0;
         levelPercent = msg->getByte();
@@ -1418,21 +1319,13 @@ void ProtocolGame::parsePlayerSkills(const InputMessagePtr& msg)
 
 void ProtocolGame::parsePlayerState(const InputMessagePtr& msg)
 {
-    int states;
-    if(g_game.getFeature(Otc::GamePlayerStateU16))
-        states = msg->get<uint16_t>();
-    else
-        states = msg->getByte();
-
+    int states = msg->get<uint16_t>();
     m_localPlayer->setStates(states);
 }
 
 void ProtocolGame::parsePlayerCancelAttack(const InputMessagePtr& msg)
 {
-    unsigned int seq = 0;
-    if(g_game.getFeature(Otc::GameAttackSeq))
-        seq = msg->get<uint32_t>();
-
+    unsigned int seq = msg->get<uint32_t>();
     g_game.processAttackCancel(seq);
 }
 
@@ -1443,19 +1336,17 @@ void ProtocolGame::parsePlayerModes(const InputMessagePtr& msg)
     int chaseMode = msg->getByte();
     bool safeMode = msg->getByte();
 
-    int pvpMode = 0;
-    if(g_game.getFeature(Otc::GamePVPMode))
-        pvpMode = msg->getByte();
+    int pvpMode = msg->getByte();
 
     g_game.processPlayerModes((Otc::FightModes)fightMode, (Otc::ChaseModes)chaseMode, safeMode, (Otc::PVPModes)pvpMode);
 }
 
 void ProtocolGame::parseMoveCooldown(const InputMessagePtr& msg)
 {
-    int spellId = msg->get<uint16_t>();
+    int moveId = msg->get<uint16_t>();
     int delay = msg->get<uint32_t>();
 
-    g_lua.callGlobalField("g_game", "onPokemonMoveCooldown", spellId, delay);
+    g_lua.callGlobalField("g_game", "onPokemonMoveCooldown", moveId, delay);
 }
 
 void ProtocolGame::parsePokemonMoves(const InputMessagePtr& msg)
@@ -1483,14 +1374,11 @@ void ProtocolGame::parseMultiUseCooldown(const InputMessagePtr& msg)
 
 void ProtocolGame::parseTalk(const InputMessagePtr& msg)
 {
-    if(g_game.getFeature(Otc::GameMessageStatements))
-        msg->get<uint32_t>(); // channel statement guid
+    msg->get<uint32_t>();
 
     std::string name = g_game.formatCreatureName(msg->getString());
 
-    int level = 0;
-    if(g_game.getFeature(Otc::GameMessageLevel))
-        level = msg->get<uint16_t>();
+    int level = msg->get<uint16_t>();
 
     Otc::MessageMode mode = Proto::translateMessageModeFromServer(msg->getByte());
     int channelId = 0;
@@ -1500,8 +1388,8 @@ void ProtocolGame::parseTalk(const InputMessagePtr& msg)
         case Otc::MessageSay:
         case Otc::MessageWhisper:
         case Otc::MessageYell:
-        case Otc::MessageMonsterSay:
-        case Otc::MessageMonsterYell:
+        case Otc::MessagePokemonSay:
+        case Otc::MessagePokemonYell:
         case Otc::MessageNpcTo:
         case Otc::MessageBarkLow:
         case Otc::MessageBarkLoud:
@@ -1553,14 +1441,12 @@ void ProtocolGame::parseOpenChannel(const InputMessagePtr& msg)
     int channelId = msg->get<uint16_t>();
     std::string name = msg->getString();
 
-    if(g_game.getFeature(Otc::GameChannelPlayerList)) {
-        int joinedPlayers = msg->get<uint16_t>();
-        for(int i=0;i<joinedPlayers;++i)
-            g_game.formatCreatureName(msg->getString()); // player name
-        int invitedPlayers = msg->get<uint16_t>();
-        for(int i=0;i<invitedPlayers;++i)
-            g_game.formatCreatureName(msg->getString()); // player name
-    }
+    int joinedPlayers = msg->get<uint16_t>();
+    for(int i=0;i<joinedPlayers;++i)
+        g_game.formatCreatureName(msg->getString()); // player name
+    int invitedPlayers = msg->get<uint16_t>();
+    for(int i=0;i<invitedPlayers;++i)
+        g_game.formatCreatureName(msg->getString()); // player name
 
     g_game.processOpenChannel(channelId, name);
 }
@@ -1749,27 +1635,13 @@ void ProtocolGame::parseOpenOutfitWindow(const InputMessagePtr& msg)
     Outfit currentOutfit = getOutfit(msg);
     std::vector<std::tuple<int, std::string, int> > outfitList;
 
-    if(g_game.getFeature(Otc::GameNewOutfitProtocol)) {
-        int outfitCount = msg->getByte();
-        for(int i = 0; i < outfitCount; i++) {
-            int outfitId = msg->get<uint16_t>();
-            std::string outfitName = msg->getString();
-            int outfitAddons = msg->getByte();
+    int outfitCount = msg->getByte();
+    for(int i = 0; i < outfitCount; i++) {
+        int outfitId = msg->get<uint16_t>();
+        std::string outfitName = msg->getString();
+        int outfitAddons = msg->getByte();
 
-            outfitList.push_back(std::make_tuple(outfitId, outfitName, outfitAddons));
-        }
-    } else {
-        int outfitStart, outfitEnd;
-        if(g_game.getFeature(Otc::GameLooktypeU16)) {
-            outfitStart = msg->get<uint16_t>();
-            outfitEnd = msg->get<uint16_t>();
-        } else {
-            outfitStart = msg->getByte();
-            outfitEnd = msg->getByte();
-        }
-
-        for(int i = outfitStart; i <= outfitEnd; i++)
-            outfitList.push_back(std::make_tuple(i, "", 0));
+        outfitList.push_back(std::make_tuple(outfitId, outfitName, outfitAddons));
     }
 
     std::vector<std::tuple<int, std::string> > mountList;
@@ -1794,11 +1666,9 @@ void ProtocolGame::parseVipAdd(const InputMessagePtr& msg)
 
     id = msg->get<uint32_t>();
     name = g_game.formatCreatureName(msg->getString());
-    if(g_game.getFeature(Otc::GameAdditionalVipInfo)) {
-        desc = msg->getString();
-        iconId = msg->get<uint32_t>();
-        notifyLogin = msg->getByte();
-    }
+    desc = msg->getString();
+    iconId = msg->get<uint32_t>();
+    notifyLogin = msg->getByte();
     status = msg->getByte();
 
     g_game.processVipAdd(id, name, status, desc, iconId, notifyLogin);
@@ -1807,13 +1677,8 @@ void ProtocolGame::parseVipAdd(const InputMessagePtr& msg)
 void ProtocolGame::parseVipState(const InputMessagePtr& msg)
 {
     unsigned int id = msg->get<uint32_t>();
-    if(g_game.getFeature(Otc::GameLoginPending)) {
-        unsigned int status = msg->getByte();
-        g_game.processVipStateChange(id, status);
-    }
-    else {
-        g_game.processVipStateChange(id, 1);
-    }
+    unsigned int status = msg->getByte();
+    g_game.processVipStateChange(id, status);
 }
 
 void ProtocolGame::parseVipLogout(const InputMessagePtr& msg)
@@ -2043,7 +1908,7 @@ int ProtocolGame::setTileDescription(const InputMessagePtr& msg, Position positi
         if(msg->peekU16()  >= 0xff00)
             return msg->get<uint16_t>() & 0xff;
 
-        if(g_game.getFeature(Otc::GameEnvironmentEffect) && !gotEffect) {
+        if(!gotEffect) {
             msg->get<uint16_t>(); // environment effect
             gotEffect = true;
             continue;
@@ -2062,11 +1927,7 @@ Outfit ProtocolGame::getOutfit(const InputMessagePtr& msg)
 {
     Outfit outfit;
 
-    int lookType;
-    if(g_game.getFeature(Otc::GameLooktypeU16))
-        lookType = msg->get<uint16_t>();
-    else
-        lookType = msg->getByte();
+    int lookType = msg->get<uint16_t>();
 
     if(lookType != 0) {
         outfit.setCategory(ThingCategoryCreature);
@@ -2074,9 +1935,7 @@ Outfit ProtocolGame::getOutfit(const InputMessagePtr& msg)
         int body = msg->getByte();
         int legs = msg->getByte();
         int feet = msg->getByte();
-        int addons = 0;
-        if(g_game.getFeature(Otc::GamePlayerAddons))
-            addons = msg->getByte();
+        int addons = msg->getByte();
 
         if(!g_things.isValidDatId(lookType, ThingCategoryCreature)) {
             g_logger.traceError(stdext::format("invalid outfit looktype %d", lookType));
@@ -2189,8 +2048,8 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
                 else
                     creature = PlayerPtr(new Player);
             }
-            else if(creatureType == Proto::CreatureTypeMonster)
-                creature = MonsterPtr(new Monster);
+            else if(creatureType == Proto::CreatureTypePokemon)
+                creature = PokemonPtr(new Pokemon);
             else if(creatureType == Proto::CreatureTypeNpc)
                 creature = NpcPtr(new Npc);
             else
@@ -2224,27 +2083,19 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
         bool unpass = true;
         uint8_t mark;
 
-        if(g_game.getFeature(Otc::GameCreatureEmblems) && !known)
+        if(!known)
             emblem = msg->getByte();
 
-        if(g_game.getFeature(Otc::GameThingMarks)) {
-            creatureType = msg->getByte();
-        }
+        creatureType = msg->getByte();
+        icon = msg->getByte();
+        mark = msg->getByte(); // mark
+        msg->get<uint16_t>(); // helpers
 
-        if(g_game.getFeature(Otc::GameCreatureIcons)) {
-            icon = msg->getByte();
-        }
-
-        if(g_game.getFeature(Otc::GameThingMarks)) {
-            mark = msg->getByte(); // mark
-            msg->get<uint16_t>(); // helpers
-
-            if(creature) {
-                if(mark == 0xff)
-                    creature->hideStaticSquare();
-                else
-                    creature->showStaticSquare(Color::from8bit(mark));
-            }
+        if(creature) {
+            if(mark == 0xff)
+                creature->hideStaticSquare();
+            else
+                creature->showStaticSquare(Color::from8bit(mark));
         }
 
         unpass = msg->getByte();
@@ -2304,21 +2155,17 @@ ItemPtr ProtocolGame::getItem(const InputMessagePtr& msg, int id)
     if(item->getId() == 0)
         stdext::throw_exception(stdext::format("unable to create item with invalid id %d", id));
 
-    if(g_game.getFeature(Otc::GameThingMarks)) {
-        msg->getByte(); // mark
-    }
+    msg->getByte(); // mark
 
     if(item->isStackable() || item->isFluidContainer() || item->isSplash() || item->isChargeable())
         item->setCountOrSubType(msg->get<uint16_t>());
 
-    if(g_game.getFeature(Otc::GameItemAnimationPhase)) {
-        if(item->getAnimationPhases() > 1) {
-            // 0x00 => automatic phase
-            // 0xFE => random phase
-            // 0xFF => async phase
-            msg->getByte();
-            //item->setPhase(msg->getByte());
-        }
+    if(item->getAnimationPhases() > 1) {
+       // 0x00 => automatic phase
+        // 0xFE => random phase
+        // 0xFF => async phase
+        msg->getByte();
+        //item->setPhase(msg->getByte());
     }
 
     return item;

@@ -76,7 +76,7 @@ enum OTBM_NodeTypes_t
     OTBM_TILE_REF = 8,
     OTBM_SPAWNS = 9,
     OTBM_SPAWN_AREA = 10,
-    OTBM_MONSTER = 11,
+    OTBM_POKEMON = 11,
     OTBM_TOWNS = 12,
     OTBM_TOWN = 13,
     OTBM_HOUSETILE = 14,

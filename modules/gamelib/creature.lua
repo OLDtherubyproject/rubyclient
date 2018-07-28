@@ -31,7 +31,7 @@ NpcIconQuest = 3
 NpcIconTradeQuest = 4
 
 CreatureTypePlayer = 0
-CreatureTypeMonster = 1
+CreatureTypePokemon = 1
 CreatureTypeNpc = 2
 CreatureTypeSummonOwn = 3
 CreatureTypeSummonOther = 4

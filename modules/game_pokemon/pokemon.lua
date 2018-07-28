@@ -29,8 +29,8 @@ pvpModeRadioGroup = nil
 
 function init()
   connect(LocalPlayer, { onHealthChange = onHealthChange,
-                         onManaChange = onManaChange,
-                         onSoulChange = onPokeballsChange,
+                         onPokemonHealthChange = onPokemonHealthChange,
+                         onPokemonCountChange = onPokemonCountChange,
                          onStatesChange = onStatesChange,
                          onInventoryChange = onInventoryChange })
 
@@ -71,7 +71,7 @@ end
 
 function terminate()
   disconnect(LocalPlayer, { onHealthChange = onHealthChange,
-                            onFreeCapacityChange = onPokeballsChange,
+                            onPokemonCountChange = onPokemonCountChange,
                             onStatesChange = onStatesChange,
                             onInventoryChange = onInventoryChange })
 
@@ -91,9 +91,9 @@ function refresh()
   local player = g_game.getLocalPlayer()
   if g_game.isOnline() then
     onHealthChange(player, player:getHealth(), player:getMaxHealth())
-    onManaChange(player, player:getMana(), player:getMaxMana())
+    onPokemonHealthChange(player, player:getPokemonHealth(), player:getPokemonHealthMax())
     g_game.getProtocolGame():sendExtendedOpcode(104, 'refresh')
-    onPokeballsChange(player, player:getSoul())
+    onPokemonCountChange(player, player:getPokemonCount())
     onStatesChange(player, player:getStates(), -1)
   end
 
@@ -177,10 +177,8 @@ function offline()
       safeFight = g_game.isSafeFight()
     }
 
-    if g_game.getFeature(GamePVPMode) then
-      lastCombatControls[char].pvpMode = g_game.getPVPMode()
-    end
-
+    lastCombatControls[char].pvpMode = g_game.getPVPMode()
+    
     -- save last combat control settings
     g_settings.setNode('LastCombatControls', lastCombatControls)
   end
@@ -210,7 +208,7 @@ function onHealthChange(localPlayer, health, maxHealth)
   healthBar:setValue(health, 0, maxHealth)
 end
 
-function onManaChange(player, hp, hpmax)
+function onPokemonHealthChange(player, hp, hpmax)
   if hpmax <= 0 then
     pokeHealthBar:setBackgroundColor('#3fac3500')
     pokeHealthBar:setIcon('/images/game/pokemon/pokehealth_bar_off')
@@ -223,9 +221,9 @@ function onManaChange(player, hp, hpmax)
   pokeHealthBar:setValue(hp, 0, hpmax)
 end
 
-function onPokeballsChange(player, soul)
-  if soul > 7 then return end
-  pokeballBar:setImageSource('/images/game/pokemon/pokeball' .. soul)
+function onPokemonCountChange(player, pokemonCount)
+  if pokemonCount > 7 then return end
+  pokeballBar:setImageSource('/images/game/pokemon/pokeball' .. pokemonCount)
 end
 
 function onStatesChange(localPlayer, now, old)

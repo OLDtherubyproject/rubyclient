@@ -21,7 +21,7 @@ healthInfoWindow = nil
 healthBar = nil
 manaBar = nil
 experienceBar = nil
-soulLabel = nil
+pokemonCountLabel = nil
 capLabel = nil
 healthTooltip = 'Your character health is %d out of %d.'
 manaTooltip = 'Your character mana is %d out of %d.'
@@ -29,10 +29,10 @@ experienceTooltip = 'You have %d%% to advance to level %d.'
 
 function init()
   connect(LocalPlayer, { onHealthChange = onHealthChange,
-                         onManaChange = onManaChange,
+                         onPokemonHealthChange = onPokemonHealthChange,
                          onLevelChange = onLevelChange,
                          onStatesChange = onStatesChange,
-                         onSoulChange = onSoulChange,
+                         onPokemonCountChange = onPokemonCountChange,
                          onFreeCapacityChange = onFreeCapacityChange })
 
   connect(g_game, { onGameEnd = offline })
@@ -45,7 +45,7 @@ function init()
   healthBar = healthInfoWindow:recursiveGetChildById('healthBar')
   manaBar = healthInfoWindow:recursiveGetChildById('manaBar')
   experienceBar = healthInfoWindow:recursiveGetChildById('experienceBar')
-  soulLabel = healthInfoWindow:recursiveGetChildById('soulLabel')
+  pokemonCountLabel = healthInfoWindow:recursiveGetChildById('pokemonCountLabel')
   capLabel = healthInfoWindow:recursiveGetChildById('capLabel')
 
   -- load condition icons
@@ -56,10 +56,10 @@ function init()
   if g_game.isOnline() then
     local localPlayer = g_game.getLocalPlayer()
     onHealthChange(localPlayer, localPlayer:getHealth(), localPlayer:getMaxHealth())
-    onManaChange(localPlayer, localPlayer:getMana(), localPlayer:getMaxMana())
+    onPokemonHealthChange(localPlayer, localPlayer:getPokemonHealth(), localPlayer:getPokemonHealthMax())
     onLevelChange(localPlayer, localPlayer:getLevel(), localPlayer:getLevelPercent())
     onStatesChange(localPlayer, localPlayer:getStates(), 0)
-    onSoulChange(localPlayer, localPlayer:getSoul())
+    onPokemonCountChange(localPlayer, localPlayer:getPokemonCount())
     onFreeCapacityChange(localPlayer, localPlayer:getFreeCapacity())
   end
 
@@ -68,10 +68,10 @@ end
 
 function terminate()
   disconnect(LocalPlayer, { onHealthChange = onHealthChange,
-                            onManaChange = onManaChange,
+                            onPokemonHealthChange = onPokemonHealthChange,
                             onLevelChange = onLevelChange,
                             onStatesChange = onStatesChange,
-                            onSoulChange = onSoulChange,
+                            onPokemonCountChange = onPokemonCountChange,
                             onFreeCapacityChange = onFreeCapacityChange })
 
   disconnect(g_game, { onGameEnd = offline })
@@ -125,7 +125,7 @@ function onHealthChange(localPlayer, health, maxHealth)
   healthBar:setValue(health, 0, maxHealth)
 end
 
-function onManaChange(localPlayer, mana, maxMana)
+function onPokemonHealthChange(localPlayer, mana, maxMana)
   manaBar:setText(mana .. ' / ' .. maxMana)
   manaBar:setTooltip(tr(manaTooltip, mana, maxMana))
   manaBar:setValue(mana, 0, maxMana)
@@ -137,8 +137,8 @@ function onLevelChange(localPlayer, value, percent)
   experienceBar:setPercent(percent)
 end
 
-function onSoulChange(localPlayer, soul)
-  soulLabel:setText(tr('Soul') .. ': ' .. soul)
+function onPokemonCountChange(localPlayer, pokemonCount)
+  pokemonCountLabel:setText(tr('Pokemon') .. ': ' .. pokemonCount)
 end
 
 function onFreeCapacityChange(player, freeCapacity)
@@ -161,9 +161,9 @@ end
 
 -- personalization functions
 function hideLabels()
-  local removeHeight = math.max(capLabel:getMarginRect().height, soulLabel:getMarginRect().height)
+  local removeHeight = math.max(capLabel:getMarginRect().height, pokemonCountLabel:getMarginRect().height)
   capLabel:setOn(false)
-  soulLabel:setOn(false)
+  pokemonCountLabel:setOn(false)
   healthInfoWindow:setHeight(math.max(healthInfoWindow.minimizedHeight, healthInfoWindow:getHeight() - removeHeight))
 end
 
@@ -187,7 +187,7 @@ function setManaTooltip(tooltip)
 
   local localPlayer = g_game.getLocalPlayer()
   if localPlayer then
-    manaBar:setTooltip(tr(manaTooltip, localPlayer:getMana(), localPlayer:getMaxMana()))
+    manaBar:setTooltip(tr(manaTooltip, localPlayer:getPokemonHealth(), localPlayer:getPokemonHealthMax()))
   end
 end
 

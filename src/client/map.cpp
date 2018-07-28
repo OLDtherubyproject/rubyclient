@@ -202,7 +202,7 @@ bool Map::removeThing(const ThingPtr& thing)
             m_staticTexts.erase(it);
             ret = true;
         }
-    } else if(const TilePtr& tile = thing->getTile())
+     } else if(const TilePtr& tile = thing->getTile())
         ret = tile->removeThing(thing);
 
     notificateTileUpdate(thing->getPosition());

@@ -510,7 +510,7 @@ function createThingMenu(menuPosition, lookThing, useThing, creatureThing)
       menu:addOption(tr('Rotate'), function() g_game.rotate(useThing) end)
     end
 
-    if g_game.getFeature(GameBrowseField) and useThing:getPosition().x ~= 0xffff then
+    if useThing:getPosition().x ~= 0xffff then
       menu:addOption(tr('Browse Field'), function() g_game.browseField(useThing:getPosition()) end)
     end
   end
@@ -913,7 +913,6 @@ function showSkills(buffer)
 
   setSkillValue('experience', skills[2])
   setSkillValue('level', skills[3])
-  setSkillValue('magiclevel', skills[4])
   setSkillValue('skillId0', skills[5])
   setSkillValue('skillId1', skills[6])
   setSkillValue('skillId2', skills[7])

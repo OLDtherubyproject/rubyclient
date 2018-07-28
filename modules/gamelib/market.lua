@@ -112,7 +112,7 @@ MarketItemDescription = {
   Combat = 7,
   MinLevel = 8,
   MinMagicLevel = 9,
-  Vocation = 10,
+  Profession = 10,
   Rune = 11,
   Ability = 12,
   Charges = 13,
@@ -133,7 +133,7 @@ MarketItemDescriptionStrings = {
   [7] = 'Combat',
   [8] = 'Min Level',
   [9] = 'Min Magic Level',
-  [10] = 'Vocation',
+  [10] = 'Profession',
   [11] = 'Rune',
   [12] = 'Ability',
   [13] = 'Charges',
@@ -161,13 +161,13 @@ MarketSlotFilters = {
 }
 
 MarketFilters = {
-  Vocation = 1,
+  Profession = 1,
   Level = 2,
   Depot = 3,
   SearchAll = 4
 }
 
-MarketFilters.First = MarketFilters.Vocation
+MarketFilters.First = MarketFilters.Profession
 MarketFilters.Last = MarketFilters.Depot
 
 function getMarketSlotFilterId(name)

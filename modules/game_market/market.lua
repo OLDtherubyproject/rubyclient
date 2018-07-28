@@ -100,7 +100,7 @@ local function isItemValid(item, category, searchFilter)
   end
   local marketData = item.marketData
 
-  local filterVocation = filterButtons[MarketFilters.Vocation]:isChecked()
+  local filterProfession = filterButtons[MarketFilters.Profession]:isChecked()
   local filterLevel = filterButtons[MarketFilters.Level]:isChecked()
   local filterDepot = filterButtons[MarketFilters.Depot]:isChecked()
 
@@ -113,9 +113,9 @@ local function isItemValid(item, category, searchFilter)
   if filterLevel and marketData.requiredLevel and player:getLevel() < marketData.requiredLevel then
     return false
   end
-  if filterVocation and marketData.restrictVocation > 0 then
-    local voc = Bit.bit(information.vocation)
-    if not Bit.hasBit(marketData.restrictVocation, voc) then
+  if filterProfession and marketData.restrictProfession > 0 then
+    local voc = Bit.bit(information.profession)
+    if not Bit.hasBit(marketData.restrictProfession, voc) then
       return false
     end
   end
@@ -811,7 +811,7 @@ local function initInterface()
   Market.enableCreateOffer(false)
 
   -- setup filters
-  filterButtons[MarketFilters.Vocation] = browsePanel:getChildById('filterVocation')
+  filterButtons[MarketFilters.Profession] = browsePanel:getChildById('filterProfession')
   filterButtons[MarketFilters.Level] = browsePanel:getChildById('filterLevel')
   filterButtons[MarketFilters.Depot] = browsePanel:getChildById('filterDepot')
   filterButtons[MarketFilters.SearchAll] = browsePanel:getChildById('filterSearchAll')
@@ -1208,7 +1208,7 @@ end
 
 -- protocol callback functions
 
-function Market.onMarketEnter(depotItems, offers, balance, vocation)
+function Market.onMarketEnter(depotItems, offers, balance, profession)
   if not loaded then
     initMarketItems()
     loaded = true
@@ -1222,13 +1222,13 @@ function Market.onMarketEnter(depotItems, offers, balance, vocation)
   if player then
     information.player = player
   end
-  if vocation == -1 then
+  if profession == -1 then
     if player then
-      information.vocation = player:getVocation()
+      information.profession = player:getProfession()
     end
   else
-    -- vocation must be compatible with < 950
-    information.vocation = vocation
+    -- profession must be compatible with < 950
+    information.profession = profession
   end
 
   -- set list of depot items

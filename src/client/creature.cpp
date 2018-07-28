@@ -658,7 +658,7 @@ void Creature::setHealthPercent(uint8_t healthPercent)
                  m_informationColor = Color(182, 209, 175);
             else if (healthPercent > 0)
                  m_informationColor = Color(141, 170, 133);
-        } else if (m_type == Proto::CreatureTypeMonster){
+        } else if (m_type == Proto::CreatureTypePokemon){
             if(healthPercent > 50)
             m_informationColor = Color(112, 248, 168);
             else if(healthPercent > 20)
@@ -888,8 +888,7 @@ int Creature::getStepDuration(bool ignoreDiagonal, Otc::Direction dir)
     if(speed < 1)
         return 0;
 
-    if(g_game.getFeature(Otc::GameNewSpeedLaw))
-        speed *= 2;
+    speed *= 2;
 
     int groundSpeed = 0;
     Position tilePos;
@@ -912,7 +911,7 @@ int Creature::getStepDuration(bool ignoreDiagonal, Otc::Direction dir)
     if(groundSpeed > 0 && speed > 0)
         interval = 1000 * groundSpeed;
 
-    if(g_game.getFeature(Otc::GameNewSpeedLaw) && hasSpeedFormula()) {
+    if(hasSpeedFormula()) {
         int formulatedSpeed = 1;
         if(speed > -m_speedFormula[Otc::SpeedFormulaB]) {
             formulatedSpeed = std::max<int>(1, (int)floor((m_speedFormula[Otc::SpeedFormulaA] * log((speed / 2)

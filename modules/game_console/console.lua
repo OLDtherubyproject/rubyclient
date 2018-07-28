@@ -13,8 +13,8 @@ SpeakTypesSettings = {
   channelWhite = { speakType = MessageModes.ChannelManagement, color = '#FFFFFF' },
   channelRed = { speakType = MessageModes.GamemasterChannel, color = '#F55E5E' },
   channelOrange = { speakType = MessageModes.ChannelHighlight, color = '#FE6500' },
-  monsterSay = { speakType = MessageModes.MonsterSay, color = '#FE6500', hideInConsole = true},
-  monsterYell = { speakType = MessageModes.MonsterYell, color = '#FE6500', hideInConsole = true},
+  pokemonSay = { speakType = MessageModes.PokemonSay, color = '#FE6500', hideInConsole = true},
+  pokemonYell = { speakType = MessageModes.PokemonYell, color = '#FE6500', hideInConsole = true},
   rvrAnswerFrom = { speakType = MessageModes.RVRAnswer, color = '#FE6500' },
   rvrAnswerTo = { speakType = MessageModes.RVRAnswer, color = '#FE6500' },
   rvrContinue = { speakType = MessageModes.RVRContinue, color = '#FFFF00' },
@@ -33,8 +33,8 @@ SpeakTypes = {
   [MessageModes.ChannelManagement] = SpeakTypesSettings.channelWhite,
   [MessageModes.GamemasterChannel] = SpeakTypesSettings.channelRed,
   [MessageModes.ChannelHighlight] = SpeakTypesSettings.channelOrange,
-  [MessageModes.MonsterSay] = SpeakTypesSettings.monsterSay,
-  [MessageModes.MonsterYell] = SpeakTypesSettings.monsterYell,
+  [MessageModes.PokemonSay] = SpeakTypesSettings.pokemonSay,
+  [MessageModes.PokemonYell] = SpeakTypesSettings.pokemonYell,
   [MessageModes.RVRChannel] = SpeakTypesSettings.channelWhite,
   [MessageModes.RVRContinue] = SpeakTypesSettings.rvrContinue,
   [MessageModes.RVRAnswer] = SpeakTypesSettings.rvrAnswerFrom,
@@ -1021,7 +1021,7 @@ function onTalk(name, level, mode, message, channelId, creaturePos)
   end
 
   if (mode == MessageModes.Say or mode == MessageModes.Whisper or mode == MessageModes.Yell or
-      mode == MessageModes.Spell or mode == MessageModes.MonsterSay or mode == MessageModes.MonsterYell or
+      mode == MessageModes.Spell or mode == MessageModes.PokemonSay or mode == MessageModes.PokemonYell or
       mode == MessageModes.NpcFrom or mode == MessageModes.BarkLow or mode == MessageModes.BarkLoud or
       mode == MessageModes.NpcFromStartBlock) and creaturePos then
     local staticText = StaticText.create()
