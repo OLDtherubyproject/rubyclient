@@ -49,7 +49,7 @@ BodySlot < InventoryItem
   !tooltip: tr('Order Pokemon')
   opacity: 0
   &position: {x=65535, y=4, z=0}
-  @onClick: modules.game_topslot.toggleOrder()
+  @onClick: modules.game_interface.startUseWith(g_game.getLocalPlayer():getInventoryItem(InventorySlotBody))
 
 OrderButton < UIButton
   id: orderButton
