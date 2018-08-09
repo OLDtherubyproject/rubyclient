@@ -11,9 +11,9 @@ function init()
                     onVipStateChange = onVipStateChange })
 
 
-  g_keyboard.bindKeyDown('Ctrl+P', toggle)
+  g_keyboard.bindKeyDown('Ctrl+F', toggle)
 
-  vipButton = modules.client_topmenu.addRightGameToggleButton('vipListButton', tr('VIP List') .. ' (Ctrl+P)', '/images/topbuttons/viplist', toggle)
+  vipButton = modules.client_topmenu.addRightGameToggleButton('vipListButton', tr('VIP List') .. ' (Ctrl+F)', '/images/topbuttons/viplist', toggle)
   vipButton:setOn(true)
   vipWindow = g_ui.loadUI('viplist', modules.game_interface.getRightPanel())
 
@@ -22,7 +22,7 @@ function init()
 end
 
 function terminate()
-  g_keyboard.unbindKeyDown('Ctrl+P')
+  g_keyboard.unbindKeyDown('Ctrl+F')
   disconnect(g_game, { onGameStart = refresh,
                        onGameEnd = clear,
                        onAddVip = onAddVip,

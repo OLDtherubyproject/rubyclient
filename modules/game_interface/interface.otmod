@@ -22,6 +22,8 @@ Module
     - game_market
     - game_modaldialog
     - game_pokemon
+    - game_pokedex
+    - game_fishing
     - game_battle
     - game_skills
     - game_viplist

@@ -182,6 +182,9 @@ void ProtocolGame::parseMessage(const InputMessagePtr& msg)
             case Proto::GameServerCreatureOutfit:
                 parseCreatureOutfit(msg);
                 break;
+            case Proto::GameServerCreatureName:
+                parseCreatureName(msg);
+                break;
             case Proto::GameServerCreatureSpeed:
                 parseCreatureSpeed(msg);
                 break;
@@ -1149,6 +1152,18 @@ void ProtocolGame::parseCreatureOutfit(const InputMessagePtr& msg)
     CreaturePtr creature = g_map.getCreatureById(id);
     if(creature)
         creature->setOutfit(outfit);
+    else
+        g_logger.traceError("could not get creature");
+}
+
+void ProtocolGame::parseCreatureName(const InputMessagePtr& msg)
+{
+    unsigned int id = msg->get<uint32_t>();
+    std::string name = msg->getString();
+
+    CreaturePtr creature = g_map.getCreatureById(id);
+    if(creature)
+        creature->setName(name);
     else
         g_logger.traceError("could not get creature");
 }

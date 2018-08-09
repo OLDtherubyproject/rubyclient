@@ -193,6 +193,7 @@ private:
     void parseCreatureHealth(const InputMessagePtr& msg);
     void parseCreatureLight(const InputMessagePtr& msg);
     void parseCreatureOutfit(const InputMessagePtr& msg);
+    void parseCreatureName(const InputMessagePtr& msg);
     void parseCreatureSpeed(const InputMessagePtr& msg);
     void parseCreatureGenders(const InputMessagePtr& msg);
     void parseCreatureShields(const InputMessagePtr& msg);

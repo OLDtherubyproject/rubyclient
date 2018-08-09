@@ -21,6 +21,7 @@ GameServerOpcodes = {
     -- 51 - 98
 
     -- original tibia ONLY
+    GameServerCreatureName              = 98,
     GameServerDistanceSoundEffect       = 99,
     GameServerFullMap                   = 100,
     GameServerMapTopRow                 = 101,

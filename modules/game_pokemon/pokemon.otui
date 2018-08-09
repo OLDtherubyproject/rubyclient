@@ -40,54 +40,24 @@ ConditionWidget < UIWidget
 
 InventoryItem < Item
 
-HeadSlot < InventoryItem
-  id: slot1
-  &position: {x=65535, y=1, z=0}
-
-BodySlot < InventoryItem
-  id: slot4
-  !tooltip: tr('Order Pokemon')
-  opacity: 0
-  &position: {x=65535, y=4, z=0}
-  @onClick: modules.game_interface.startUseWith(g_game.getLocalPlayer():getInventoryItem(InventorySlotBody))
-
 OrderButton < UIButton
   id: orderButton
+  !tooltip: tr('Order Pokemon')
   size: 32 32
-  phantom: true
   image-source: /images/game/pokemon/slots/order
+  @onClick: modules.game_interface.startUseWith(g_game.getLocalPlayer():getInventoryItem(InventorySlotBody))
 
-LegSlot < InventoryItem
+PortraitSlot < InventoryItem
   id: slot7
   image-color: #FFFFFF00
   &position: {x=65535, y=7, z=0}
 
-FeetSlot < InventoryItem
+PokeballSlot < InventoryItem
   id: slot8
   image-source: /images/game/pokemon/slots/pokeball
   &position: {x=65535, y=8, z=0}
 
-NeckSlot < InventoryItem
-  id: slot2
-  &position: {x=65535, y=2, z=0}
-
-LeftSlot < InventoryItem
-  id: slot6
-  &position: {x=65535, y=6, z=0}
-
-FingerSlot < InventoryItem
-  id: slot9
-  &position: {x=65535, y=9, z=0}
-
-BackSlot < InventoryItem
-  id: slot3
-  &position: {x=65535, y=3, z=0}
-
-RightSlot < InventoryItem
-  id: slot5
-  &position: {x=65535, y=5, z=0}
-
-AmmoSlot < InventoryItem
+SupportSlot < InventoryItem
   id: slot10
   image-source: /images/game/pokemon/slots/suport
   &position: {x=65535, y=10, z=0}
@@ -124,6 +94,7 @@ MiniWindow
   id: pokemonWindow
   !text: tr('Pokemon')
   height: 96
+  opacity: 1
   @onClose: modules.game_pokemon.onMiniWindowClose()
   @onUnlock: self:disableResize()
   &save: true
@@ -167,60 +138,24 @@ MiniWindow
     PokeHealthBar
     PokeballBar
 
-    HeadSlot
-      anchors.top: parent.top
-      anchors.left: parent.left
-      visible: false
-
-    BodySlot
+    OrderButton
       anchors.top: pokeHealthBar.bottom
       anchors.right: parent.right
       margin-top: 3
       margin-right: 1
 
-    OrderButton
-      anchors.top: slot4.top
-      anchors.right: slot4.right
-      margin-top: 1
-      margin-right: 1
-
-    LegSlot
+    PortraitSlot
       anchors.top: parent.top
       anchors.left: parent.left
       margin-top: 1
       margin-left: 1
 
-    FeetSlot
+    PokeballSlot
       anchors.top: pokeHealthBar.bottom
       anchors.left: slot7.left
       margin-top: 2
 
-    NeckSlot
-      anchors.top: parent.top
-      anchors.left: parent.left
-      visible: false
-
-    LeftSlot
-      anchors.top: parent.top
-      anchors.left: parent.left
-      visible: false
-
-    FingerSlot
-      anchors.top: parent.top
-      anchors.left: parent.left
-      visible: false
-
-    BackSlot
-      anchors.top: parent.top
-      anchors.left: parent.left
-      visible: false
-
-    RightSlot
-      anchors.top: parent.top
-      anchors.left: parent.left
-      visible: false
-
-    AmmoSlot
+    SupportSlot
       anchors.top: slot8.top
       anchors.left: slot8.right
       margin-left: 2

@@ -1,9 +1,9 @@
 Module
-  name: game_inventory
+  name: game_fishing
   description: View local player equipments window
   author: baxnie, edubart, BeniS, Leohige
   website: https://github.com/therubyproject/rubyclient
   sandboxed: true
-  scripts: [ inventory ]
+  scripts: [ fishing ]
   @onLoad: init()
   @onUnload: terminate()

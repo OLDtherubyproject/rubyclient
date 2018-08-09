@@ -68,6 +68,7 @@ namespace Proto {
         GameServerChangeMapAwareRange       = 51,
 
         // original tibia ONLY
+        GameServerCreatureName              = 98,
         GameServerDistanceSoundEffect       = 99,
         GameServerFullMap                   = 100,
         GameServerMapTopRow                 = 101,

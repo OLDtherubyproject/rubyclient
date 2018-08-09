@@ -1,9 +1,9 @@
 Module
-  name: game_inventory
+  name: game_pokedex
   description: View local player equipments window
   author: baxnie, edubart, BeniS, Leohige
   website: https://github.com/therubyproject/rubyclient
   sandboxed: true
-  scripts: [ inventory ]
+  scripts: [ pokedex ]
   @onLoad: init()
   @onUnload: terminate()

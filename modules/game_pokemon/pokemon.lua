@@ -251,6 +251,10 @@ function onInventoryChange(player, slot, item, oldItem)
   if slot > InventorySlotPurse then return end
 
   local itemWidget = pokemonWindow:recursiveGetChildById('slot' .. slot)
+  if not itemWidget then
+    return
+  end
+
   if item then
     itemWidget:setItem(item)
   else
